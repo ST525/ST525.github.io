@@ -409,7 +409,7 @@ body:has(#home.active) .header {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     grid-auto-rows: minmax(0, 1fr);
-    gap: 2rem;
+    gap: 1rem;
     margin-bottom: 4rem;
 }
 
@@ -434,7 +434,6 @@ body:has(#home.active) .header {
     cursor: pointer;
     height: 100%;
     aspect-ratio: 1 / 1;
-    margin-left: 100px
 }
 
 .motion-media-grid .big-square video {
