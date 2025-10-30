@@ -5,10 +5,199 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Space Traveller - Projects</title>
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Video Lightbox Styles */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 99999;
+            justify-content: center;
+            align-items: center;
+            cursor: zoom-out;
+        }
+        
+        .lightbox.active {
+            display: flex !important;
+        }
+        
+        .lightbox img {
+            max-width: 90vw;
+            max-height: 90vh;
+            width: auto;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 0 50px rgba(220, 38, 38, 0.5);
+            object-fit: contain;
+        }
+
+        body.lightbox-open {
+            overflow: hidden;
+            transform: none !important;
+            width: 100% !important;
+            margin-left: 0 !important;
+        }
+
+        .lightbox-close {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            background: rgba(220, 38, 38, 0.2);
+            border: 2px solid rgba(220, 38, 38, 0.5);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 100001;
+        }
+
+        .lightbox-close:hover {
+            background: rgba(220, 38, 38, 0.6);
+            border-color: #dc2626;
+            transform: scale(1.1);
+        }
+
+        .lightbox-close svg {
+            pointer-events: none;
+        }
+
+        /* E1 Video Card Styles */
+        .card-large.video-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-large.video-card video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Video Card Styles */
+        .card.video-card {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .card.video-card video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* Square Video Card - for videos that are already square */
+        .card-large.video-card.square-video {
+            grid-column: span 1;
+            grid-row: span 2;
+            aspect-ratio: 1 / 1;
+        }
+        
+        .card-large.video-card.square-video video {
+            object-fit: contain;
+            background: #000;
+        }
+
+        /* E2 Effects Text Card */
+        .card.effects-text-card {
+            background: transparent;
+            border: none;
+        }
+
+        .card.effects-text-card .placeholder-img {
+            background: transparent;
+            font-size: 2.5rem;
+        }
+        
+        /* Character Text Card */
+        .card.character-text-card {
+            background: transparent;
+            border: none;
+        }
+
+        .card.character-text-card .placeholder-img {
+            background: transparent;
+            font-size: 2.5rem;
+        }
+        
+        /* Motion Text Card */
+        .card.motion-text-card {
+            background: transparent;
+            border: none;
+        }
+
+        .card.motion-text-card .placeholder-img {
+            background: transparent;
+            font-size: 2.5rem;
+        }
+        
+        /* Graphic Text Card */
+        .card.graphic-text-card {
+            background: transparent;
+            border: none;
+        }
+
+        .card.graphic-text-card .placeholder-img {
+            background: transparent;
+            font-size: 2.5rem;
+        }
+        
+        /* Photo Text Card */
+        .card.photo-text-card {
+            background: transparent;
+            border: none;
+        }
+
+        .card.photo-text-card .placeholder-img {
+            background: transparent;
+            font-size: 2.5rem;
+        }
+        
+        /* Painting Text Card */
+        .card.painting-text-card {
+            background: transparent;
+            border: none;
+        }
+
+        .card.painting-text-card .placeholder-img {
+            background: transparent;
+            font-size: 2.5rem;
+        }
+        
+        /* Section Divider */
+        .section-divider {
+            width: 100%;
+            height: 1px;
+            background: rgba(220, 38, 38, 0.3);
+            margin-bottom: 3rem;
+        }
+    </style>
 </head>
 <body>
     <header class="header">
         <div class="logo"><a href="index.html" style="color: inherit; text-decoration: none;">SPACE TRAVELLER</a></div>
+        
+        <!-- Hamburger Menu Button -->
+        <button class="mobile-menu-toggle" aria-label="Toggle menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        
         <nav class="nav">
             <a href="index.html" class="nav-item">Home</a>
             <a href="projects.html" class="nav-item active">Projects</a>
@@ -26,154 +215,133 @@
 
         <!-- Effects Section -->
         <section class="project-section">
-            <h2 class="section-title">Effects</h2>
             <div class="project-grid">
-                <div class="card card-large">
-                    <div class="fire.mov">E1</div>
-                    <div class="card-overlay">
-                        <h3 class="card-title">Fire Effect</h3>
-                        <p class="card-desc">Visual effects showcase</p>
-                    </div>
+                <div class="card card-large video-card" onclick="openVideoLightbox('video/fire_effects.mp4')">
+                    <video autoplay muted loop playsinline>
+                        <source src="video/fire_effects.mp4" type="video/mp4">
+                    </video>
                 </div>
-                <div class="card">
-                    <div class="placeholder-img" style="background: linear-gradient(135deg, #7f1d1d 0%, #dc2626 100%);">E2</div>
-                    <div class="card-overlay">
-                        <h3 class="card-title">Particle System</h3>
-                        <p class="card-desc">Dynamic particles</p>
-                    </div>
+                <div class="card effects-text-card">
+                    <div class="placeholder-img">Effects</div>
                 </div>
-                <div class="card">
-                    <div class="placeholder-img" style="background: linear-gradient(135deg, #450a0a 0%, #991b1b 100%);">E3</div>
-                    <div class="card-overlay">
-                        <h3 class="card-title">Fire Effect</h3>
-                        <p class="card-desc">Realistic flames</p>
-                    </div>
+                <div class="card video-card" onclick="openVideoLightbox('video/ocean_effects.mp4')">
+                    <video autoplay muted loop playsinline>
+                        <source src="video/ocean_effects.mp4" type="video/mp4">
+                    </video>
                 </div>
-                <div class="card">
-                    <div class="placeholder-img" style="background: linear-gradient(135deg, #991b1b 0%, #ef4444 100%);">E4</div>
-                    <div class="card-overlay">
-                        <h3 class="card-title">Water Simulation</h3>
-                        <p class="card-desc">Fluid dynamics</p>
-                    </div>
+                <div class="card video-card" onclick="openVideoLightbox('video/pond_effects.mp4')">
+                    <video autoplay muted loop playsinline>
+                        <source src="video/pond_effects.mp4" type="video/mp4">
+                    </video>
                 </div>
-                <div class="card">
-                    <div class="placeholder-img" style="background: linear-gradient(135deg, #b91c1c 0%, #dc2626 100%);">E5</div>
-                    <div class="card-overlay">
-                        <h3 class="card-title">Light Effects</h3>
-                        <p class="card-desc">Lighting study</p>
-                    </div>
+                <div class="card video-card" onclick="openVideoLightbox('video/fly_effects.mp4')">
+                    <video autoplay muted loop playsinline>
+                        <source src="video/fly_effects.mp4" type="video/mp4">
+                    </video>
                 </div>
-                <div class="card">
-                    <div class="placeholder-img" style="background: linear-gradient(135deg, #1a0000 0%, #7f1d1d 100%);">E6</div>
-                    <div class="card-overlay">
-                        <h3 class="card-title">Smoke & Fog</h3>
-                        <p class="card-desc">Atmospheric effects</p>
-                    </div>
+                <div class="card video-card" onclick="openVideoLightbox('video/flag_effects.mp4')">
+                    <video autoplay muted loop playsinline>
+                        <source src="video/flag_effects.mp4" type="video/mp4">
+                    </video>
                 </div>
             </div>
         </section>
 
         <!-- Characters Section -->
         <section class="project-section">
-            <h2 class="section-title">Characters</h2>
+            <div class="section-divider"></div>
             <div class="project-grid">
-                <div class="card card-large">
-                    <div class="placeholder-img" style="background: linear-gradient(135deg, #dc2626 0%, #450a0a 100%);">C1</div>
-                    <div class="card-overlay">
-                        <h3 class="card-title">Featured Character</h3>
-                        <p class="card-desc">Character design showcase</p>
-                    </div>
+                <div class="card character-text-card">
+                    <div class="placeholder-img">Character Animation</div>
                 </div>
-                <div class="card">
-                    <div class="placeholder-img" style="background: linear-gradient(135deg, #991b1b 0%, #1a0000 100%);">C2</div>
-                    <div class="card-overlay">
-                        <h3 class="card-title">Hero Design</h3>
-                        <p class="card-desc">Protagonist concept</p>
-                    </div>
+                <div class="card card-large video-card" onclick="openVideoLightbox('video/cave_character.mp4')">
+                    <video autoplay muted loop playsinline>
+                        <source src="video/cave_character.mp4" type="video/mp4">
+                    </video>
                 </div>
-                <div class="card">
-                    <div class="placeholder-img" style="background: linear-gradient(135deg, #b91c1c 0%, #450a0a 100%);">C3</div>
-                    <div class="card-overlay">
-                        <h3 class="card-title">Villain</h3>
-                        <p class="card-desc">Antagonist design</p>
-                    </div>
+                <div class="card video-card" onclick="openVideoLightbox('video/reveal_character.mp4')">
+                    <video autoplay muted loop playsinline>
+                        <source src="video/reveal_character.mp4" type="video/mp4">
+                    </video>
                 </div>
-                <div class="card">
-                    <div class="placeholder-img" style="background: linear-gradient(135deg, #ef4444 0%, #7f1d1d 100%);">C4</div>
-                    <div class="card-overlay">
-                        <h3 class="card-title">Supporting Cast</h3>
-                        <p class="card-desc">Side characters</p>
-                    </div>
+                <div class="card video-card" onclick="openVideoLightbox('video/dranius_character.mp4')">
+                    <video autoplay muted loop playsinline>
+                        <source src="video/dranius_character.mp4" type="video/mp4">
+                    </video>
                 </div>
-                <div class="card">
-                    <div class="placeholder-img" style="background: linear-gradient(135deg, #7f1d1d 0%, #dc2626 100%);">C5</div>
-                    <div class="card-overlay">
-                        <h3 class="card-title">Character Lineup</h3>
-                        <p class="card-desc">Group shot</p>
-                    </div>
+                <div class="card video-card" onclick="openVideoLightbox('video/gob_character.mp4')">
+                    <video autoplay muted loop playsinline>
+                        <source src="video/gob_character.mp4" type="video/mp4">
+                    </video>
                 </div>
-                <div class="card">
-                    <div class="placeholder-img" style="background: linear-gradient(135deg, #450a0a 0%, #b91c1c 100%);">C6</div>
-                    <div class="card-overlay">
-                        <h3 class="card-title">Expressions</h3>
-                        <p class="card-desc">Facial studies</p>
-                    </div>
+                <div class="card video-card" onclick="openVideoLightbox('video/sack_character.mp4')">
+                    <video autoplay muted loop playsinline>
+                        <source src="video/sack_character.mp4" type="video/mp4">
+                    </video>
                 </div>
             </div>
         </section>
 
         <!-- Motion Media Section -->
         <section class="project-section">
-            <h2 class="section-title">Motion Media</h2>
-            <div class="project-grid">
-                <div class="card card-large">
-                    <div class="placeholder-img" style="background: linear-gradient(135deg, #dc2626 0%, #000000 100%);">M1</div>
-                    <div class="card-overlay">
-                        <h3 class="card-title">Featured Animation</h3>
-                        <p class="card-desc">Motion design showcase</p>
-                    </div>
+            <div class="section-divider"></div>
+            <div class="motion-media-grid">
+                <!-- Left Column: Two Small Squares stacked -->
+                <div class="card video-card small-square" onclick="openVideoLightbox('video/lock_mm.mp4')">
+                    <video autoplay muted loop playsinline>
+                        <source src="video/lock_mm.mp4" type="video/mp4">
+                    </video>
                 </div>
-                <div class="card">
-                    <div class="placeholder-img" style="background: linear-gradient(135deg, #991b1b 0%, #1a0000 100%);">M2</div>
-                    <div class="card-overlay">
-                        <h3 class="card-title">Walk Cycle</h3>
-                        <p class="card-desc">Character animation</p>
-                    </div>
+                
+                <div class="card video-card small-square" onclick="openVideoLightbox('video/geng_mm.mp4')">
+                    <video autoplay muted loop playsinline>
+                        <source src="video/geng_mm.mp4" type="video/mp4">
+                    </video>
                 </div>
-                <div class="card">
-                    <div class="hang.gif" style="background: linear-gradient(135deg, #7f1d1d 0%, #450a0a 100%);">M3</div>
-                    <div class="card-overlay">
-                        <h3 class="card-title">Action Sequence</h3>
-                        <p class="card-desc">Dynamic movement</p>
-                    </div>
+                
+                <!-- Middle: Big Square spanning 2 rows -->
+                <div class="card big-square" onclick="openVideoLightbox('video/hang_mm.mp4')">
+                    <video autoplay muted loop playsinline>
+                        <source src="video/hang_mm.mp4" type="video/mp4">
+                    </video>
                 </div>
-                <div class="card">
-                    <div class="placeholder-img" style="background: linear-gradient(135deg, #b91c1c 0%, #000000 100%);">M4</div>
-                    <div class="card-overlay">
-                        <h3 class="card-title">Transition</h3>
-                        <p class="card-desc">Scene transition</p>
-                    </div>
+                
+                <!-- Top Right: Motion Media Text -->
+                <div class="card motion-text-card motion-text">
+                    <div class="placeholder-img">Motion Media</div>
                 </div>
-                <div class="card">
-                    <div class="placeholder-img" style="background: linear-gradient(135deg, #ef4444 0%, #7f1d1d 100%);">M5</div>
-                    <div class="card-overlay">
-                        <h3 class="card-title">Morphing</h3>
-                        <p class="card-desc">Shape animation</p>
-                    </div>
+                
+                <!-- Right: 16:9 Rectangle -->
+                <div class="card video-card rect-right" onclick="openVideoLightbox('video/load_mm.mp4')">
+                    <video autoplay muted loop playsinline>
+                        <source src="video/load_mm.mp4" type="video/mp4">
+                    </video>
                 </div>
-                <div class="card">
-                    <div class="placeholder-img" style="background: linear-gradient(135deg, #450a0a 0%, #dc2626 100%);">M6</div>
-                    <div class="card-overlay">
-                        <h3 class="card-title">Title Sequence</h3>
-                        <p class="card-desc">Opening credits</p>
-                    </div>
+                
+                <!-- Bottom Row: Three 16:9 Rectangles -->
+                <div class="card video-card rect-bottom" onclick="openVideoLightbox('video/pohtitle_mm.mp4')">
+                    <video autoplay muted loop playsinline>
+                        <source src="video/pohtitle_mm.mp4" type="video/mp4">
+                    </video>
+                </div>
+                
+                <div class="card video-card rect-bottom" onclick="openVideoLightbox('video/house_mm.mp4')">
+                    <video autoplay muted loop playsinline>
+                        <source src="video/house_mm.mp4" type="video/mp4">
+                    </video>
+                </div>
+                
+                <div class="card video-card rect-bottom" onclick="openVideoLightbox('video/game_mm.mp4')">
+                    <video autoplay muted loop playsinline>
+                        <source src="video/game_mm.mp4" type="video/mp4">
+                    </video>
                 </div>
             </div>
         </section>
 
         <!-- Graphic Design Section -->
         <section class="project-section">
-            <h2 class="section-title">Graphic Design</h2>
+            <div class="section-divider"></div>
             <div class="project-grid">
                 <div class="card card-large">
                     <div class="placeholder-img" style="background: linear-gradient(135deg, #450a0a 0%, #dc2626 100%);">G1</div>
@@ -182,12 +350,8 @@
                         <p class="card-desc">Graphic design showcase</p>
                     </div>
                 </div>
-                <div class="card">
-                    <div class="placeholder-img" style="background: linear-gradient(135deg, #7f1d1d 0%, #dc2626 100%);">G2</div>
-                    <div class="card-overlay">
-                        <h3 class="card-title">Logo Design</h3>
-                        <p class="card-desc">Brand identity</p>
-                    </div>
+                <div class="card graphic-text-card">
+                    <div class="placeholder-img">Graphic Design</div>
                 </div>
                 <div class="card">
                     <div class="placeholder-img" style="background: linear-gradient(135deg, #450a0a 0%, #991b1b 100%);">G3</div>
@@ -222,7 +386,7 @@
 
         <!-- Photography Section -->
         <section class="project-section">
-            <h2 class="section-title">Photography</h2>
+            <div class="section-divider"></div>
             <div class="project-grid">
                 <div class="card card-large">
                     <div class="placeholder-img" style="background: linear-gradient(135deg, #dc2626 0%, #450a0a 100%);">P1</div>
@@ -231,12 +395,8 @@
                         <p class="card-desc">Photography showcase</p>
                     </div>
                 </div>
-                <div class="card">
-                    <div class="placeholder-img" style="background: linear-gradient(135deg, #991b1b 0%, #1a0000 100%);">P2</div>
-                    <div class="card-overlay">
-                        <h3 class="card-title">Portrait</h3>
-                        <p class="card-desc">Character portrait</p>
-                    </div>
+                <div class="card photo-text-card">
+                    <div class="placeholder-img">Photography</div>
                 </div>
                 <div class="card">
                     <div class="placeholder-img" style="background: linear-gradient(135deg, #b91c1c 0%, #450a0a 100%);">P3</div>
@@ -271,52 +431,161 @@
 
         <!-- Painting Section -->
         <section class="project-section">
-            <h2 class="section-title">Painting</h2>
+            <div class="section-divider"></div>
             <div class="project-grid">
-                <div class="card card-large">
-                    <div class="placeholder-img" style="background: linear-gradient(135deg, #dc2626 0%, #000000 100%);">PA1</div>
-                    <div class="card-overlay">
-                        <h3 class="card-title">Featured Painting</h3>
-                        <p class="card-desc">Digital painting showcase</p>
-                    </div>
+                <div class="card painting-text-card">
+                    <div class="placeholder-img">Oil Painting</div>
                 </div>
-                <div class="card">
-                    <div class="placeholder-img" style="background: linear-gradient(135deg, #991b1b 0%, #1a0000 100%);">PA2</div>
-                    <div class="card-overlay">
-                        <h3 class="card-title">Study</h3>
-                        <p class="card-desc">Value study</p>
-                    </div>
+                <div class="card card-large" onclick="openImageLightbox('images/wave_paint.png')">
+                    <img src="images/wave_paint.png" alt="Wave Painting" class="card-image">
                 </div>
-                <div class="card">
-                    <div class="placeholder-img" style="background: linear-gradient(135deg, #7f1d1d 0%, #450a0a 100%);">PA3</div>
-                    <div class="card-overlay">
-                        <h3 class="card-title">Environment</h3>
-                        <p class="card-desc">Scene painting</p>
-                    </div>
+                <div class="card" onclick="openImageLightbox('images/fall_paint.png')">
+                    <img src="images/fall_paint.png" alt="Fall Painting" class="card-image">
                 </div>
-                <div class="card">
-                    <div class="placeholder-img" style="background: linear-gradient(135deg, #b91c1c 0%, #000000 100%);">PA4</div>
-                    <div class="card-overlay">
-                        <h3 class="card-title">Character Art</h3>
-                        <p class="card-desc">Character illustration</p>
-                    </div>
+                <div class="card" onclick="openImageLightbox('images/set_paint.png')">
+                    <img src="images/set_paint.png" alt="Set Painting" class="card-image">
                 </div>
-                <div class="card">
-                    <div class="placeholder-img" style="background: linear-gradient(135deg, #ef4444 0%, #7f1d1d 100%);">PA5</div>
-                    <div class="card-overlay">
-                        <h3 class="card-title">Concept</h3>
-                        <p class="card-desc">Concept sketch</p>
-                    </div>
+                <div class="card" onclick="openImageLightbox('images/sunset_paint.png')">
+                    <img src="images/sunset_paint.png" alt="Sunset Painting" class="card-image">
                 </div>
-                <div class="card">
-                    <div class="placeholder-img" style="background: linear-gradient(135deg, #450a0a 0%, #dc2626 100%);">PA6</div>
-                    <div class="card-overlay">
-                        <h3 class="card-title">Still Life</h3>
-                        <p class="card-desc">Object painting</p>
-                    </div>
+                <div class="card" onclick="openImageLightbox('images/lake_paint.png')">
+                    <img src="images/lake_paint.png" alt="Lake Painting" class="card-image">
                 </div>
             </div>
         </section>
     </main>
+
+    <!-- Video Lightbox -->
+    <div class="lightbox" id="videoLightbox">
+        <div class="lightbox-close" id="closeBtn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </div>
+        <video id="lightbox-video" controls loop>
+            <source id="video-source" src="" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <!-- Image Lightbox -->
+    <div class="lightbox" id="imageLightbox">
+        <div class="lightbox-close" id="closeImgBtn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </div>
+        <img id="lightbox-image" src="" alt="Full screen image">
+    </div>
+
+    <footer style="text-align: center; padding: 2rem; margin-top: auto;">
+        <div style="display: flex; justify-content: center; align-items: center; gap: 1.5rem;">
+            <a href="mailto:spacetraveller525@gmail.com" style="display: flex; align-items: center; justify-content: center; opacity: 0.5; transition: opacity 0.3s ease;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.5'">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                    <polyline points="22,6 12,13 2,6"></polyline>
+                </svg>
+            </a>
+            <a href="https://www.instagram.com/spacetraveller.525/" target="_blank" style="display: flex; align-items: center; justify-content: center; opacity: 0.5; transition: opacity 0.3s ease;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.5'">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                </svg>
+            </a>
+            <a href="https://www.linkedin.com/in/spacetraveller/" target="_blank" style="display: flex; align-items: center; justify-content: center; opacity: 0.5; transition: opacity 0.3s ease;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.5'">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                    <rect x="2" y="9" width="4" height="12"></rect>
+                    <circle cx="4" cy="4" r="2"></circle>
+                </svg>
+            </a>
+            <a href="https://youtube.com/@spacetraveller525" target="_blank" style="display: flex; align-items: center; justify-content: center; opacity: 0.5; transition: opacity 0.3s ease;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.5'">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path>
+                    <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>
+                </svg>
+            </a>
+            <span style="font-size: 0.85rem; margin-left: 0.5rem; opacity: 0.5;">Copyright © Space Traveller</span>
+        </div>
+    </footer>
+
+    <script>
+        function openVideoLightbox(videoSrc) {
+            const lightbox = document.getElementById('videoLightbox');
+            const video = document.getElementById('lightbox-video');
+            const source = document.getElementById('video-source');
+            
+            source.src = videoSrc;
+            video.load();
+            
+            lightbox.classList.add('active');
+            document.body.classList.add('lightbox-open');
+            
+            video.play();
+        }
+
+        function closeVideoLightbox() {
+            const lightbox = document.getElementById('videoLightbox');
+            const video = document.getElementById('lightbox-video');
+            
+            video.pause();
+            video.currentTime = 0;
+            
+            lightbox.classList.remove('active');
+            document.body.classList.remove('lightbox-open');
+        }
+
+        function openImageLightbox(imageSrc) {
+            const lightbox = document.getElementById('imageLightbox');
+            const image = document.getElementById('lightbox-image');
+            
+            image.src = imageSrc;
+            
+            lightbox.classList.add('active');
+            document.body.classList.add('lightbox-open');
+        }
+
+        function closeImageLightbox() {
+            const lightbox = document.getElementById('imageLightbox');
+            
+            lightbox.classList.remove('active');
+            document.body.classList.remove('lightbox-open');
+        }
+
+        // Event listeners
+        document.getElementById('videoLightbox').addEventListener('click', function(e) {
+            if (e.target.id === 'videoLightbox') {
+                closeVideoLightbox();
+            }
+        });
+
+        document.getElementById('closeBtn').addEventListener('click', function(e) {
+            e.stopPropagation();
+            closeVideoLightbox();
+        });
+
+        document.getElementById('imageLightbox').addEventListener('click', function(e) {
+            if (e.target.id === 'imageLightbox') {
+                closeImageLightbox();
+            }
+        });
+
+        document.getElementById('closeImgBtn').addEventListener('click', function(e) {
+            e.stopPropagation();
+            closeImageLightbox();
+        });
+
+        // Close with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeVideoLightbox();
+                closeImageLightbox();
+            }
+        });
+    </script>
+    <script src="js/mobile-menu.js"></script>
 </body>
 </html>
