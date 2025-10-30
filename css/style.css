@@ -415,6 +415,7 @@ body:has(#home.active) .header {
 
 .motion-media-grid .small-square {
     grid-column: span 1;
+    height: 100%;
     aspect-ratio: 1 / 1;
 }
 
@@ -434,6 +435,7 @@ body:has(#home.active) .header {
     cursor: pointer;
     height: 100%;
     aspect-ratio: 1 / 1;
+    margin-left: 60px;
 }
 
 .motion-media-grid .big-square video {
