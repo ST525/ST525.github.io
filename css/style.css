@@ -322,7 +322,7 @@ body:has(#home.active) .header {
 .video-container {
     position: relative;
     width: 100%;
-    max-width: 1000px;
+    max-width: 900px;
     padding-bottom: 50.625%; /* 16:9 aspect ratio */
     height: 506px;
     border-radius: 12px;
