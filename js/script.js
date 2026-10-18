@@ -47,11 +47,18 @@
 
     if (lazyVideos.length) {
         if ('IntersectionObserver' in window) {
-            const io = new IntersectionObserver(function (entries) {
+            const loader = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) {
+                        loadVideo(entry.target);
+                        loader.unobserve(entry.target);
+                    }
+                });
+            }, { rootMargin: '200px 0px' });
+            const player = new IntersectionObserver(function (entries) {
                 entries.forEach(function (entry) {
                     const video = entry.target;
                     if (entry.isIntersecting) {
-                        loadVideo(video);
                         if (!reducedMotion) {
                             const p = video.play();
                             if (p && p.catch) p.catch(function () {});
@@ -60,8 +67,8 @@
                         video.pause();
                     }
                 });
-            }, { rootMargin: '200px 0px' });
-            lazyVideos.forEach(function (v) { io.observe(v); });
+            }, { threshold: 0.2 });
+            lazyVideos.forEach(function (v) { loader.observe(v); player.observe(v); });
         } else {
             lazyVideos.forEach(function (v) {
                 loadVideo(v);
@@ -157,7 +164,10 @@
         lightbox.classList.add('active');
         lightbox.setAttribute('aria-hidden', 'false');
         document.body.classList.add('lightbox-open');
-        if (lbClose) lbClose.focus();
+        requestAnimationFrame(function () {
+            if (lbClose) lbClose.focus();
+            if (document.activeElement !== lbClose) lightbox.focus();
+        });
     }
 
     function close() {
@@ -209,7 +219,7 @@
     function trapFocus(e) {
         const focusable = Array.from(
             lightbox.querySelectorAll('button, video, [tabindex]:not([tabindex="-1"])')
-        ).filter(function (el) { return !el.hidden && el.offsetParent !== null; });
+        ).filter(function (el) { return !el.hidden && el.getClientRects().length > 0; });
         if (!focusable.length) return;
         const first = focusable[0];
         const last = focusable[focusable.length - 1];
