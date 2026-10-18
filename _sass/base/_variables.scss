@@ -1,5 +1,6 @@
 // Design tokens exposed as CSS custom properties.
 :root {
+  color-scheme: dark;
   --bg: #121212;
   --surface: #1b1b1b;
   --surface-2: #242424;
@@ -11,10 +12,33 @@
   --accent: #dc2626;
   --accent-hover: #ef4444;
   --accent-soft: rgba(220, 38, 38, 0.14);
+  --header-bg: rgba(18, 18, 18, 0.72);
+  --drawer-bg: rgba(18, 18, 18, 0.97);
+  --shadow: rgba(0, 0, 0, 0.8);
+  --shadow-media: rgba(0, 0, 0, 0.9);
   --radius: 14px;
   --radius-sm: 8px;
   --header-h: 76px;
   --page-max: 1280px;
   --pad-x: clamp(1.25rem, 4vw, 4rem);
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f7f6f3;
+  --surface: #ffffff;
+  --surface-2: #efede9;
+  --border: rgba(0, 0, 0, 0.08);
+  --border-strong: rgba(0, 0, 0, 0.16);
+  --text: #141414;
+  --muted: rgba(0, 0, 0, 0.62);
+  --faint: rgba(0, 0, 0, 0.45);
+  --accent: #b91c1c;
+  --accent-hover: #dc2626;
+  --accent-soft: rgba(185, 28, 28, 0.10);
+  --header-bg: rgba(247, 246, 243, 0.78);
+  --drawer-bg: rgba(247, 246, 243, 0.97);
+  --shadow: rgba(0, 0, 0, 0.22);
+  --shadow-media: rgba(0, 0, 0, 0.25);
 }

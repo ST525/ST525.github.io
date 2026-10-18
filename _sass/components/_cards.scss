@@ -10,6 +10,7 @@
   grid-column: span 2;
   aspect-ratio: 16 / 9;
   position: relative;
+  color-scheme: normal;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -38,7 +39,7 @@
 .card:focus-visible {
   transform: translateY(-4px);
   border-color: var(--border-strong);
-  box-shadow: 0 24px 48px -20px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 24px 48px -20px var(--shadow);
 }
 
 .card:focus-visible {
@@ -87,6 +88,7 @@
   font-size: 1.05rem;
   font-weight: 600;
   letter-spacing: -0.01em;
+  color: #f4f4f4;
   transform: translateY(6px);
   transition: transform 0.35s var(--ease);
 }

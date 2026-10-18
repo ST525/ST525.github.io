@@ -8,7 +8,7 @@
   overflow: hidden;
   background: #000;
   border: 1px solid var(--border-strong);
-  box-shadow: 0 40px 80px -30px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 255, 255, 0.02);
+  box-shadow: 0 40px 80px -30px var(--shadow-media), 0 0 0 1px rgba(255, 255, 255, 0.02);
 }
 
 .video-container iframe {
@@ -51,7 +51,7 @@
 .home-sidebar-icon svg {
   width: 18px;
   height: 18px;
-  stroke: var(--text);
+  stroke: #f4f4f4;
 }
 
 .home-sidebar-link:hover .home-sidebar-icon {
@@ -62,7 +62,7 @@
 
 .sidebar-text {
   font-size: 0.85rem;
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.62);
   white-space: nowrap;
   opacity: 0;
   transform: translateX(-8px);

@@ -1,14 +1,20 @@
 <header class="header">
   <a href="/" class="logo" aria-label="Space Traveller home">SPACE TRAVELLER</a>
-  <button class="mobile-menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="site-nav">
-    <span></span><span></span><span></span>
-  </button>
-  <nav class="nav" id="site-nav" aria-label="Main">
-    {% for item in site.data.navigation %}
-      <a href="{{ item.url }}"
-        class="nav-item{% if item.resume %} nav-resume{% endif %}{% if page.nav == item.id %} active{% endif %}"
-        {% if page.nav == item.id %}aria-current="page"{% endif %}
-        {% if item.external %}target="_blank" rel="noopener"{% endif %}>{{ item.title }}</a>
-    {% endfor %}
-  </nav>
+  <div class="header-actions">
+    <nav class="nav" id="site-nav" aria-label="Main">
+      {% for item in site.data.navigation %}
+        <a href="{{ item.url }}"
+          class="nav-item{% if item.resume %} nav-resume{% endif %}{% if page.nav == item.id %} active{% endif %}"
+          {% if page.nav == item.id %}aria-current="page"{% endif %}
+          {% if item.external %}target="_blank" rel="noopener"{% endif %}>{{ item.title }}</a>
+      {% endfor %}
+    </nav>
+    <button class="theme-toggle" type="button" aria-label="Switch to light mode" aria-pressed="false">
+      <span class="theme-icon-sun">{% include icons/sun.svg %}</span>
+      <span class="theme-icon-moon">{% include icons/moon.svg %}</span>
+    </button>
+    <button class="mobile-menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="site-nav">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
 </header>
