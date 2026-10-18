@@ -203,5 +203,22 @@
         if (e.key === 'Escape') close();
         else if (e.key === 'ArrowRight') step(1);
         else if (e.key === 'ArrowLeft') step(-1);
+        else if (e.key === 'Tab') trapFocus(e);
     });
+
+    function trapFocus(e) {
+        const focusable = Array.from(
+            lightbox.querySelectorAll('button, video, [tabindex]:not([tabindex="-1"])')
+        ).filter(function (el) { return !el.hidden && el.offsetParent !== null; });
+        if (!focusable.length) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey && (document.activeElement === first || !lightbox.contains(document.activeElement))) {
+            e.preventDefault();
+            last.focus();
+        } else if (!e.shiftKey && (document.activeElement === last || !lightbox.contains(document.activeElement))) {
+            e.preventDefault();
+            first.focus();
+        }
+    }
 })();
