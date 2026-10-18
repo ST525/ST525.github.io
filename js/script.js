@@ -58,7 +58,8 @@
             const player = new IntersectionObserver(function (entries) {
                 entries.forEach(function (entry) {
                     const video = entry.target;
-                    if (entry.isIntersecting) {
+                    if (entry.isIntersecting && entry.intersectionRatio >= 0.2) {
+                        loadVideo(video);
                         if (!reducedMotion) {
                             const p = video.play();
                             if (p && p.catch) p.catch(function () {});
@@ -67,7 +68,7 @@
                         video.pause();
                     }
                 });
-            }, { threshold: 0.2 });
+            }, { threshold: [0, 0.2] });
             lazyVideos.forEach(function (v) { loader.observe(v); player.observe(v); });
         } else {
             lazyVideos.forEach(function (v) {
