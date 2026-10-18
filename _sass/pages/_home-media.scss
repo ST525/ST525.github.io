@@ -41,9 +41,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--border-strong);
+  border: 1px solid var(--chip-border);
   border-radius: 50%;
-  background: rgba(18, 18, 18, 0.7);
+  background: var(--chip-bg);
   backdrop-filter: blur(8px);
   transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s var(--ease);
 }
@@ -51,7 +51,7 @@
 .home-sidebar-icon svg {
   width: 18px;
   height: 18px;
-  stroke: #f4f4f4;
+  stroke: var(--text);
 }
 
 .home-sidebar-link:hover .home-sidebar-icon {
@@ -62,7 +62,7 @@
 
 .sidebar-text {
   font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.62);
+  color: var(--muted);
   white-space: nowrap;
   opacity: 0;
   transform: translateX(-8px);

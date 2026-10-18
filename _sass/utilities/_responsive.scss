@@ -38,11 +38,6 @@
   }
 
   .theme-toggle {
-    position: relative;
-    top: auto;
-    left: auto;
-    margin-left: 0;
-    transform: none;
     z-index: 1001;
   }
 
@@ -70,11 +65,11 @@
     border-left: 1px solid var(--border);
     transform: translateX(100%);
     transition: transform 0.4s var(--ease);
-    box-shadow: -20px 0 60px rgba(0, 0, 0, 0.6);
   }
 
   .nav.active {
     transform: translateX(0);
+    box-shadow: -20px 0 60px var(--drawer-shadow);
   }
 
   .nav-item {
