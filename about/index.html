@@ -1,154 +1,72 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About · Space Traveller</title>
-    <meta name="description" content="About Andrew Yen — 2D character and effects animator from Taiwan studying BFA Animation at SCAD. Skills, software and contact.">
-    <meta name="theme-color" content="#121212">
-    <link rel="canonical" href="https://st525.github.io/about/">
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="Space Traveller">
-    <meta property="og:title" content="About · Space Traveller">
-    <meta property="og:description" content="About Andrew Yen — 2D character and effects animator from Taiwan studying BFA Animation at SCAD. Skills, software and contact.">
-    <meta property="og:url" content="https://st525.github.io/about/">
-    <meta property="og:image" content="https://st525.github.io/images/me.jpg">
-    <meta name="twitter:card" content="summary_large_image">
-    <link rel="icon" href="/favicon.ico">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="/css/style.css">
-</head>
-<body>
-    <a class="skip-link" href="#main">Skip to content</a>
-    <header class="header">
-        <a href="/" class="logo" aria-label="Space Traveller home">SPACE TRAVELLER</a>
-        <button class="mobile-menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="site-nav">
-            <span></span><span></span><span></span>
-        </button>
-        <nav class="nav" id="site-nav" aria-label="Main">
-            <a href="/" class="nav-item">Home</a>
-            <a href="/projects/" class="nav-item">Projects</a>
-            <a href="/characters/" class="nav-item">Characters</a>
-            <a href="/films/" class="nav-item">Films</a>
-            <a href="/about/" class="nav-item active" aria-current="page">About</a>
-            <a href="/resume.pdf" target="_blank" rel="noopener" class="nav-item nav-resume">Resume</a>
-        </nav>
-    </header>
+---
+layout: default
+title: About · Space Traveller
+description: About Andrew Yen — 2D character and effects animator from Taiwan studying BFA Animation at SCAD. Skills, software and contact.
+nav: about
+redirect_from:
+  - /about.html
+---
+<div class="container hero">
+  <span class="eyebrow">About</span>
+  <h1 class="hero-title">ANDREW YEN</h1>
+  <p class="hero-subtitle">2D Animator and Compositor</p>
+</div>
 
-    <main class="content" id="main">
-        <div class="container hero">
-            <span class="eyebrow">About</span>
-            <h1 class="hero-title">ANDREW YEN</h1>
-            <p class="hero-subtitle">2D Animator and Compositor</p>
+<div class="container about-layout">
+  <aside class="about-aside reveal">
+    <div class="about-photo">
+      <img src="/assets/images/me.jpg" alt="Andrew Yen holding a camera">
+    </div>
+    <dl class="about-facts">
+      {% for fact in site.data.about.facts %}
+        <div class="about-fact">
+          <dt>{{ fact.label }}</dt>
+          <dd>{{ fact.value }}</dd>
         </div>
+      {% endfor %}
+    </dl>
+    <a href="/resume.pdf" target="_blank" rel="noopener" class="btn btn-ghost">
+      {% include icons/file.svg %} Download resume
+    </a>
+  </aside>
 
-        <div class="container about-layout">
-            <aside class="about-aside reveal">
-                <div class="about-photo">
-                    <img src="/images/me.jpg" alt="Andrew Yen holding a camera">
-                </div>
-                <dl class="about-facts">
-                    <div class="about-fact"><dt>Based in</dt><dd>Savannah, GA · Taiwan</dd></div>
-                    <div class="about-fact"><dt>Focus</dt><dd>Character &amp; FX animation</dd></div>
-                    <div class="about-fact"><dt>School</dt><dd>SCAD, BFA Animation</dd></div>
-                    <div class="about-fact"><dt>Status</dt><dd>Open to internships</dd></div>
-                </dl>
-                <a href="/resume.pdf" target="_blank" rel="noopener" class="btn btn-ghost"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg> Download resume</a>
-            </aside>
+  <div class="about-main">
+    <div class="about-bio-text reveal">
+      {% for paragraph in site.data.about.bio %}
+        <p>{{ paragraph }}</p>
+      {% endfor %}
+    </div>
 
-            <div class="about-main">
-                <div class="about-bio-text reveal">
-                    <p>I enjoy working on stories with horror aspects and eerie atmospheres. I love storytelling as well as creating visuals to convey my stories to a greater audience. My work focuses on character animation, visual effects, and compositing.</p>
-                    <p>In my free time, I enjoy watching movies and anime, as well as all sorts of media from novels to superhero comic books. I also enjoy gaming and writing wild stories based on my imagination.</p>
-                    <p>I have been intrigued by animation since I was little, with Pixar movies and anime. The possibility of bringing my imagination and characters to life with animation struck me. The idea of making only a few panels of my heroes punching villains into a full movie-like action sequence sounded brilliant. It was then that I became determined to learn animation and make my characters move like they are action movie stars.</p>
-                    <p>I hope to contribute to projects that inspire others the way superheroes and animated worlds inspired me—to remind people of the power of imagination and the joy of seeing them come to life.</p>
-                </div>
+    <section class="about-block reveal">
+      <h2 class="section-heading">Skills</h2>
+      <div class="skills-list-grid">
+        {% for skill in site.data.about.skills %}
+          <span>{{ skill }}</span>
+        {% endfor %}
+      </div>
+      <h3 class="subsection-heading">Software</h3>
+      <div class="skills-list-grid">
+        {% for software in site.data.about.software %}
+          <span>{{ software }}</span>
+        {% endfor %}
+      </div>
+      <h3 class="subsection-heading">Languages</h3>
+      <div class="skills-list-grid">
+        {% for language in site.data.about.languages %}
+          <span>{{ language }}</span>
+        {% endfor %}
+      </div>
+      <h3 class="subsection-heading">Coding</h3>
+      <div class="skills-list-grid">
+        {% for language in site.data.about.coding %}
+          <span>{{ language }}</span>
+        {% endfor %}
+      </div>
+    </section>
 
-                <section class="about-block reveal">
-                    <h2 class="section-heading">Skills</h2>
-                    <div class="skills-list-grid">
-                            <span>2D Animation</span>
-                            <span>Effects Animation</span>
-                            <span>Compositing</span>
-                            <span>Character Design</span>
-                            <span>Production Management</span>
-                            <span>Graphic Design</span>
-                    </div>
-                    <h3 class="subsection-heading">Software</h3>
-                    <div class="skills-list-grid">
-                            <span>ToonBoom Harmony</span>
-                            <span>ToonBoom Storyboard Pro</span>
-                            <span>Adobe After Effects</span>
-                            <span>Adobe Premiere Pro</span>
-                            <span>Adobe Photoshop</span>
-                            <span>Adobe Illustrator</span>
-                            <span>Blender</span>
-                            <span>Maya</span>
-                            <span>Procreate</span>
-                            <span>Microsoft Office</span>
-                    </div>
-                    <h3 class="subsection-heading">Languages</h3>
-                    <div class="skills-list-grid">
-                            <span>English</span>
-                            <span>中文</span>
-                            <span>Español</span>
-                    </div>
-                    <h3 class="subsection-heading">Coding</h3>
-                    <div class="skills-list-grid">
-                            <span>Java</span>
-                    </div>
-                </section>
-
-                <section class="about-block reveal">
-                    <h2 class="section-heading">Contact</h2>
-                    <div class="contact-links-grid">
-                        <a href="mailto:spacetraveller525@gmail.com" class="contact-item-grid">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-                            <span class="contact-text">
-                                <span class="contact-label">Email</span>
-                                <span class="contact-handle">spacetraveller525@gmail.com</span>
-                            </span>
-                        </a>
-                        <a href="https://www.instagram.com/spacetraveller.525/" target="_blank" rel="noopener" class="contact-item-grid">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
-                            <span class="contact-text">
-                                <span class="contact-label">Instagram</span>
-                                <span class="contact-handle">@spacetraveller.525</span>
-                            </span>
-                        </a>
-                        <a href="https://www.linkedin.com/in/spacetraveller/" target="_blank" rel="noopener" class="contact-item-grid">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
-                            <span class="contact-text">
-                                <span class="contact-label">LinkedIn</span>
-                                <span class="contact-handle">in/spacetraveller</span>
-                            </span>
-                        </a>
-                        <a href="https://youtube.com/@spacetraveller525" target="_blank" rel="noopener" class="contact-item-grid">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg>
-                            <span class="contact-text">
-                                <span class="contact-label">YouTube</span>
-                                <span class="contact-handle">@spacetraveller525</span>
-                            </span>
-                        </a>
-                    </div>
-                </section>
-            </div>
-        </div>
-    </main>
-
-    <footer class="footer">
-        <div class="container footer-bottom">
-            <span>© <span id="year"></span> Andrew Yen · Space Traveller</span>
-            <div class="footer-social">
-                <a href="mailto:spacetraveller525@gmail.com" aria-label="Email" title="Email"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></a>
-                <a href="https://www.instagram.com/spacetraveller.525/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a>
-                <a href="https://www.linkedin.com/in/spacetraveller/" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a>
-                <a href="https://youtube.com/@spacetraveller525" target="_blank" rel="noopener" aria-label="YouTube" title="YouTube"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg></a>
-            </div>
-        </div>
-    </footer>
-    <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
-    <script src="/js/script.js"></script>
-</body>
-</html>
+    <section class="about-block reveal">
+      <h2 class="section-heading">Contact</h2>
+      {% include social-links.html variant="contact" %}
+    </section>
+  </div>
+</div>

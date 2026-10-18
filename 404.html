@@ -1,61 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Page not found · Space Traveller</title>
-    <meta name="description" content="This page could not be found.">
-    <meta name="theme-color" content="#121212">
-    <link rel="canonical" href="https://st525.github.io/404.html">
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="Space Traveller">
-    <meta property="og:title" content="Page not found · Space Traveller">
-    <meta property="og:description" content="This page could not be found.">
-    <meta property="og:url" content="https://st525.github.io/404.html">
-    <meta property="og:image" content="https://st525.github.io/images/me.jpg">
-    <meta name="twitter:card" content="summary_large_image">
-    <link rel="icon" href="/favicon.ico">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="/css/style.css">
-</head>
-<body>
-    <a class="skip-link" href="#main">Skip to content</a>
-    <header class="header">
-        <a href="/" class="logo" aria-label="Space Traveller home">SPACE TRAVELLER</a>
-        <button class="mobile-menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="site-nav">
-            <span></span><span></span><span></span>
-        </button>
-        <nav class="nav" id="site-nav" aria-label="Main">
-            <a href="/" class="nav-item">Home</a>
-            <a href="/projects/" class="nav-item">Projects</a>
-            <a href="/characters/" class="nav-item">Characters</a>
-            <a href="/films/" class="nav-item">Films</a>
-            <a href="/about/" class="nav-item">About</a>
-            <a href="/resume.pdf" target="_blank" rel="noopener" class="nav-item nav-resume">Resume</a>
-        </nav>
-    </header>
-
-    <main class="content" id="main">
-        <section class="not-found">
-            <h1>404</h1>
-            <p>That page drifted off into space.</p>
-            <a href="/" class="btn btn-primary">Back home <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
-        </section>
-    </main>
-
-    <footer class="footer">
-        <div class="container footer-bottom">
-            <span>© <span id="year"></span> Andrew Yen · Space Traveller</span>
-            <div class="footer-social">
-                <a href="mailto:spacetraveller525@gmail.com" aria-label="Email" title="Email"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></a>
-                <a href="https://www.instagram.com/spacetraveller.525/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a>
-                <a href="https://www.linkedin.com/in/spacetraveller/" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a>
-                <a href="https://youtube.com/@spacetraveller525" target="_blank" rel="noopener" aria-label="YouTube" title="YouTube"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg></a>
-            </div>
-        </div>
-    </footer>
-    <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
-    <script src="/js/script.js"></script>
-</body>
-</html>
+---
+layout: default
+title: Page not found · Space Traveller
+description: This page could not be found.
+nav: not-found
+permalink: /404.html
+---
+<section class="not-found">
+  <h1>404</h1>
+  <p>That page drifted off into space.</p>
+  <a href="/" class="btn btn-primary">Back home {% include icons/arrow.svg %}</a>
+</section>

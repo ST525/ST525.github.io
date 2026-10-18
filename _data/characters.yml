@@ -1,0 +1,50 @@
+# Character designs and model-sheet artwork.
+characters:
+- name: Al
+  project: Original character
+  description: A lanky loner in an oversized cat-eared hood. Designed for an eerie, atmospheric
+    short — the turnaround and expression sheet were built for animation in ToonBoom Harmony.
+  sheets:
+  - group: al
+    title: Al
+    meta: Turnaround
+    src: /assets/images/Al_Turnaround.png
+    alt: Al — Turnaround
+    label: Turnaround
+  - group: al
+    title: Al
+    meta: Expressions
+    src: /assets/images/Al_Expression.png
+    alt: Al — Expressions
+    label: Expressions
+- name: Dranius
+  project: Original character
+  description: A gaunt, horned warrior with tattered armour. Colour, greyscale and line versions
+    for model-sheet reference.
+  sheets:
+  - group: dranius
+    title: Dranius
+    meta: Turnaround
+    src: /assets/images/Dranius_Turnaround.png
+    alt: Dranius — Turnaround
+    label: Turnaround
+- name: LD
+  project: Original character
+  description: Model sheet with front, three-quarter, side and back views.
+  sheets:
+  - group: ld
+    title: LD
+    meta: Turnaround
+    src: /assets/images/LD_Turnaround.png
+    alt: LD — Turnaround
+    label: Turnaround
+- name: Adventure
+  project: Original character
+  description: Turnaround for a lighter, adventure-genre design.
+  sheets:
+  - group: adv
+    title: Adventure
+    meta: Turnaround
+    src: /assets/images/Adventure_Turnaround.png
+    alt: Adventure — Turnaround
+    label: Turnaround

@@ -1,0 +1,20 @@
+// Design tokens exposed as CSS custom properties.
+:root {
+  --bg: #121212;
+  --surface: #1b1b1b;
+  --surface-2: #242424;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.16);
+  --text: #f4f4f4;
+  --muted: rgba(255, 255, 255, 0.62);
+  --faint: rgba(255, 255, 255, 0.4);
+  --accent: #dc2626;
+  --accent-hover: #ef4444;
+  --accent-soft: rgba(220, 38, 38, 0.14);
+  --radius: 14px;
+  --radius-sm: 8px;
+  --header-h: 76px;
+  --page-max: 1280px;
+  --pad-x: clamp(1.25rem, 4vw, 4rem);
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}

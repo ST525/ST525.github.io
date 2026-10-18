@@ -1,0 +1,48 @@
+// Portfolio section headings and counts.
+/* ---------- SECTION HEADER ---------- */
+.section {
+  padding-top: clamp(2.5rem, 5vw, 4.5rem);
+  padding-bottom: clamp(2.5rem, 5vw, 4.5rem);
+  border-top: 1px solid var(--border);
+}
+
+.section:first-of-type {
+  border-top: none;
+  padding-top: 0;
+}
+
+.section-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.section-index {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  color: var(--accent);
+  margin-bottom: 0.6rem;
+}
+
+.section-title {
+  font-size: clamp(1.6rem, 2.6vw, 2.2rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.section-desc {
+  color: var(--muted);
+  margin-top: 0.5rem;
+  max-width: 520px;
+}
+
+.section-count {
+  font-size: 0.8rem;
+  color: var(--faint);
+  white-space: nowrap;
+  padding-bottom: 0.3rem;
+}

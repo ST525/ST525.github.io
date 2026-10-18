@@ -1,0 +1,14 @@
+title: Space Traveller
+author: Andrew Yen
+url: https://st525.github.io
+description: 2D character and effects animation by Andrew Yen.
+plugins:
+  - jekyll-redirect-from
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - vendor
+  - node_modules
+  - package.json
+  - package-lock.json
