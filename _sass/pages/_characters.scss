@@ -73,7 +73,7 @@
 .sheet:hover,
 .sheet:focus-visible {
   transform: translateY(-4px);
-  box-shadow: 0 24px 48px -20px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 24px 48px -20px var(--shadow);
 }
 
 .sheet:focus-visible {
@@ -87,7 +87,7 @@
   padding: 0.35rem 0.7rem;
   border-radius: 999px;
   background: rgba(18, 18, 18, 0.85);
-  color: var(--text);
+  color: #f4f4f4;
   font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.08em;

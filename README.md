@@ -13,6 +13,8 @@ Portfolio site for Andrew Yen, built with Jekyll and hosted on GitHub Pages.
 | `assets/` | Compiled stylesheet, JavaScript modules, images, and video |
 | `projects/`, `characters/`, `films/`, `about/` | Portfolio pages |
 
+Theme tokens for both palettes live in `_sass/base/_variables.scss`.
+
 ## Run locally
 
 Prerequisites: Ruby and Bundler (`gem install bundler` if needed).

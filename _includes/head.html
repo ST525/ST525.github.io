@@ -1,8 +1,22 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#121212">
+<script>
+  (function () {
+    var theme = null;
+    try {
+      theme = localStorage.getItem('theme');
+    } catch (e) {}
+    if (theme !== 'light' && theme !== 'dark') {
+      theme = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    }
+    document.documentElement.dataset.theme = theme;
+    var themeColor = document.querySelector('meta[name="theme-color"]');
+    if (themeColor) themeColor.content = theme === 'light' ? '#f7f6f3' : '#121212';
+  })();
+</script>
 <title>{{ page.title }}</title>
 <meta name="description" content="{{ page.description }}">
-<meta name="theme-color" content="#121212">
 <link rel="canonical" href="{{ site.url }}{{ page.url }}">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="{{ site.title }}">
