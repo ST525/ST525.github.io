@@ -214,7 +214,7 @@
         else if (e.key === 'ArrowRight') step(1);
         else if (e.key === 'ArrowLeft') step(-1);
         else if (e.key === 'Tab') trapFocus(e);
-    });
+    }, true);
 
     function trapFocus(e) {
         const focusable = Array.from(
