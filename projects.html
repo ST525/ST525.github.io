@@ -3,589 +3,299 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Space Traveller - Projects</title>
+    <title>Projects · Space Traveller</title>
+    <meta name="description" content="Effects animation, character animation, motion media and paintings by Andrew Yen (Space Traveller).">
+    <meta name="theme-color" content="#121212">
+    <link rel="canonical" href="https://st525.github.io/projects.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Space Traveller">
+    <meta property="og:title" content="Projects · Space Traveller">
+    <meta property="og:description" content="Effects animation, character animation, motion media and paintings by Andrew Yen (Space Traveller).">
+    <meta property="og:url" content="https://st525.github.io/projects.html">
+    <meta property="og:image" content="https://st525.github.io/images/me.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" href="favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="css/style.css">
-    <style>
-        /* Video Lightbox Styles */
-        .lightbox {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(0, 0, 0, 0.95);
-            z-index: 99999;
-            justify-content: center;
-            align-items: center;
-            cursor: zoom-out;
-        }
-        
-        .lightbox.active {
-            display: flex !important;
-        }
-        
-        .lightbox img {
-            max-width: 90vw;
-            max-height: 90vh;
-            width: auto;
-            height: auto;
-            border-radius: 12px;
-            box-shadow: 0 0 50px rgba(220, 38, 38, 0.5);
-            object-fit: contain;
-        }
-
-        body.lightbox-open {
-            overflow: hidden;
-            transform: none !important;
-            width: 100% !important;
-            margin-left: 0 !important;
-        }
-
-        .lightbox-close {
-            position: fixed;
-            top: 2rem;
-            right: 2rem;
-            width: 50px;
-            height: 50px;
-            background: rgba(220, 38, 38, 0.2);
-            border: 2px solid rgba(220, 38, 38, 0.5);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            z-index: 100001;
-        }
-
-        .lightbox-close:hover {
-            background: rgba(220, 38, 38, 0.6);
-            border-color: #dc2626;
-            transform: scale(1.1);
-        }
-
-        .lightbox-close svg {
-            pointer-events: none;
-        }
-
-        /* E1 Video Card Styles */
-        .card-large.video-card {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card-large.video-card video {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        /* Video Card Styles */
-        .card.video-card {
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-        }
-
-        .card.video-card video {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        /* Square Video Card - for videos that are already square */
-        .card-large.video-card.square-video {
-            grid-column: span 1;
-            grid-row: span 2;
-            aspect-ratio: 1 / 1;
-        }
-        
-        .card-large.video-card.square-video video {
-            object-fit: contain;
-            background: #000;
-        }
-
-        /* E2 Effects Text Card */
-        .card.effects-text-card {
-            background: transparent;
-            border: none;
-        }
-
-        .card.effects-text-card .placeholder-img {
-            background: transparent;
-            font-size: 2.5rem;
-        }
-        
-        /* Character Text Card */
-        .card.character-text-card {
-            background: transparent;
-            border: none;
-        }
-
-        .card.character-text-card .placeholder-img {
-            background: transparent;
-            font-size: 2.5rem;
-        }
-        
-        /* Motion Text Card */
-        .card.motion-text-card {
-            background: transparent;
-            border: none;
-        }
-
-        .card.motion-text-card .placeholder-img {
-            background: transparent;
-            font-size: 2.5rem;
-        }
-        
-        /* Graphic Text Card */
-        .card.graphic-text-card {
-            background: transparent;
-            border: none;
-        }
-
-        .card.graphic-text-card .placeholder-img {
-            background: transparent;
-            font-size: 2.5rem;
-        }
-        
-        /* Photo Text Card */
-        .card.photo-text-card {
-            background: transparent;
-            border: none;
-        }
-
-        .card.photo-text-card .placeholder-img {
-            background: transparent;
-            font-size: 2.5rem;
-        }
-        
-        /* Painting Text Card */
-        .card.painting-text-card {
-            background: transparent;
-            border: none;
-        }
-
-        .card.painting-text-card .placeholder-img {
-            background: transparent;
-            font-size: 2.5rem;
-        }
-        
-        /* Section Divider */
-        .section-divider {
-            width: 100%;
-            height: 1px;
-            background: rgba(220, 38, 38, 0.3);
-            margin-bottom: 3rem;
-        }
-    </style>
 </head>
 <body>
+    <a class="skip-link" href="#main">Skip to content</a>
     <header class="header">
-        <div class="logo"><a href="index.html" style="color: inherit; text-decoration: none;">SPACE TRAVELLER</a></div>
-        
-        <!-- Hamburger Menu Button -->
-        <button class="mobile-menu-toggle" aria-label="Toggle menu">
-            <span></span>
-            <span></span>
-            <span></span>
+        <a href="index.html" class="logo" aria-label="Space Traveller home">SPACE TRAVELLER</a>
+        <button class="mobile-menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="site-nav">
+            <span></span><span></span><span></span>
         </button>
-        
-        <nav class="nav">
+        <nav class="nav" id="site-nav" aria-label="Main">
             <a href="index.html" class="nav-item">Home</a>
-            <a href="projects.html" class="nav-item active">Projects</a>
+            <a href="projects.html" class="nav-item active" aria-current="page">Projects</a>
             <a href="characters.html" class="nav-item">Characters</a>
             <a href="films.html" class="nav-item">Films</a>
             <a href="about.html" class="nav-item">About</a>
+            <a href="resume.pdf" target="_blank" rel="noopener" class="nav-item nav-resume">Resume</a>
         </nav>
     </header>
 
-    <main class="content">
-        <div class="hero">
+    <main class="content" id="main">
+        <div class="container hero">
+            <span class="eyebrow">Portfolio</span>
             <h1 class="hero-title">PROJECTS</h1>
-            <p class="hero-subtitle">A showcase of my creative work across various mediums</p>
+            <p class="hero-subtitle">Effects, character animation, motion media and paintings. Hover a clip for details, click to watch it full size.</p>
         </div>
 
-        <!-- Effects Section -->
-        <section class="project-section">
-            <div class="project-grid">
-                <div class="card card-large video-card" onclick="openVideoLightbox('video/fire_effects.mp4')">
-                    <video autoplay muted loop playsinline>
-                        <source src="video/fire_effects.mp4" type="video/mp4">
-                    </video>
+        <section class="container section">
+            <div class="section-head">
+                <div>
+                    <div class="section-index">01</div>
+                    <h2 class="section-title">Effects Animation</h2>
+                    <p class="section-desc">2D effects — fire, water, light and smoke — animated and composited into scenes.</p>
                 </div>
-                <div class="card effects-text-card">
-                    <div class="placeholder-img">Effects</div>
-                </div>
-                <div class="card video-card" onclick="openVideoLightbox('video/ocean_effects.mp4')">
-                    <video autoplay muted loop playsinline>
-                        <source src="video/ocean_effects.mp4" type="video/mp4">
-                    </video>
-                </div>
-                <div class="card video-card" onclick="openVideoLightbox('video/pond_effects.mp4')">
-                    <video autoplay muted loop playsinline>
-                        <source src="video/pond_effects.mp4" type="video/mp4">
-                    </video>
-                </div>
-                <div class="card video-card" onclick="openVideoLightbox('video/fly_effects.mp4')">
-                    <video autoplay muted loop playsinline>
-                        <source src="video/fly_effects.mp4" type="video/mp4">
-                    </video>
-                </div>
-                <div class="card video-card" onclick="openVideoLightbox('video/flag_effects.mp4')">
-                    <video autoplay muted loop playsinline>
-                        <source src="video/flag_effects.mp4" type="video/mp4">
-                    </video>
-                </div>
+                <span class="section-count">5 clips</span>
             </div>
-        </section>
-
-        <!-- Characters Section -->
-        <section class="project-section">
-            <div class="section-divider"></div>
             <div class="project-grid">
-                <div class="card character-text-card">
-                    <div class="placeholder-img">Character Animation</div>
-                </div>
-                <div class="card card-large video-card" onclick="openVideoLightbox('video/cave_character.mp4')">
-                    <video autoplay muted loop playsinline>
-                        <source src="video/cave_character.mp4" type="video/mp4">
-                    </video>
-                </div>
-                <div class="card video-card" onclick="openVideoLightbox('video/reveal_character.mp4')">
-                    <video autoplay muted loop playsinline>
-                        <source src="video/reveal_character.mp4" type="video/mp4">
-                    </video>
-                </div>
-                <div class="card video-card" onclick="openVideoLightbox('video/dranius_character.mp4')">
-                    <video autoplay muted loop playsinline>
-                        <source src="video/dranius_character.mp4" type="video/mp4">
-                    </video>
-                </div>
-                <div class="card video-card" onclick="openVideoLightbox('video/gob_character.mp4')">
-                    <video autoplay muted loop playsinline>
-                        <source src="video/gob_character.mp4" type="video/mp4">
-                    </video>
-                </div>
-                <div class="card video-card" onclick="openVideoLightbox('video/sack_character.mp4')">
-                    <video autoplay muted loop playsinline>
-                        <source src="video/sack_character.mp4" type="video/mp4">
-                    </video>
-                </div>
-            </div>
-        </section>
-
-        <!-- Motion Media Section -->
-        <section class="project-section">
-            <div class="section-divider"></div>
-            <div class="motion-media-grid">
-                <!-- Left Column: Two Small Squares stacked -->
-                <div class="card video-card small-square" onclick="openVideoLightbox('video/lock_mm.mp4')">
-                    <video autoplay muted loop playsinline>
-                        <source src="video/lock_mm.mp4" type="video/mp4">
-                    </video>
-                </div>
-                
-                <div class="card video-card small-square" onclick="openVideoLightbox('video/geng_mm.mp4')">
-                    <video autoplay muted loop playsinline>
-                        <source src="video/geng_mm.mp4" type="video/mp4">
-                    </video>
-                </div>
-                
-                <!-- Middle: Big Square spanning 2 rows -->
-                <div class="card big-square" onclick="openVideoLightbox('video/hang_mm.mp4')">
-                    <video autoplay muted loop playsinline>
-                        <source src="video/hang_mm.mp4" type="video/mp4">
-                    </video>
-                </div>
-                
-                <!-- Top Right: Motion Media Text -->
-                <div class="card motion-text-card motion-text">
-                    <div class="placeholder-img">Motion Media</div>
-                </div>
-                
-                <!-- Right: 16:9 Rectangle -->
-                <div class="card video-card rect-right" onclick="openVideoLightbox('video/load_mm.mp4')">
-                    <video autoplay muted loop playsinline>
-                        <source src="video/load_mm.mp4" type="video/mp4">
-                    </video>
-                </div>
-                
-                <!-- Bottom Row: Three 16:9 Rectangles -->
-                <div class="card video-card rect-bottom" onclick="openVideoLightbox('video/pohtitle_mm.mp4')">
-                    <video autoplay muted loop playsinline>
-                        <source src="video/pohtitle_mm.mp4" type="video/mp4">
-                    </video>
-                </div>
-                
-                <div class="card video-card rect-bottom" onclick="openVideoLightbox('video/house_mm.mp4')">
-                    <video autoplay muted loop playsinline>
-                        <source src="video/house_mm.mp4" type="video/mp4">
-                    </video>
-                </div>
-                
-                <div class="card video-card rect-bottom" onclick="openVideoLightbox('video/game_mm.mp4')">
-                    <video autoplay muted loop playsinline>
-                        <source src="video/game_mm.mp4" type="video/mp4">
-                    </video>
-                </div>
-            </div>
-        </section>
-
-        <!-- Graphic Design Section -->
-        <section class="project-section">
-            <div class="section-divider"></div>
-            <div class="project-grid">
-                <div class="card card-large">
-                    <div class="placeholder-img" style="background: linear-gradient(135deg, #450a0a 0%, #dc2626 100%);">G1</div>
+                <div class="card video-card card-large reveal" data-lightbox="fx" data-src="video/fire_effects.mp4" data-type="video" data-title="Burning Skeleton" data-meta="Fire · Smoke · Comp">
+                    <video muted loop playsinline preload="none" poster="video/posters/fire_effects.jpg" data-src="video/fire_effects.mp4" aria-hidden="true"></video>
+                    <div class="card-play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></div>
                     <div class="card-overlay">
-                        <h3 class="card-title">Featured Design</h3>
-                        <p class="card-desc">Graphic design showcase</p>
+                        <div class="card-title">Burning Skeleton</div>
+                        <div class="card-meta">Fire · Smoke · Comp</div>
                     </div>
                 </div>
-                <div class="card graphic-text-card">
-                    <div class="placeholder-img">Graphic Design</div>
-                </div>
-                <div class="card">
-                    <div class="placeholder-img" style="background: linear-gradient(135deg, #450a0a 0%, #991b1b 100%);">G3</div>
+                <div class="card video-card reveal" data-lightbox="fx" data-src="video/ocean_effects.mp4" data-type="video" data-title="Storm at Sea" data-meta="Water · Rain · Lightning">
+                    <video muted loop playsinline preload="none" poster="video/posters/ocean_effects.jpg" data-src="video/ocean_effects.mp4" aria-hidden="true"></video>
+                    <div class="card-play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></div>
                     <div class="card-overlay">
-                        <h3 class="card-title">Poster</h3>
-                        <p class="card-desc">Marketing material</p>
+                        <div class="card-title">Storm at Sea</div>
+                        <div class="card-meta">Water · Rain · Lightning</div>
                     </div>
                 </div>
-                <div class="card">
-                    <div class="placeholder-img" style="background: linear-gradient(135deg, #991b1b 0%, #ef4444 100%);">G4</div>
+                <div class="card video-card reveal" data-lightbox="fx" data-src="video/pond_effects.mp4" data-type="video" data-title="Drain Water" data-meta="Liquid">
+                    <video muted loop playsinline preload="none" poster="video/posters/pond_effects.jpg" data-src="video/pond_effects.mp4" aria-hidden="true"></video>
+                    <div class="card-play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></div>
                     <div class="card-overlay">
-                        <h3 class="card-title">Typography</h3>
-                        <p class="card-desc">Type design</p>
+                        <div class="card-title">Drain Water</div>
+                        <div class="card-meta">Liquid</div>
                     </div>
                 </div>
-                <div class="card">
-                    <div class="placeholder-img" style="background: linear-gradient(135deg, #b91c1c 0%, #dc2626 100%);">G5</div>
+                <div class="card video-card card-wide reveal" data-lightbox="fx" data-src="video/fly_effects.mp4" data-type="video" data-title="Flickering Light" data-meta="Light · Particles">
+                    <video muted loop playsinline preload="none" poster="video/posters/fly_effects.jpg" data-src="video/fly_effects.mp4" aria-hidden="true"></video>
+                    <div class="card-play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></div>
                     <div class="card-overlay">
-                        <h3 class="card-title">Packaging</h3>
-                        <p class="card-desc">Product design</p>
+                        <div class="card-title">Flickering Light</div>
+                        <div class="card-meta">Light · Particles</div>
                     </div>
                 </div>
-                <div class="card">
-                    <div class="placeholder-img" style="background: linear-gradient(135deg, #1a0000 0%, #7f1d1d 100%);">G6</div>
+                <div class="card video-card card-wide reveal" data-lightbox="fx" data-src="video/flag_effects.mp4" data-type="video" data-title="Flag in the Wind" data-meta="Cloth · Rough pass">
+                    <video muted loop playsinline preload="none" poster="video/posters/flag_effects.jpg" data-src="video/flag_effects.mp4" aria-hidden="true"></video>
+                    <div class="card-play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></div>
                     <div class="card-overlay">
-                        <h3 class="card-title">Branding</h3>
-                        <p class="card-desc">Visual identity</p>
+                        <div class="card-title">Flag in the Wind</div>
+                        <div class="card-meta">Cloth · Rough pass</div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Photography Section -->
-        <section class="project-section">
-            <div class="section-divider"></div>
+        <section class="container section">
+            <div class="section-head">
+                <div>
+                    <div class="section-index">02</div>
+                    <h2 class="section-title">Character Animation</h2>
+                    <p class="section-desc">Acting, walk cycles and horror beats, from rough animation to final colour.</p>
+                </div>
+                <span class="section-count">6 clips</span>
+            </div>
             <div class="project-grid">
-                <div class="card card-large">
-                    <div class="placeholder-img" style="background: linear-gradient(135deg, #dc2626 0%, #450a0a 100%);">P1</div>
+                <div class="card video-card card-large reveal" data-lightbox="ch" data-src="video/cave_character.mp4" data-type="video" data-title="Into the Cave" data-meta="Walk cycle · Lighting">
+                    <video muted loop playsinline preload="none" poster="video/posters/cave_character.jpg" data-src="video/cave_character.mp4" aria-hidden="true"></video>
+                    <div class="card-play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></div>
                     <div class="card-overlay">
-                        <h3 class="card-title">Featured Photo</h3>
-                        <p class="card-desc">Photography showcase</p>
+                        <div class="card-title">Into the Cave</div>
+                        <div class="card-meta">Walk cycle · Lighting</div>
                     </div>
                 </div>
-                <div class="card photo-text-card">
-                    <div class="placeholder-img">Photography</div>
-                </div>
-                <div class="card">
-                    <div class="placeholder-img" style="background: linear-gradient(135deg, #b91c1c 0%, #450a0a 100%);">P3</div>
+                <div class="card video-card reveal" data-lightbox="ch" data-src="video/reveal_character.mp4" data-type="video" data-title="The Reveal" data-meta="Acting · Horror beat">
+                    <video muted loop playsinline preload="none" poster="video/posters/reveal_character.jpg" data-src="video/reveal_character.mp4" aria-hidden="true"></video>
+                    <div class="card-play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></div>
                     <div class="card-overlay">
-                        <h3 class="card-title">Landscape</h3>
-                        <p class="card-desc">Nature photography</p>
+                        <div class="card-title">The Reveal</div>
+                        <div class="card-meta">Acting · Horror beat</div>
                     </div>
                 </div>
-                <div class="card">
-                    <div class="placeholder-img" style="background: linear-gradient(135deg, #ef4444 0%, #7f1d1d 100%);">P4</div>
+                <div class="card video-card reveal" data-lightbox="ch" data-src="video/dranius_character.mp4" data-type="video" data-title="Dranius" data-meta="Character acting">
+                    <video muted loop playsinline preload="none" poster="video/posters/dranius_character.jpg" data-src="video/dranius_character.mp4" aria-hidden="true"></video>
+                    <div class="card-play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></div>
                     <div class="card-overlay">
-                        <h3 class="card-title">Street</h3>
-                        <p class="card-desc">Urban photography</p>
+                        <div class="card-title">Dranius</div>
+                        <div class="card-meta">Character acting</div>
                     </div>
                 </div>
-                <div class="card">
-                    <div class="placeholder-img" style="background: linear-gradient(135deg, #7f1d1d 0%, #dc2626 100%);">P5</div>
+                <div class="card video-card reveal" data-lightbox="ch" data-src="video/gob_character.mp4" data-type="video" data-title="Goblin Writes" data-meta="Acting · Props">
+                    <video muted loop playsinline preload="none" poster="video/posters/gob_character.jpg" data-src="video/gob_character.mp4" aria-hidden="true"></video>
+                    <div class="card-play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></div>
                     <div class="card-overlay">
-                        <h3 class="card-title">Abstract</h3>
-                        <p class="card-desc">Experimental shots</p>
+                        <div class="card-title">Goblin Writes</div>
+                        <div class="card-meta">Acting · Props</div>
                     </div>
                 </div>
-                <div class="card">
-                    <div class="placeholder-img" style="background: linear-gradient(135deg, #450a0a 0%, #b91c1c 100%);">P6</div>
+                <div class="card video-card reveal" data-lightbox="ch" data-src="video/sack_character.mp4" data-type="video" data-title="The Sack" data-meta="Rough animation">
+                    <video muted loop playsinline preload="none" poster="video/posters/sack_character.jpg" data-src="video/sack_character.mp4" aria-hidden="true"></video>
+                    <div class="card-play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></div>
                     <div class="card-overlay">
-                        <h3 class="card-title">Macro</h3>
-                        <p class="card-desc">Close-up detail</p>
+                        <div class="card-title">The Sack</div>
+                        <div class="card-meta">Rough animation</div>
+                    </div>
+                </div>
+                <div class="card video-card reveal" data-lightbox="ch" data-src="video/pardon_character.mp4" data-type="video" data-title="Pardon?" data-meta="Dialogue · Acting">
+                    <video muted loop playsinline preload="none" poster="video/posters/pardon_character.jpg" data-src="video/pardon_character.mp4" aria-hidden="true"></video>
+                    <div class="card-play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></div>
+                    <div class="card-overlay">
+                        <div class="card-title">Pardon?</div>
+                        <div class="card-meta">Dialogue · Acting</div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Painting Section -->
-        <section class="project-section">
-            <div class="section-divider"></div>
+        <section class="container section">
+            <div class="section-head">
+                <div>
+                    <div class="section-index">03</div>
+                    <h2 class="section-title">Motion Media</h2>
+                    <p class="section-desc">Logo animation, title design and short motion graphics loops.</p>
+                </div>
+                <span class="section-count">7 clips</span>
+            </div>
             <div class="project-grid">
-                <div class="card painting-text-card">
-                    <div class="placeholder-img">Oil Painting</div>
+                <div class="card video-card card-square reveal" data-lightbox="mm" data-src="video/geng_mm.mp4" data-type="video" data-title="Geng" data-meta="Character loop">
+                    <video muted loop playsinline preload="none" poster="video/posters/geng_mm.jpg" data-src="video/geng_mm.mp4" aria-hidden="true"></video>
+                    <div class="card-play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></div>
+                    <div class="card-overlay">
+                        <div class="card-title">Geng</div>
+                        <div class="card-meta">Character loop</div>
+                    </div>
                 </div>
-                <div class="card card-large" onclick="openImageLightbox('images/wave_paint.png')">
-                    <img src="images/wave_paint.png" alt="Wave Painting" class="card-image">
+                <div class="card video-card card-square reveal" data-lightbox="mm" data-src="video/hang_mm.mp4" data-type="video" data-title="Hang" data-meta="Mascot loop">
+                    <video muted loop playsinline preload="none" poster="video/posters/hang_mm.jpg" data-src="video/hang_mm.mp4" aria-hidden="true"></video>
+                    <div class="card-play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></div>
+                    <div class="card-overlay">
+                        <div class="card-title">Hang</div>
+                        <div class="card-meta">Mascot loop</div>
+                    </div>
                 </div>
-                <div class="card" onclick="openImageLightbox('images/fall_paint.png')">
-                    <img src="images/fall_paint.png" alt="Fall Painting" class="card-image">
+                <div class="card video-card reveal" data-lightbox="mm" data-src="video/lock_mm.mp4" data-type="video" data-title="Lock" data-meta="Logo animation">
+                    <video muted loop playsinline preload="none" poster="video/posters/lock_mm.jpg" data-src="video/lock_mm.mp4" aria-hidden="true"></video>
+                    <div class="card-play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></div>
+                    <div class="card-overlay">
+                        <div class="card-title">Lock</div>
+                        <div class="card-meta">Logo animation</div>
+                    </div>
                 </div>
-                <div class="card" onclick="openImageLightbox('images/set_paint.png')">
-                    <img src="images/set_paint.png" alt="Set Painting" class="card-image">
+                <div class="card video-card reveal" data-lightbox="mm" data-src="video/load_mm.mp4" data-type="video" data-title="Loading" data-meta="UI motion">
+                    <video muted loop playsinline preload="none" poster="video/posters/load_mm.jpg" data-src="video/load_mm.mp4" aria-hidden="true"></video>
+                    <div class="card-play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></div>
+                    <div class="card-overlay">
+                        <div class="card-title">Loading</div>
+                        <div class="card-meta">UI motion</div>
+                    </div>
                 </div>
-                <div class="card" onclick="openImageLightbox('images/sunset_paint.png')">
-                    <img src="images/sunset_paint.png" alt="Sunset Painting" class="card-image">
+                <div class="card video-card reveal" data-lightbox="mm" data-src="video/pohtitle_mm.mp4" data-type="video" data-title="Pursuit of Happiness — Title" data-meta="Title design">
+                    <video muted loop playsinline preload="none" poster="video/posters/pohtitle_mm.jpg" data-src="video/pohtitle_mm.mp4" aria-hidden="true"></video>
+                    <div class="card-play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></div>
+                    <div class="card-overlay">
+                        <div class="card-title">Pursuit of Happiness — Title</div>
+                        <div class="card-meta">Title design</div>
+                    </div>
                 </div>
-                <div class="card" onclick="openImageLightbox('images/lake_paint.png')">
-                    <img src="images/lake_paint.png" alt="Lake Painting" class="card-image">
+                <div class="card video-card reveal" data-lightbox="mm" data-src="video/house_mm.mp4" data-type="video" data-title="House" data-meta="Motion graphics">
+                    <video muted loop playsinline preload="none" poster="video/posters/house_mm.jpg" data-src="video/house_mm.mp4" aria-hidden="true"></video>
+                    <div class="card-play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></div>
+                    <div class="card-overlay">
+                        <div class="card-title">House</div>
+                        <div class="card-meta">Motion graphics</div>
+                    </div>
+                </div>
+                <div class="card video-card reveal" data-lightbox="mm" data-src="video/game_mm.mp4" data-type="video" data-title="Game" data-meta="Motion graphics">
+                    <video muted loop playsinline preload="none" poster="video/posters/game_mm.jpg" data-src="video/game_mm.mp4" aria-hidden="true"></video>
+                    <div class="card-play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></div>
+                    <div class="card-overlay">
+                        <div class="card-title">Game</div>
+                        <div class="card-meta">Motion graphics</div>
+                    </div>
                 </div>
             </div>
         </section>
+
+        <section class="container section">
+            <div class="section-head">
+                <div>
+                    <div class="section-index">04</div>
+                    <h2 class="section-title">Painting</h2>
+                    <p class="section-desc">Traditional oil studies of light, water and landscape.</p>
+                </div>
+                <span class="section-count">5 works</span>
+            </div>
+            <div class="project-grid">
+                <div class="card card-image-only card-large reveal" data-lightbox="paint" data-src="images/wave_paint.jpg" data-type="image" data-title="Wave" data-meta="Oil on canvas">
+                    <img src="images/wave_paint.jpg" alt="Wave" class="card-image" loading="lazy">
+                    <div class="card-overlay">
+                        <div class="card-title">Wave</div>
+                        <div class="card-meta">Oil on canvas</div>
+                    </div>
+                </div>
+                <div class="card card-image-only reveal" data-lightbox="paint" data-src="images/fall_paint.jpg" data-type="image" data-title="Fall" data-meta="Oil on canvas">
+                    <img src="images/fall_paint.jpg" alt="Fall" class="card-image" loading="lazy">
+                    <div class="card-overlay">
+                        <div class="card-title">Fall</div>
+                        <div class="card-meta">Oil on canvas</div>
+                    </div>
+                </div>
+                <div class="card card-image-only reveal" data-lightbox="paint" data-src="images/set_paint.jpg" data-type="image" data-title="Set" data-meta="Oil on canvas">
+                    <img src="images/set_paint.jpg" alt="Set" class="card-image" loading="lazy">
+                    <div class="card-overlay">
+                        <div class="card-title">Set</div>
+                        <div class="card-meta">Oil on canvas</div>
+                    </div>
+                </div>
+                <div class="card card-image-only card-wide reveal" data-lightbox="paint" data-src="images/sunset_paint.jpg" data-type="image" data-title="Sunset" data-meta="Oil on canvas">
+                    <img src="images/sunset_paint.jpg" alt="Sunset" class="card-image" loading="lazy">
+                    <div class="card-overlay">
+                        <div class="card-title">Sunset</div>
+                        <div class="card-meta">Oil on canvas</div>
+                    </div>
+                </div>
+                <div class="card card-image-only card-wide reveal" data-lightbox="paint" data-src="images/lake_paint.jpg" data-type="image" data-title="Lake" data-meta="Oil on canvas">
+                    <img src="images/lake_paint.jpg" alt="Lake" class="card-image" loading="lazy">
+                    <div class="card-overlay">
+                        <div class="card-title">Lake</div>
+                        <div class="card-meta">Oil on canvas</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
     </main>
 
-    <!-- Video Lightbox -->
-    <div class="lightbox" id="videoLightbox">
-        <div class="lightbox-close" id="closeBtn">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="18" y1="6" x2="6" y2="18"></line>
-                <line x1="6" y1="6" x2="18" y2="18"></line>
-            </svg>
-        </div>
-        <video id="lightbox-video" controls loop>
-            <source id="video-source" src="" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
+    <div class="lightbox" id="lightbox" tabindex="-1" role="dialog" aria-modal="true" aria-label="Media viewer" aria-hidden="true">
+        <button class="lightbox-btn lightbox-close" type="button" aria-label="Close"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+        <button class="lightbox-btn lightbox-prev" type="button" aria-label="Previous"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+        <video class="lightbox-media" controls loop playsinline hidden></video>
+        <img class="lightbox-media" alt="" hidden>
+        <button class="lightbox-btn lightbox-next" type="button" aria-label="Next"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+        <div class="lightbox-caption"></div>
     </div>
-
-    <!-- Image Lightbox -->
-    <div class="lightbox" id="imageLightbox">
-        <div class="lightbox-close" id="closeImgBtn">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="18" y1="6" x2="6" y2="18"></line>
-                <line x1="6" y1="6" x2="18" y2="18"></line>
-            </svg>
-        </div>
-        <img id="lightbox-image" src="" alt="Full screen image">
-    </div>
-
-    <footer style="text-align: center; padding: 2rem; margin-top: auto;">
-        <div style="display: flex; justify-content: center; align-items: center; gap: 1.5rem;">
-            <a href="mailto:spacetraveller525@gmail.com" style="display: flex; align-items: center; justify-content: center; opacity: 0.5; transition: opacity 0.3s ease;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.5'">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                    <polyline points="22,6 12,13 2,6"></polyline>
-                </svg>
-            </a>
-            <a href="https://www.instagram.com/spacetraveller.525/" target="_blank" style="display: flex; align-items: center; justify-content: center; opacity: 0.5; transition: opacity 0.3s ease;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.5'">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                </svg>
-            </a>
-            <a href="https://www.linkedin.com/in/spacetraveller/" target="_blank" style="display: flex; align-items: center; justify-content: center; opacity: 0.5; transition: opacity 0.3s ease;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.5'">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-                    <rect x="2" y="9" width="4" height="12"></rect>
-                    <circle cx="4" cy="4" r="2"></circle>
-                </svg>
-            </a>
-            <a href="https://youtube.com/@spacetraveller525" target="_blank" style="display: flex; align-items: center; justify-content: center; opacity: 0.5; transition: opacity 0.3s ease;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.5'">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path>
-                    <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>
-                </svg>
-            </a>
-            <span style="font-size: 0.85rem; margin-left: 0.5rem; opacity: 0.5;">Copyright © Space Traveller</span>
+    <footer class="footer">
+        <div class="container footer-bottom">
+            <span>© <span id="year"></span> Andrew Yen · Space Traveller</span>
+            <div class="footer-social">
+                <a href="mailto:spacetraveller525@gmail.com" aria-label="Email" title="Email"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></a>
+                <a href="https://www.instagram.com/spacetraveller.525/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a>
+                <a href="https://www.linkedin.com/in/spacetraveller/" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a>
+                <a href="https://youtube.com/@spacetraveller525" target="_blank" rel="noopener" aria-label="YouTube" title="YouTube"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg></a>
+            </div>
         </div>
     </footer>
-
-    <script>
-        function openVideoLightbox(videoSrc) {
-            const lightbox = document.getElementById('videoLightbox');
-            const video = document.getElementById('lightbox-video');
-            const source = document.getElementById('video-source');
-            
-            source.src = videoSrc;
-            video.load();
-            
-            lightbox.classList.add('active');
-            document.body.classList.add('lightbox-open');
-            
-            video.play();
-        }
-
-        function closeVideoLightbox() {
-            const lightbox = document.getElementById('videoLightbox');
-            const video = document.getElementById('lightbox-video');
-            
-            video.pause();
-            video.currentTime = 0;
-            
-            lightbox.classList.remove('active');
-            document.body.classList.remove('lightbox-open');
-        }
-
-        function openImageLightbox(imageSrc) {
-            const lightbox = document.getElementById('imageLightbox');
-            const image = document.getElementById('lightbox-image');
-            
-            image.src = imageSrc;
-            
-            lightbox.classList.add('active');
-            document.body.classList.add('lightbox-open');
-        }
-
-        function closeImageLightbox() {
-            const lightbox = document.getElementById('imageLightbox');
-            
-            lightbox.classList.remove('active');
-            document.body.classList.remove('lightbox-open');
-        }
-
-        // Event listeners
-        document.getElementById('videoLightbox').addEventListener('click', function(e) {
-            if (e.target.id === 'videoLightbox') {
-                closeVideoLightbox();
-            }
-        });
-
-        document.getElementById('closeBtn').addEventListener('click', function(e) {
-            e.stopPropagation();
-            closeVideoLightbox();
-        });
-
-        document.getElementById('imageLightbox').addEventListener('click', function(e) {
-            if (e.target.id === 'imageLightbox') {
-                closeImageLightbox();
-            }
-        });
-
-        document.getElementById('closeImgBtn').addEventListener('click', function(e) {
-            e.stopPropagation();
-            closeImageLightbox();
-        });
-
-        // Close with Escape key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                closeVideoLightbox();
-                closeImageLightbox();
-            }
-        });
-    </script>
-    <script src="js/mobile-menu.js"></script>
+    <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+    <script src="js/script.js"></script>
 </body>
 </html>
