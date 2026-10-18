@@ -240,15 +240,6 @@ img, video {
     position: relative;
 }
 
-.hero::before {
-    content: '';
-    position: absolute;
-    inset: -200px 0 auto 0;
-    height: 520px;
-    background: radial-gradient(ellipse 60% 55% at 20% 30%, rgba(220, 38, 38, 0.18), transparent 70%);
-    pointer-events: none;
-    z-index: -1;
-}
 
 .eyebrow {
     display: inline-flex;
@@ -495,15 +486,6 @@ img, video {
     overflow: hidden;
 }
 
-.home::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background:
-        radial-gradient(ellipse 50% 40% at 50% 0%, rgba(220, 38, 38, 0.22), transparent 70%),
-        radial-gradient(ellipse 40% 30% at 85% 90%, rgba(220, 38, 38, 0.08), transparent 70%);
-    pointer-events: none;
-}
 
 .home > * {
     position: relative;
@@ -1046,37 +1028,11 @@ img, video {
     margin-top: auto;
 }
 
-.footer-cta {
-    padding-top: clamp(3rem, 6vw, 5rem);
-    padding-bottom: clamp(3rem, 6vw, 5rem);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 2rem;
-    flex-wrap: wrap;
-}
 
-.footer-cta h2 {
-    font-size: clamp(1.8rem, 4vw, 3rem);
-    font-weight: 800;
-    letter-spacing: -0.03em;
-    line-height: 1.05;
-}
 
-.footer-cta p {
-    color: var(--muted);
-    margin-top: 0.5rem;
-    max-width: 440px;
-}
 
-.footer-cta-actions {
-    display: flex;
-    gap: 0.75rem;
-    flex-wrap: wrap;
-}
 
 .footer-bottom {
-    border-top: 1px solid var(--border);
     padding-top: 1.5rem;
     padding-bottom: 1.5rem;
     display: flex;
