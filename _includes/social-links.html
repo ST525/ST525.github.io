@@ -1,0 +1,35 @@
+{% if include.variant == "sidebar" %}
+  <aside class="home-social-sidebar" aria-label="Social links">
+    {% for item in site.data.social %}
+      <a href="{{ item.url }}" class="home-sidebar-link" aria-label="{{ item.name }}"{% if item.external %} target="_blank" rel="noopener"{% endif %}>
+        <span class="home-sidebar-icon">
+          {% capture icon_file %}icons/{{ item.icon }}.svg{% endcapture %}
+          {% include {{ icon_file }} %}
+        </span>
+        <span class="sidebar-text">{{ item.handle }}</span>
+      </a>
+    {% endfor %}
+  </aside>
+{% elsif include.variant == "contact" %}
+  <div class="contact-links-grid">
+    {% for item in site.data.social %}
+      <a href="{{ item.url }}" class="contact-item-grid"{% if item.external %} target="_blank" rel="noopener"{% endif %}>
+        {% capture icon_file %}icons/{{ item.icon }}.svg{% endcapture %}
+        {% include {{ icon_file }} %}
+        <span class="contact-text">
+          <span class="contact-label">{{ item.label }}</span>
+          <span class="contact-handle">{{ item.handle }}</span>
+        </span>
+      </a>
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="footer-social">
+    {% for item in site.data.social %}
+      <a href="{{ item.url }}" aria-label="{{ item.name }}" title="{{ item.name }}"{% if item.external %} target="_blank" rel="noopener"{% endif %}>
+        {% capture icon_file %}icons/{{ item.icon }}.svg{% endcapture %}
+        {% include {{ icon_file }} %}
+      </a>
+    {% endfor %}
+  </div>
+{% endif %}

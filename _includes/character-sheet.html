@@ -1,0 +1,5 @@
+{% assign sheet = include.sheet %}
+<figure class="sheet reveal" data-lightbox="{{ sheet.group }}" data-src="{{ sheet.src }}" data-type="image" data-title="{{ sheet.title }}" data-meta="{{ sheet.meta }}">
+  <img src="{{ sheet.src }}" alt="{{ sheet.alt }}" loading="lazy">
+  <figcaption class="sheet-label">{{ sheet.label }}</figcaption>
+</figure>

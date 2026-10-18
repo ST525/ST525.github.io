@@ -1,0 +1,24 @@
+# Social and contact links reused throughout the site.
+- name: Email
+  url: mailto:spacetraveller525@gmail.com
+  label: Email
+  icon: mail
+  handle: spacetraveller525@gmail.com
+- name: Instagram
+  url: https://www.instagram.com/spacetraveller.525/
+  label: Instagram
+  icon: instagram
+  handle: "@spacetraveller.525"
+  external: true
+- name: LinkedIn
+  url: https://www.linkedin.com/in/spacetraveller/
+  label: LinkedIn
+  icon: linkedin
+  handle: in/spacetraveller
+  external: true
+- name: YouTube
+  url: https://youtube.com/@spacetraveller525
+  label: YouTube
+  icon: youtube
+  handle: "@spacetraveller525"
+  external: true

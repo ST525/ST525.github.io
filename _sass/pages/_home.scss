@@ -1,0 +1,46 @@
+// Landing-page layout and hero content.
+/* ---------- HOME ---------- */
+.home {
+  min-height: calc(100vh - var(--header-h));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 3rem var(--pad-x) 4rem;
+  position: relative;
+  overflow: hidden;
+}
+
+
+.home > * {
+  position: relative;
+}
+
+
+
+.home-title {
+  font-size: clamp(2rem, 10.5vw, 7.5rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+  white-space: nowrap;
+  margin-bottom: 1rem;
+  color: var(--accent);
+}
+
+.home-subtitle {
+  font-size: clamp(1.6rem, 3.2vw, 2.4rem);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--text);
+  margin: 0 auto 2.25rem;
+}
+
+.home-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 3.5rem;
+}

@@ -1,0 +1,22 @@
+# Animated short films and credits.
+films:
+- title: Pursuit of Happiness
+  year: 2025 · Short film
+  description: A short animated film exploring an office worker pursuing happiness from his
+    dull desk job. I managed production and handled the 2D effects, compositing and edit.
+  embed: https://www.youtube-nocookie.com/embed/s233VhYstE0
+  roles:
+  - Production Manager
+  - Compositor
+  - Editor
+  - 2D Effects Animator
+- title: Bedtime
+  year: 2023 · Short film
+  description: A haunting animated short that delves into the eerie atmosphere of nighttime.
+    Directed, animated and designed from concept to completion, featuring hand-crafted backgrounds
+    and character animation.
+  embed: https://www.youtube-nocookie.com/embed/VNXa0pUEEcg
+  roles:
+  - Director
+  - Animator
+  - Background Artist

@@ -1,0 +1,96 @@
+// Character sheets and model-sheet layout.
+/* ---------- CHARACTERS ---------- */
+.characters-section {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2.5rem, 5vw, 4rem);
+  padding-bottom: clamp(3rem, 6vw, 5rem);
+}
+
+.character {
+  display: grid;
+  grid-template-columns: minmax(200px, 0.8fr) minmax(0, 3fr);
+  gap: 2rem;
+  align-items: start;
+}
+
+.character-info {
+  position: sticky;
+  top: calc(var(--header-h) + 2rem);
+}
+
+.character-name {
+  font-size: clamp(1.6rem, 2.6vw, 2.2rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-bottom: 0.4rem;
+}
+
+.character-project {
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 600;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.character-desc {
+  color: var(--muted);
+  line-height: 1.7;
+  font-size: 0.95rem;
+}
+
+.character-sheets {
+  display: grid;
+  gap: 1rem;
+}
+
+.character-sheets.two-up {
+  grid-template-columns: 1.5fr 1fr;
+}
+
+.sheet {
+  position: relative;
+  background: #fff;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  cursor: zoom-in;
+  transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
+  outline: none;
+}
+
+.sheet img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #fff;
+}
+
+.sheet:hover,
+.sheet:focus-visible {
+  transform: translateY(-4px);
+  box-shadow: 0 24px 48px -20px rgba(0, 0, 0, 0.8);
+}
+
+.sheet:focus-visible {
+  box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--accent);
+}
+
+.sheet-label {
+  position: absolute;
+  left: 0.9rem;
+  bottom: 0.9rem;
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(18, 18, 18, 0.85);
+  color: var(--text);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  pointer-events: none;
+}

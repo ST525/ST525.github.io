@@ -1,0 +1,21 @@
+# Primary site navigation links.
+- id: home
+  title: Home
+  url: /
+- id: projects
+  title: Projects
+  url: /projects/
+- id: characters
+  title: Characters
+  url: /characters/
+- id: films
+  title: Films
+  url: /films/
+- id: about
+  title: About
+  url: /about/
+- id: resume
+  title: Resume
+  url: /resume.pdf
+  external: true
+  resume: true

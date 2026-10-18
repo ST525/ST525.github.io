@@ -1,0 +1,20 @@
+{% assign item = include.item %}
+<div class="card{% if item.type == 'video' %} video-card{% else %} card-image-only{% endif %}{% if item['size'] %} card-{{ item['size'] }}{% endif %} reveal"
+  data-lightbox="{{ item.group }}"
+  data-src="{{ item.src }}"
+  data-type="{{ item.type }}"
+  data-title="{{ item.title }}"
+  data-meta="{{ item.meta }}">
+  {% if item.type == "video" %}
+    <video muted loop playsinline preload="none" poster="{{ item.poster }}" data-src="{{ item.src }}" aria-hidden="true"></video>
+    <div class="card-play">
+      {% include icons/play.svg %}
+    </div>
+  {% else %}
+    <img src="{{ item.src }}" alt="{{ item.alt }}" class="card-image" loading="lazy">
+  {% endif %}
+  <div class="card-overlay">
+    <div class="card-title">{{ item.title }}</div>
+    <div class="card-meta">{{ item.meta }}</div>
+  </div>
+</div>
