@@ -3,7 +3,7 @@ sections:
 - id: '01'
   title: Effects Animation
   description: 2D effects — fire, water, light and smoke — animated and composited into scenes.
-  count: 5 clips
+  unit: clips
   items:
   - title: Burning Skeleton
     meta: Fire · Smoke · Comp
@@ -41,7 +41,7 @@ sections:
 - id: '02'
   title: Character Animation
   description: Acting, walk cycles and horror beats, from rough animation to final colour.
-  count: 6 clips
+  unit: clips
   items:
   - title: Into the Cave
     meta: Walk cycle · Lighting
@@ -83,7 +83,7 @@ sections:
 - id: '03'
   title: Motion Media
   description: Logo animation, title design and short motion graphics loops.
-  count: 7 clips
+  unit: clips
   items:
   - title: Geng
     meta: Character loop
@@ -132,7 +132,7 @@ sections:
 - id: '04'
   title: Painting
   description: Traditional oil studies of light, water and landscape.
-  count: 5 works
+  unit: works
   items:
   - title: Wave
     meta: Oil on canvas

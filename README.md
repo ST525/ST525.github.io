@@ -15,6 +15,8 @@ Portfolio site for Andrew Yen, built with Jekyll and hosted on GitHub Pages.
 
 ## Run locally
 
+Prerequisites: Ruby and Bundler (`gem install bundler` if needed).
+
 ```sh
 bundle config set --local path vendor/bundle
 bundle install
@@ -30,13 +32,20 @@ Add the clip and its poster under `assets/video/` and
 list in `_data/projects.yml`:
 
 ```yaml
-      - title: New clip
-        meta: Animation · Compositing
-        src: /assets/video/new_clip.mp4
-        poster: /assets/video/posters/new_clip.jpg
-        type: video
-        group: fx
+sections:
+- id: '01'
+  title: Effects Animation
+  unit: clips
+  items:
+  - title: New clip
+    meta: Animation · Compositing
+    src: /assets/video/new_clip.mp4
+    poster: /assets/video/posters/new_clip.jpg
+    type: video
+    group: fx
 ```
+
+The section count is computed from its `items` list, so it updates automatically.
 
 ## Deployment
 
