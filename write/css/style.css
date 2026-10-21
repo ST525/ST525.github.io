@@ -214,6 +214,7 @@ kbd {
   font-weight: normal;
   pointer-events: none;
   position: absolute; left: 0; top: 0;
+  text-indent: 0;
   white-space: nowrap;
 }
 .el[data-type="transition"]:empty::after { left: auto; right: 0; }

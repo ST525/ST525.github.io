@@ -44,12 +44,29 @@ export class Editor {
     this.format = PLACEHOLDERS[format] ? format : 'hollywood';
     document.body.dataset.format = this.format;
     this.blocks().forEach((b) => this.applyType(b, b.dataset.type));
+    this.stripActionMarkers();
+  }
+
+  // In Taiwan format the leading △ on action lines is drawn by CSS, so a typed
+  // or imported △ is removed from the text to avoid showing it twice.
+  stripActionMarkers() {
+    if (this.format !== 'tw') return;
+    const cur = this.currentBlock();
+    for (const b of this.blocks()) {
+      if (b.dataset.type !== 'action') continue;
+      const m = b.textContent.match(/^[△▲]\s*/);
+      if (!m) continue;
+      const offset = b === cur ? this.caretOffset(b) : -1;
+      b.textContent = b.textContent.slice(m[0].length);
+      if (offset >= 0) this.placeCaret(b, Math.max(0, offset - m[0].length));
+    }
   }
 
   load(blocks) {
     this.root.innerHTML = '';
     const list = blocks && blocks.length ? blocks : [{ type: 'scene', text: '' }];
     for (const b of list) this.root.appendChild(this.createBlock(b.type, b.text));
+    this.stripActionMarkers();
     this.emit('selection');
   }
 
@@ -211,6 +228,7 @@ export class Editor {
 
   onInput() {
     this.normalize();
+    this.stripActionMarkers();
     this.emit('change');
   }
 
