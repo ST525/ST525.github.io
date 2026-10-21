@@ -228,6 +228,7 @@ body[data-format="tw"] .page {
   line-height: 1.7;
 }
 body[data-format="tw"] .editor {
+  align-content: start;
   display: grid;
   grid-template-columns: 6em minmax(0, 1fr);
   align-items: start;
@@ -250,6 +251,7 @@ body[data-format="tw"] .el[data-type="action"]:empty::after { left: 1.5em; }
 body[data-format="tw"] .el[data-type="character"] { grid-column: 1; }
 body[data-format="tw"] .el[data-type="character"]::after { content: "："; position: static; color: inherit; }
 body[data-format="tw"] .el[data-type="character"]:empty::before { content: attr(data-placeholder); color: var(--placeholder); pointer-events: none; }
+body[data-format="tw"] .el[data-type="character"]:empty[data-suggest]::before { content: attr(data-suggest); }
 body[data-format="tw"] .el[data-type="parenthetical"],
 body[data-format="tw"] .el[data-type="dialogue"] { grid-column: 2; margin: 0; }
 body[data-format="tw"] .el[data-type="dialogue"] { font-family: var(--font-kai); }
@@ -316,3 +318,24 @@ body[data-format="tw"] .scene-list button { text-transform: none; font-family: v
   #btn-title-page, .select-format { display: none; }
   .title-input { width: 120px; }
 }
+
+/* Next-speaker suggestion on an empty Character line */
+.el:empty[data-suggest]::after { content: attr(data-suggest); }
+.el[data-type="character"]:empty[data-suggest]::after { text-transform: uppercase; }
+
+/* Autocomplete / element picker */
+.ac {
+  position: fixed; z-index: 60;
+  min-width: 180px; max-width: 360px; max-height: 240px; overflow-y: auto;
+  margin: 0; padding: 4px; list-style: none;
+  background: var(--bg-elev); color: var(--text);
+  border: 1px solid var(--border); border-radius: var(--radius);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  font: 13px var(--font-ui);
+}
+.ac li {
+  display: flex; justify-content: space-between; gap: 16px;
+  padding: 4px 10px; border-radius: 4px; cursor: pointer; white-space: nowrap;
+}
+.ac li.active { background: var(--bg-hover); }
+.ac-hint { color: var(--text-muted); }
