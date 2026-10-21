@@ -1,0 +1,52 @@
+/* Page size and margins come from the #page-size <style> in index.html
+   (letter / 1in for Hollywood, A4 for Taiwan format). The extra 0.5in left
+   margin for binding lives on the page element so indents stay the same as on screen. */
+
+html, body { height: auto; overflow: visible; background: #fff; color: #000; }
+
+.toolbar, .statusbar, .sidebar, .skip-link, .dialog { display: none !important; }
+
+.workspace { display: block; }
+.editor-area { overflow: visible; padding: 0; }
+
+.page {
+  width: auto; max-width: none; min-height: 0;
+  margin: 0; padding: 0 0 0 0.5in;
+  background: #fff; color: #000; box-shadow: none;
+  font-size: 12pt; line-height: 1;
+}
+.editor { min-height: 0; }
+
+.el { color: #000; }
+.el:empty::after { display: none !important; }
+
+/* Keep headings and speakers with what follows them */
+.el[data-type="scene"],
+.el[data-type="character"],
+.el[data-type="parenthetical"] { break-after: avoid; page-break-after: avoid; }
+.el[data-type="transition"] { break-before: avoid; }
+.el[data-type="dialogue"] { orphans: 2; widows: 2; }
+
+/* Title page */
+.print-title-page {
+  display: flex; flex-direction: column; justify-content: space-between;
+  height: 9in; padding-left: 0.5in;
+  font-family: "Courier Prime", "Courier New", Courier, monospace;
+  font-size: 12pt; line-height: 1;
+  break-after: page; page-break-after: always;
+}
+.print-title-page[data-empty="true"] { display: none; }
+
+body[data-format="tw"] .page { padding-left: 0; }
+body[data-format="tw"] .editor { min-height: 0; }
+body[data-format="tw"] .el[data-type="action"]::before { display: inline-block !important; }
+body[data-format="tw"] .el[data-type="character"]::after { display: inline !important; }
+body[data-format="tw"] .print-title-page { height: 247mm; padding-left: 0; font-family: var(--font-kai); }
+body[data-format="tw"] .tp-center { padding-top: 80mm; }
+body[data-format="tw"] .tp-center h1 { font-size: 20pt; text-decoration: none; letter-spacing: 0.2em; }
+.tp-center { text-align: center; padding-top: 3in; }
+.tp-center h1 { font-size: 12pt; font-weight: normal; text-transform: uppercase; text-decoration: underline; margin: 0 0 24pt; }
+.tp-center p { margin: 0 0 12pt; white-space: pre-wrap; }
+.tp-bottom { white-space: pre-wrap; }
+.tp-bottom p { margin: 0 0 12pt; }
+.tp-bottom p:empty { display: none; }
