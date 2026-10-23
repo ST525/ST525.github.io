@@ -1,0 +1,19 @@
+{% assign film = include.film %}
+{% if include.link and film.url %}
+  <a
+    class="film-poster-link"
+    href="{{ film.url }}"
+    aria-label="{{ film.title | escape }} film page">
+{% endif %}
+<div class="video-wrapper film-poster reveal">
+  <img
+    src="{{ film.poster.src }}"
+    alt="{{ film.poster.alt | escape }}"
+    width="1920"
+    height="1080"
+    decoding="async"
+    {% if include.loading %}loading="{{ include.loading }}"{% endif %}>
+</div>
+{% if include.link and film.url %}
+  </a>
+{% endif %}

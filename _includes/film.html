@@ -11,6 +11,8 @@
           loading="lazy"
           referrerpolicy="strict-origin-when-cross-origin"></iframe>
       </div>
+    {% elsif film.poster %}
+      {% include film-poster.html film=film link=true loading="lazy" %}
     {% else %}
       {% include film-placeholder.html film=film %}
     {% endif %}

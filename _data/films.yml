@@ -34,6 +34,18 @@ films:
   roles:
   - Lead Colorist
   - Compositor
+  poster:
+    src: /assets/images/films/graduation-trip/graduation-trip-poster.jpg
+    alt: "Three friends laugh together on a video call."
+  stills:
+  - src: /assets/images/films/graduation-trip/graduation-trip-still-01.jpg
+    alt: "Three students in school uniforms laugh and walk together outdoors."
+  - src: /assets/images/films/graduation-trip/graduation-trip-still-02.jpg
+    alt: "Three friends sit on a rooftop looking up at a giant Earth in a starry sky."
+  - src: /assets/images/films/graduation-trip/graduation-trip-still-03.jpg
+    alt: "A boy blows a kiss to the Sphinx while a friend rides a camel in front of the pyramids."
+  - src: /assets/images/films/graduation-trip/graduation-trip-still-04.jpg
+    alt: "The friends dance on the ice with a penguin, a seal and a horse in front of a glacier."
 - title: Pursuit of Happiness
   year: 2025 · Short film
   description: A short animated film exploring an office worker pursuing happiness from his
