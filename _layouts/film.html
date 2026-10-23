@@ -26,22 +26,25 @@ layout: default
   {% endif %}
 </section>
 
-{% if film.description %}
-  <section class="container film-page-logline">
-    <h2 class="eyebrow">Logline</h2>
-    <p class="hero-subtitle">{{ film.description }}</p>
-  </section>
-{% endif %}
-
-{% if film.roles %}
-  <section class="container film-page-credits">
-    <h2 class="eyebrow">Credits</h2>
-    <div class="film-meta">
-      {% for role in film.roles %}
-        <span class="tag">{{ role }}</span>
-      {% endfor %}
-    </div>
-  </section>
+{% if film.description or film.roles %}
+  <div class="container film-page-overview">
+    {% if film.description %}
+      <section class="film-page-logline">
+        <h2 class="eyebrow">Logline</h2>
+        <p class="hero-subtitle">{{ film.description }}</p>
+      </section>
+    {% endif %}
+    {% if film.roles %}
+      <section class="film-page-credits">
+        <h2 class="eyebrow">Credits</h2>
+        <div class="film-meta">
+          {% for role in film.roles %}
+            <span class="tag">{{ role }}</span>
+          {% endfor %}
+        </div>
+      </section>
+    {% endif %}
+  </div>
 {% endif %}
 
 {% if film.awards %}

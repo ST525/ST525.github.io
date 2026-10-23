@@ -169,10 +169,16 @@
   margin-bottom: clamp(2rem, 4vw, 3rem);
 }
 
-.film-page-logline,
-.film-page-credits,
+.film-page-overview,
 .film-page-awards {
   margin-bottom: clamp(2.5rem, 5vw, 4rem);
+}
+
+.film-page-overview {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(260px, 1fr);
+  gap: clamp(2.5rem, 5vw, 4rem) 3rem;
+  align-items: start;
 }
 
 .film-page-logline .eyebrow,
@@ -250,6 +256,23 @@
 .film-still:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
+}
+
+@media (max-width: 1024px) {
+  .films-section {
+    gap: 2.5rem;
+  }
+
+  .film-container + .film-container {
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--border);
+  }
+}
+
+@media (max-width: 900px) {
+  .film-page-overview {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 600px) {
