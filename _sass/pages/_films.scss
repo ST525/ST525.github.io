@@ -169,12 +169,43 @@
   margin-bottom: clamp(2.5rem, 5vw, 4rem);
 }
 
-.film-page-credits {
+.film-page-credits,
+.film-page-awards {
   margin-bottom: clamp(2.5rem, 5vw, 4rem);
 }
 
-.film-page-credits .eyebrow {
+.film-page-credits .eyebrow,
+.film-page-awards .eyebrow {
   margin-bottom: 1rem;
+}
+
+.film-awards {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--border);
+}
+
+.film-award {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.4rem 1.25rem;
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.film-award-result {
+  min-width: 6rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.film-award-name {
+  color: var(--text);
 }
 
 .film-stills--page {

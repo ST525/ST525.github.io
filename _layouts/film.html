@@ -40,6 +40,20 @@ layout: default
   </section>
 {% endif %}
 
+{% if film.awards %}
+  <section class="container film-page-awards">
+    <h2 class="eyebrow">Awards</h2>
+    <ul class="film-awards">
+      {% for award in film.awards %}
+        <li class="film-award">
+          <span class="film-award-result">{{ award.result }}</span>
+          <span class="film-award-name">{{ award.name }}{% if award.category %} · {{ award.category }}{% endif %}</span>
+        </li>
+      {% endfor %}
+    </ul>
+  </section>
+{% endif %}
+
 {% if film.stills %}
   <section class="container film-stills--page">
     <div class="section-head">
