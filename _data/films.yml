@@ -1,5 +1,36 @@
 # Animated short films and credits.
 films:
+- title: Shadow Play
+  year: 2026 · SCAD capstone film
+  description: >-
+    A 2D-3D hybrid short about a cowardly little girl who meets a monster in
+    the shadows on her way to the bathroom at night, and realizes as she runs
+    that she isn't the only one who is afraid. I led compositing and worked on
+    2D character animation and prop design.
+  embed: https://www.youtube-nocookie.com/embed/A_nuYRrIqb0
+  roles:
+  - Compositing Lead
+  - 2D Character Animator
+  - Prop Designer
+  stills:
+  - src: /assets/images/films/shadowplay/shadowplay-still-01.jpg
+    thumb: /assets/images/films/shadowplay/shadowplay-still-01-thumb.jpg
+    alt: "A girl peeks out from behind a dark curtain, clutching a stuffed dog."
+  - src: /assets/images/films/shadowplay/shadowplay-still-02.jpg
+    thumb: /assets/images/films/shadowplay/shadowplay-still-02-thumb.jpg
+    alt: "A hand-shadow puppet on the wall faces a shadow monster beside a small chair."
+  - src: /assets/images/films/shadowplay/shadowplay-still-03.jpg
+    thumb: /assets/images/films/shadowplay/shadowplay-still-03-thumb.jpg
+    alt: "The girl stands in a bathroom doorway as a horned shadow monster looms in the hallway."
+  - src: /assets/images/films/shadowplay/shadowplay-still-04.jpg
+    thumb: /assets/images/films/shadowplay/shadowplay-still-04-thumb.jpg
+    alt: "The girl walks down a dark hallway toward a single circle of light."
+  - src: /assets/images/films/shadowplay/shadowplay-still-05.jpg
+    thumb: /assets/images/films/shadowplay/shadowplay-still-05-thumb.jpg
+    alt: "A red-eyed shadow monster crouches in a flashlight beam beside a dresser and chair."
+  - src: /assets/images/films/shadowplay/shadowplay-still-06.jpg
+    thumb: /assets/images/films/shadowplay/shadowplay-still-06-thumb.jpg
+    alt: "The girl runs with a flashlight as the red-eyed monster chases her through a red-lit room."
 - title: Pursuit of Happiness
   year: 2025 · Short film
   description: A short animated film exploring an office worker pursuing happiness from his

@@ -11,7 +11,10 @@ Portfolio site for Andrew Yen, built with Jekyll and hosted on GitHub Pages.
 | `_layouts/` | Site-wide HTML layout |
 | `_sass/` | Styles organized into Sass partials |
 | `assets/` | Compiled stylesheet, JavaScript modules, images, and video |
-| `projects/`, `characters/`, `films/`, `about/` | Portfolio pages |
+| `projects/`, `films/`, `about/` | Published portfolio pages |
+
+The Characters page is currently unpublished; its source, data, and styles
+remain in the repository.
 
 Theme tokens for both palettes live in `_sass/base/_variables.scss`.
 

@@ -1,13 +1,39 @@
 {% assign film = include.film %}
 <article class="film-container">
-  <div class="video-wrapper reveal">
-    <iframe
-      src="{{ film.embed }}"
-      title="{{ film.title }} — animated short film"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-      allowfullscreen
-      loading="lazy"
-      referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  <div class="film-media">
+    <div class="video-wrapper reveal">
+      <iframe
+        src="{{ film.embed }}"
+        title="{{ film.title }} — animated short film"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+        loading="lazy"
+        referrerpolicy="strict-origin-when-cross-origin"></iframe>
+    </div>
+    {% if film.stills %}
+      {% assign still_group = film.title | slugify | prepend: "film-" %}
+      <div class="film-stills" role="group" aria-label="{{ film.title }} stills">
+        {% for still in film.stills %}
+          <button
+            class="film-still"
+            type="button"
+            data-lightbox="{{ still_group }}"
+            data-src="{{ still.src }}"
+            data-type="image"
+            data-title="{{ still.alt | escape }}"
+            data-meta="{{ film.year | escape }}"
+            aria-label="Open still {{ forloop.index }} from {{ film.title }} in the lightbox">
+            <img
+              src="{{ still.thumb }}"
+              alt="{{ still.alt | escape }}"
+              width="800"
+              height="450"
+              loading="lazy"
+              decoding="async">
+          </button>
+        {% endfor %}
+      </div>
+    {% endif %}
   </div>
   <div class="film-info reveal">
     <h2 class="film-title">{{ film.title }}</h2>
