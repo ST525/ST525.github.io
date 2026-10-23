@@ -5,10 +5,7 @@ films:
   url: /films/shadow-play/
   year: 2026 · SCAD capstone film
   description: >-
-    A 2D-3D hybrid short about a cowardly little girl who meets a monster in
-    the shadows on her way to the bathroom at night, and realizes as she runs
-    that she isn't the only one who is afraid. I led compositing and worked on
-    2D character animation and prop design.
+    A cowardly little girl encounters a monster in the shadows while trying to go to the bathroom at night, but as she runs away, she realizes that she is not the only one who is afraid.
   embed: https://www.youtube-nocookie.com/embed/A_nuYRrIqb0
   roles:
   - Compositing Lead
@@ -30,10 +27,11 @@ films:
 - title: Graduation Trip
   slug: graduation-trip
   url: /films/graduation-trip/
-  year: 2026 · Short film
+  year: 2026 · Animated short
   roles:
-  - Lead Colorist
   - Compositor
+  - Editor
+  - Lead Colorist
   poster:
     src: /assets/images/films/graduation-trip/graduation-trip-poster.jpg
     alt: "Three friends laugh together on a video call."
@@ -47,7 +45,7 @@ films:
   - src: /assets/images/films/graduation-trip/graduation-trip-still-04.jpg
     alt: "The friends dance on the ice with a penguin, a seal and a horse in front of a glacier."
 - title: Pursuit of Happiness
-  year: 2025 · Short film
+  year: 2025 · Animated short
   description: A short animated film exploring an office worker pursuing happiness from his
     dull desk job. I managed production and handled the 2D effects, compositing and edit.
   embed: https://www.youtube-nocookie.com/embed/s233VhYstE0
@@ -57,7 +55,7 @@ films:
   - Editor
   - 2D Effects Animator
 - title: Bedtime
-  year: 2023 · Short film
+  year: 2023 · Animated short
   description: A haunting animated short that delves into the eerie atmosphere of nighttime.
     Directed, animated and designed from concept to completion, featuring hand-crafted backgrounds
     and character animation.
