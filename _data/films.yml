@@ -11,6 +11,9 @@ films:
   - Compositing Lead
   - 2D Character Animator
   - Prop Designer
+  awards:
+  - result: Rank A
+    name: The Rookies 2026
   stills:
   - src: /assets/images/films/shadowplay/shadowplay-still-01.jpg
     alt: "A girl peeks out from behind a dark curtain, clutching a stuffed dog."
@@ -32,6 +35,10 @@ films:
   - Compositor
   - Editor
   - Lead Colorist
+  awards:
+  - result: Finalist
+    name: Taiwan International Student Design Competition (TISDC) 2026
+    category: Digital Animation
   poster:
     src: /assets/images/films/graduation-trip/graduation-trip-poster.jpg
     alt: "Three friends laugh together on a video call."
