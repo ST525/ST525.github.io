@@ -1,0 +1,51 @@
+---
+layout: default
+---
+{% assign film = site.data.films.films | where: "slug", page.film | first %}
+<div class="container hero film-page-hero">
+  <a class="film-page-back" href="/films/">← Films</a>
+  <span class="eyebrow">{{ film.year | default: "Film" }}</span>
+  <h1 class="hero-title">{{ film.title | upcase }}</h1>
+  {% if film.description %}
+    <p class="hero-subtitle">{{ film.description }}</p>
+  {% endif %}
+</div>
+
+<section class="container film-page-trailer">
+  {% if film.embed %}
+    <div class="video-wrapper reveal">
+      <iframe
+        src="{{ film.embed }}"
+        title="{{ film.title }} — animated short film"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+        loading="lazy"
+        referrerpolicy="strict-origin-when-cross-origin"></iframe>
+    </div>
+  {% else %}
+    {% include film-placeholder.html film=film %}
+  {% endif %}
+</section>
+
+{% if film.roles %}
+  <section class="container film-page-credits">
+    <h2 class="eyebrow">Credits</h2>
+    <div class="film-meta">
+      {% for role in film.roles %}
+        <span class="tag">{{ role }}</span>
+      {% endfor %}
+    </div>
+  </section>
+{% endif %}
+
+{% if film.stills %}
+  <section class="container film-stills--page">
+    <div class="section-head">
+      <div>
+        <h2 class="section-title">Stills</h2>
+      </div>
+      <span class="section-count">{{ film.stills.size }} stills</span>
+    </div>
+    {% include film-stills.html film=film %}
+  </section>
+{% endif %}

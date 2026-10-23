@@ -97,6 +97,24 @@
   border: 0;
 }
 
+.film-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: none;
+}
+
+.film-placeholder-label {
+  color: var(--faint);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
 .film-stills {
   display: grid;
   gap: 1rem;

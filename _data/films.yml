@@ -27,6 +27,13 @@ films:
     alt: "A red-eyed shadow monster crouches in a flashlight beam beside a dresser and chair."
   - src: /assets/images/films/shadowplay/shadowplay-still-06.jpg
     alt: "The girl runs with a flashlight as the red-eyed monster chases her through a red-lit room."
+- title: Graduation Trip
+  slug: graduation-trip
+  url: /films/graduation-trip/
+  year: 2026 · Short film
+  roles:
+  - Lead Colorist
+  - Compositor
 - title: Pursuit of Happiness
   year: 2025 · Short film
   description: A short animated film exploring an office worker pursuing happiness from his
