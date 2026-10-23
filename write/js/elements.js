@@ -23,24 +23,45 @@ export const PLACEHOLDERS = {
   },
 };
 
-// Element that follows when Enter is pressed at the end of a non-empty element.
+// Element that follows when Enter is pressed at the end of a non-empty element
+// (WriterDuet's "traditional" flow: Character → Dialogue → back to Action).
 export const NEXT_ON_ENTER = {
   scene: 'action',
   action: 'action',
   character: 'dialogue',
   parenthetical: 'dialogue',
-  dialogue: 'character',
+  dialogue: 'action',
   transition: 'scene',
 };
 
-// Enter on an empty element converts it rather than adding a new one.
+// Enter on an empty element opens the element picker with this type highlighted.
 export const ON_EMPTY_ENTER = {
   scene: 'action',
-  action: null, // null = insert a blank action line
+  action: 'scene',
   character: 'action',
   parenthetical: 'dialogue',
   dialogue: 'action',
-  transition: 'action',
+  transition: 'scene',
+};
+
+// Tab on an empty element changes its type.
+export const TAB_ON_EMPTY = {
+  scene: 'action',
+  action: 'character',
+  character: 'transition',
+  parenthetical: 'dialogue',
+  dialogue: 'parenthetical',
+  transition: 'scene',
+};
+
+// Tab at the end of a non-empty element starts a new element of this type.
+export const TAB_AT_END = {
+  scene: 'action',
+  action: 'character',
+  character: 'parenthetical',
+  parenthetical: 'dialogue',
+  dialogue: 'character',
+  transition: 'scene',
 };
 
 // Approximate characters per line and lines per page for each format.

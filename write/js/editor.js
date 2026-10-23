@@ -2,9 +2,12 @@
 // the editor is a <p class="el" data-type="..."> block.
 
 import {
-  TYPES, PLACEHOLDERS, NEXT_ON_ENTER, ON_EMPTY_ENTER,
+  TYPES, PLACEHOLDERS, NEXT_ON_ENTER, ON_EMPTY_ENTER, TAB_ON_EMPTY, TAB_AT_END,
   detectType, nextType, prevType, splitSpeaker,
 } from './elements.js';
+import { suggestionsFor, nextSpeaker } from './suggest.js';
+import { Popup } from './popup.js';
+import { t } from './i18n.js';
 
 export class Editor {
   constructor(root) {
@@ -12,10 +15,15 @@ export class Editor {
     this.format = 'hollywood';
     this.listeners = { change: [], selection: [] };
     this.root.addEventListener('keydown', (e) => this.onKeyDown(e));
-    this.root.addEventListener('input', () => this.onInput());
+    this.root.addEventListener('input', (e) => this.onInput(e));
+    this.root.addEventListener('compositionend', () => this.assist());
     this.root.addEventListener('paste', (e) => this.onPaste(e));
+    this.root.addEventListener('blur', () => this.popup.hide());
+    this.popup = new Popup();
+    this.popupBlock = null;
     document.addEventListener('selectionchange', () => {
       if (this.root.contains(document.activeElement) || document.activeElement === this.root) {
+        this.onSelectionChange();
         this.emit('selection');
       }
     });
@@ -160,10 +168,11 @@ export class Editor {
     const type = block.dataset.type;
 
     if (!text.trim()) {
-      const converted = ON_EMPTY_ENTER[type];
-      if (converted) {
-        block.textContent = '';
-        this.setType(converted, block);
+      if (type === 'character' && block.dataset.suggest) {
+        block.textContent = block.dataset.suggest;
+        this.placeCaret(block, block.textContent.length);
+      } else {
+        this.showTypePicker(block);
         return;
       }
     }
@@ -184,6 +193,7 @@ export class Editor {
         this.placeCaret(target, 0);
         this.emit('change');
         this.emit('selection');
+        this.afterMove(target);
         return;
       }
       if (/^△\s*/.test(before) && type === 'action') {
@@ -201,15 +211,157 @@ export class Editor {
     this.placeCaret(next, 0);
     this.emit('change');
     this.emit('selection');
+    this.afterMove(next);
   }
 
+  // Tab: empty line → change type (Action → Character → Transition …);
+  // end of a line → start a new element (Action/Dialogue → Character, Character → Parenthetical);
+  // middle of a line → cycle the type. Shift+Tab always cycles backwards.
   handleTab(shift) {
     const block = this.currentBlock();
     if (!block) return;
-    this.setType(shift ? prevType(block.dataset.type) : nextType(block.dataset.type), block);
+    const type = block.dataset.type;
+    const text = blockText(block);
+    if (shift) {
+      this.setType(prevType(type), block);
+    } else if (!text.trim()) {
+      block.textContent = '';
+      this.setType(TAB_ON_EMPTY[type], block);
+    } else if (this.caretOffset(block) === text.length) {
+      const detected = detectType(text, type);
+      if (detected !== type) this.applyType(block, detected);
+      const next = this.createBlock(TAB_AT_END[detected]);
+      block.after(next);
+      this.placeCaret(next, 0);
+      this.emit('change');
+      this.emit('selection');
+      this.afterMove(next);
+      return;
+    } else {
+      this.setType(nextType(type), block);
+    }
+    this.afterMove(block);
+  }
+
+  // ---- Suggestions --------------------------------------------------------
+
+  afterMove(block) {
+    this.updateGhost();
+    this.assist(block);
+  }
+
+  caretAtEnd(block) {
+    return this.caretOffset(block) === blockText(block).length;
+  }
+
+  // Anchor for the popup: caret x, just below the current block.
+  caretRect(block) {
+    const box = block.getBoundingClientRect();
+    let left = box.left;
+    const sel = window.getSelection();
+    if (sel.rangeCount) {
+      const r = sel.getRangeAt(0).cloneRange();
+      r.collapse(true);
+      const rect = r.getClientRects()[0];
+      if (rect && rect.top < box.bottom && rect.bottom > box.top) left = rect.left;
+    }
+    return { left, top: box.top, bottom: box.bottom };
+  }
+
+  context(block) {
+    const all = this.blocks();
+    const idx = all.indexOf(block);
+    const data = all.map((b) => ({ type: b.dataset.type, text: blockText(b) }));
+    return {
+      format: this.format,
+      blocks: data.filter((_, i) => i !== idx),
+      before: data.slice(0, idx),
+      sceneNumber: data.slice(0, idx).filter((b) => b.type === 'scene').length + 1,
+    };
+  }
+
+  // Autocomplete for the line being typed (names, INT./EXT., locations, times, transitions).
+  assist(block = this.currentBlock()) {
+    if (!block || !this.caretAtEnd(block)) { this.popup.hide(); return; }
+    const items = suggestionsFor(block.dataset.type, blockText(block), this.context(block));
+    if (!items.length) { this.popup.hide(); return; }
+    this.popupBlock = block;
+    this.popup.show(items, {
+      anchor: this.caretRect(block),
+      onPick: (item, how) => this.acceptSuggestion(block, item, how),
+    });
+  }
+
+  acceptSuggestion(block, item, how) {
+    if (item.type) this.applyType(block, item.type);
+    block.textContent = item.value;
+    this.placeCaret(block, item.value.length);
+    this.emit('change');
+    if (!item.final) this.assist(block);
+    else if (how === 'Enter') this.handleEnter();
+  }
+
+  // Enter on an empty line: choose what it should become.
+  showTypePicker(block) {
+    const items = TYPES.map((type, i) => ({ label: t(`el.${type}`), value: type, hint: String(i + 1) }));
+    this.popupBlock = block;
+    this.popup.show(items, {
+      anchor: this.caretRect(block),
+      index: TYPES.indexOf(ON_EMPTY_ENTER[block.dataset.type]),
+      onPick: (item) => {
+        block.textContent = '';
+        this.setType(item.value, block);
+        this.afterMove(block);
+      },
+    });
+  }
+
+  // An empty Character line shows the likely next speaker; Space, → or Enter accepts it.
+  updateGhost() {
+    const cur = this.currentBlock();
+    for (const b of this.root.querySelectorAll(':scope > .el[data-suggest]')) {
+      if (b !== cur) delete b.dataset.suggest;
+    }
+    if (!cur) return;
+    const empty = !blockText(cur);
+    if (!empty) delete cur.dataset.nosuggest;
+    const name = cur.dataset.type === 'character' && empty && !cur.dataset.nosuggest
+      ? nextSpeaker(this.context(cur).before) : null;
+    if (name) cur.dataset.suggest = name;
+    else delete cur.dataset.suggest;
+  }
+
+  acceptGhost(block) {
+    block.textContent = block.dataset.suggest;
+    delete block.dataset.suggest;
+    this.placeCaret(block, block.textContent.length);
+    this.popup.hide();
+    this.emit('change');
+  }
+
+  onSelectionChange() {
+    const cur = this.currentBlock();
+    if (this.popup.open && (cur !== this.popupBlock || !cur || !this.caretAtEnd(cur))) this.popup.hide();
+    this.updateGhost();
   }
 
   onKeyDown(e) {
+    // Enter/Tab that confirm an IME candidate (Zhuyin, Pinyin, Cangjie…) belong to the IME.
+    if (e.isComposing || e.keyCode === 229) return;
+    if (this.popup.handleKey(e)) return;
+    const block = this.currentBlock();
+    if (block && block.dataset.suggest && !e.ctrlKey && !e.metaKey && !e.altKey) {
+      if (e.key === ' ' || e.key === 'ArrowRight') {
+        e.preventDefault();
+        this.acceptGhost(block);
+        return;
+      }
+      if (e.key === 'Escape') {
+        block.dataset.nosuggest = '1';
+        delete block.dataset.suggest;
+        return;
+      }
+    }
     if (e.key === 'Enter' && !e.shiftKey && !e.ctrlKey && !e.metaKey) {
       e.preventDefault();
       this.handleEnter();
@@ -226,10 +378,25 @@ export class Editor {
     }
   }
 
-  onInput() {
+  onInput(e) {
     this.normalize();
     this.stripActionMarkers();
+    this.autoCapitalize();
     this.emit('change');
+    this.updateGhost();
+    if (!(e && e.isComposing)) this.assist();
+  }
+
+  // Hollywood: capitalize the first letter of Action and Dialogue lines.
+  autoCapitalize() {
+    if (this.format !== 'hollywood') return;
+    const block = this.currentBlock();
+    if (!block || !['action', 'dialogue'].includes(block.dataset.type)) return;
+    const text = blockText(block);
+    if (text.length === 1 && /[a-z]/.test(text)) {
+      block.textContent = text.toUpperCase();
+      this.placeCaret(block, 1);
+    }
   }
 
   onPaste(e) {
