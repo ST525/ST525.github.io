@@ -27,6 +27,20 @@
   margin-bottom: 0.4rem;
 }
 
+.film-title a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+.film-title a:hover {
+  color: var(--accent);
+}
+
+.film-page-link {
+  margin-top: 1rem;
+}
+
 .film-year {
   font-size: 0.8rem;
   letter-spacing: 0.14em;
@@ -85,9 +99,39 @@
 
 .film-stills {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.75rem;
-  margin-top: 1rem;
+  gap: 1rem;
+}
+
+.film-stills--page .film-stills {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.film-page-back {
+  display: block;
+  margin-bottom: 1.25rem;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+.film-page-back:hover {
+  color: var(--accent);
+}
+
+.film-page-trailer {
+  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+}
+
+.film-page-credits {
+  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+}
+
+.film-page-credits .eyebrow {
+  margin-bottom: 1rem;
+}
+
+.film-stills--page {
+  padding-bottom: clamp(3rem, 6vw, 5rem);
 }
 
 .film-still {
@@ -128,8 +172,8 @@
   outline-offset: 3px;
 }
 
-@media (max-width: 768px) {
-  .film-stills {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+@media (max-width: 600px) {
+  .film-stills--page .film-stills {
+    grid-template-columns: 1fr;
   }
 }

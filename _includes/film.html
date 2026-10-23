@@ -10,33 +10,15 @@
         loading="lazy"
         referrerpolicy="strict-origin-when-cross-origin"></iframe>
     </div>
-    {% if film.stills %}
-      {% assign still_group = film.title | slugify | prepend: "film-" %}
-      <div class="film-stills" role="group" aria-label="{{ film.title }} stills">
-        {% for still in film.stills %}
-          <button
-            class="film-still"
-            type="button"
-            data-lightbox="{{ still_group }}"
-            data-src="{{ still.src }}"
-            data-type="image"
-            data-title="{{ still.alt | escape }}"
-            data-meta="{{ film.year | escape }}"
-            aria-label="Open still {{ forloop.index }} from {{ film.title }} in the lightbox">
-            <img
-              src="{{ still.thumb }}"
-              alt="{{ still.alt | escape }}"
-              width="800"
-              height="450"
-              loading="lazy"
-              decoding="async">
-          </button>
-        {% endfor %}
-      </div>
-    {% endif %}
   </div>
   <div class="film-info reveal">
-    <h2 class="film-title">{{ film.title }}</h2>
+    <h2 class="film-title">
+      {% if film.url %}
+        <a href="{{ film.url }}">{{ film.title }}</a>
+      {% else %}
+        {{ film.title }}
+      {% endif %}
+    </h2>
     <span class="film-year">{{ film.year }}</span>
     <p class="film-description">{{ film.description }}</p>
     <div class="film-meta">
@@ -44,5 +26,8 @@
         <span class="tag">{{ role }}</span>
       {% endfor %}
     </div>
+    {% if film.url %}
+      <a class="btn btn-ghost film-page-link" href="{{ film.url }}">View film page →</a>
+    {% endif %}
   </div>
 </article>

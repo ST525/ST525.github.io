@@ -1,0 +1,50 @@
+---
+layout: default
+title: Shadow Play · Space Traveller
+description: >-
+  A 2D-3D hybrid short about a cowardly little girl who meets a monster in the
+  shadows on her way to the bathroom at night, and realizes as she runs that
+  she isn't the only one who is afraid. I led compositing and worked on 2D
+  character animation and prop design.
+nav: films
+lightbox: true
+film: shadow-play
+---
+{% assign film = site.data.films.films | where: "slug", page.film | first %}
+<div class="container hero film-page-hero">
+  <a class="film-page-back" href="/films/">← Films</a>
+  <span class="eyebrow">{{ film.year }}</span>
+  <h1 class="hero-title">SHADOW PLAY</h1>
+  <p class="hero-subtitle">{{ film.description }}</p>
+</div>
+
+<section class="container film-page-trailer">
+  <div class="video-wrapper reveal">
+    <iframe
+      src="{{ film.embed }}"
+      title="{{ film.title }} — animated short film"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen
+      loading="lazy"
+      referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  </div>
+</section>
+
+<section class="container film-page-credits">
+  <h2 class="eyebrow">Credits</h2>
+  <div class="film-meta">
+    {% for role in film.roles %}
+      <span class="tag">{{ role }}</span>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="container film-stills--page">
+  <div class="section-head">
+    <div>
+      <h2 class="section-title">Stills</h2>
+    </div>
+    <span class="section-count">{{ film.stills.size }} stills</span>
+  </div>
+  {% include film-stills.html film=film %}
+</section>
