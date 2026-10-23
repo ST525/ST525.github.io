@@ -23,7 +23,12 @@
 <meta property="og:title" content="{{ page.title }}">
 <meta property="og:description" content="{{ page.description }}">
 <meta property="og:url" content="{{ site.url }}{{ page.url }}">
-<meta property="og:image" content="{{ site.url }}/assets/images/me.jpg">
+{%- assign share_image = page.image -%}
+{%- if page.film -%}
+  {%- assign share_film = site.data.films.films | where: "slug", page.film | first -%}
+  {%- assign share_image = share_image | default: share_film.poster.src | default: share_film.stills.first.src -%}
+{%- endif -%}
+<meta property="og:image" content="{{ site.url }}{{ share_image | default: '/assets/images/me.jpg' }}">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
