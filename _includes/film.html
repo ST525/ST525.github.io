@@ -1,22 +1,45 @@
 {% assign film = include.film %}
 <article class="film-container">
-  <div class="video-wrapper reveal">
-    <iframe
-      src="{{ film.embed }}"
-      title="{{ film.title }} — animated short film"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-      allowfullscreen
-      loading="lazy"
-      referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  <div class="film-media">
+    {% if film.embed %}
+      <div class="video-wrapper reveal">
+        <iframe
+          src="{{ film.embed }}"
+          title="{{ film.title }} — animated short film"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+          loading="lazy"
+          referrerpolicy="strict-origin-when-cross-origin"></iframe>
+      </div>
+    {% elsif film.poster %}
+      {% include film-poster.html film=film link=true loading="lazy" %}
+    {% else %}
+      {% include film-placeholder.html film=film %}
+    {% endif %}
   </div>
   <div class="film-info reveal">
-    <h2 class="film-title">{{ film.title }}</h2>
-    <span class="film-year">{{ film.year }}</span>
-    <p class="film-description">{{ film.description }}</p>
-    <div class="film-meta">
-      {% for role in film.roles %}
-        <span class="tag">{{ role }}</span>
-      {% endfor %}
-    </div>
+    <h2 class="film-title">
+      {% if film.url %}
+        <a href="{{ film.url }}">{{ film.title }}</a>
+      {% else %}
+        {{ film.title }}
+      {% endif %}
+    </h2>
+    {% if film.year %}
+      <span class="film-year">{{ film.year }}</span>
+    {% endif %}
+    {% if film.description %}
+      <p class="film-description">{{ film.description }}</p>
+    {% endif %}
+    {% if film.roles %}
+      <div class="film-meta">
+        {% for role in film.roles %}
+          <span class="tag">{{ role }}</span>
+        {% endfor %}
+      </div>
+    {% endif %}
+    {% if film.url %}
+      <a class="btn btn-ghost film-page-link" href="{{ film.url }}">View film page →</a>
+    {% endif %}
   </div>
 </article>

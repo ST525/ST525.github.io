@@ -27,6 +27,20 @@
   margin-bottom: 0.4rem;
 }
 
+.film-title a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+.film-title a:hover {
+  color: var(--accent);
+}
+
+.film-page-link {
+  margin-top: 1rem;
+}
+
 .film-year {
   font-size: 0.8rem;
   letter-spacing: 0.14em;
@@ -81,4 +95,132 @@
   width: 100%;
   height: 100%;
   border: 0;
+}
+
+.film-poster-link {
+  display: block;
+}
+
+.film-poster img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.film-poster-link:hover .film-poster,
+.film-poster-link:focus-visible .film-poster {
+  border-color: var(--accent);
+}
+
+.film-poster-link:hover .film-poster img,
+.film-poster-link:focus-visible .film-poster img {
+  transform: scale(1.03);
+}
+
+.film-poster-link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.film-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: none;
+}
+
+.film-placeholder-label {
+  color: var(--faint);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.film-stills {
+  display: grid;
+  gap: 1rem;
+}
+
+.film-stills--page .film-stills {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.film-page-back {
+  display: block;
+  margin-bottom: 1.25rem;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+.film-page-back:hover {
+  color: var(--accent);
+}
+
+.film-page-trailer {
+  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+}
+
+.film-page-credits {
+  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+}
+
+.film-page-credits .eyebrow {
+  margin-bottom: 1rem;
+}
+
+.film-stills--page {
+  padding-bottom: clamp(3rem, 6vw, 5rem);
+}
+
+.film-still {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  padding: 0;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.film-still img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.film-still:hover,
+.film-still:focus-visible {
+  border-color: var(--accent);
+  box-shadow: 0 12px 24px -16px var(--shadow-media);
+}
+
+.film-still:hover img,
+.film-still:focus-visible img {
+  transform: scale(1.04);
+}
+
+.film-still:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+@media (max-width: 600px) {
+  .film-stills--page .film-stills {
+    grid-template-columns: 1fr;
+  }
 }

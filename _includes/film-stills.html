@@ -1,0 +1,23 @@
+{% assign film = include.film %}
+{% assign still_group = film.slug | default: film.title | slugify | prepend: "film-" %}
+<div class="film-stills" role="group" aria-label="{{ film.title }} stills">
+  {% for still in film.stills %}
+    <button
+      class="film-still"
+      type="button"
+      data-lightbox="{{ still_group }}"
+      data-src="{{ still.src }}"
+      data-type="image"
+      data-title="{{ still.alt | escape }}"
+      data-meta="{{ film.year | escape }}"
+      aria-label="Open still {{ forloop.index }} from {{ film.title }} in the lightbox">
+      <img
+        src="{{ still.src }}"
+        alt="{{ still.alt | escape }}"
+        width="1920"
+        height="1080"
+        loading="lazy"
+        decoding="async">
+    </button>
+  {% endfor %}
+</div>

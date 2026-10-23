@@ -5,9 +5,6 @@
 - id: projects
   title: Projects
   url: /projects/
-- id: characters
-  title: Characters
-  url: /characters/
 - id: films
   title: Films
   url: /films/

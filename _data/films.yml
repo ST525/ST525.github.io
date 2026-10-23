@@ -1,5 +1,51 @@
 # Animated short films and credits.
 films:
+- title: Shadow Play
+  slug: shadow-play
+  url: /films/shadow-play/
+  year: 2026 · SCAD capstone film
+  description: >-
+    A 2D-3D hybrid short about a cowardly little girl who meets a monster in
+    the shadows on her way to the bathroom at night, and realizes as she runs
+    that she isn't the only one who is afraid. I led compositing and worked on
+    2D character animation and prop design.
+  embed: https://www.youtube-nocookie.com/embed/A_nuYRrIqb0
+  roles:
+  - Compositing Lead
+  - 2D Character Animator
+  - Prop Designer
+  stills:
+  - src: /assets/images/films/shadowplay/shadowplay-still-01.jpg
+    alt: "A girl peeks out from behind a dark curtain, clutching a stuffed dog."
+  - src: /assets/images/films/shadowplay/shadowplay-still-02.jpg
+    alt: "A hand-shadow puppet on the wall faces a shadow monster beside a small chair."
+  - src: /assets/images/films/shadowplay/shadowplay-still-03.jpg
+    alt: "The girl stands in a bathroom doorway as a horned shadow monster looms in the hallway."
+  - src: /assets/images/films/shadowplay/shadowplay-still-04.jpg
+    alt: "The girl walks down a dark hallway toward a single circle of light."
+  - src: /assets/images/films/shadowplay/shadowplay-still-05.jpg
+    alt: "A red-eyed shadow monster crouches in a flashlight beam beside a dresser and chair."
+  - src: /assets/images/films/shadowplay/shadowplay-still-06.jpg
+    alt: "The girl runs with a flashlight as the red-eyed monster chases her through a red-lit room."
+- title: Graduation Trip
+  slug: graduation-trip
+  url: /films/graduation-trip/
+  year: 2026 · Short film
+  roles:
+  - Lead Colorist
+  - Compositor
+  poster:
+    src: /assets/images/films/graduation-trip/graduation-trip-poster.jpg
+    alt: "Three friends laugh together on a video call."
+  stills:
+  - src: /assets/images/films/graduation-trip/graduation-trip-still-01.jpg
+    alt: "Three students in school uniforms laugh and walk together outdoors."
+  - src: /assets/images/films/graduation-trip/graduation-trip-still-02.jpg
+    alt: "Three friends sit on a rooftop looking up at a giant Earth in a starry sky."
+  - src: /assets/images/films/graduation-trip/graduation-trip-still-03.jpg
+    alt: "A boy blows a kiss to the Sphinx while a friend rides a camel in front of the pyramids."
+  - src: /assets/images/films/graduation-trip/graduation-trip-still-04.jpg
+    alt: "The friends dance on the ice with a penguin, a seal and a horse in front of a glacier."
 - title: Pursuit of Happiness
   year: 2025 · Short film
   description: A short animated film exploring an office worker pursuing happiness from his

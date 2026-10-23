@@ -13,3 +13,4 @@ exclude:
   - package.json
   - package-lock.json
   - write  # Scriptwriter app, unpublished for now; remove this line to bring /write/ back
+  - characters  # Characters page, unpublished for now; remove this line to bring /characters/ back
