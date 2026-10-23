@@ -6,12 +6,12 @@
   data-title="{{ item.title }}"
   data-meta="{{ item.meta }}">
   {% if item.type == "video" %}
-    <video muted loop playsinline preload="none" poster="{{ item.poster }}" data-src="{{ item.src }}" aria-hidden="true"></video>
+    <video muted loop playsinline preload="none" poster="{{ item.poster }}" data-src="{{ item.preview | default: item.src }}" aria-hidden="true"></video>
     <div class="card-play">
       {% include icons/play.svg %}
     </div>
   {% else %}
-    <img src="{{ item.src }}" alt="{{ item.alt }}" class="card-image" loading="lazy">
+    <img src="{{ item.thumb | default: item.src }}" alt="{{ item.alt }}" class="card-image" loading="lazy">
   {% endif %}
   <div class="card-overlay">
     <div class="card-title">{{ item.title }}</div>

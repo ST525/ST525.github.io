@@ -8,6 +8,7 @@ sections:
   - title: Burning Skeleton
     meta: Fire · Smoke · Comp
     src: /assets/video/fire_effects.mp4
+    preview: /assets/video/previews/fire_effects.mp4
     type: video
     group: fx
     size: large
@@ -15,18 +16,21 @@ sections:
   - title: Storm at Sea
     meta: Water · Rain · Lightning
     src: /assets/video/ocean_effects.mp4
+    preview: /assets/video/previews/ocean_effects.mp4
     type: video
     group: fx
     poster: /assets/video/posters/ocean_effects.jpg
   - title: Drain Water
     meta: Liquid
     src: /assets/video/pond_effects.mp4
+    preview: /assets/video/previews/pond_effects.mp4
     type: video
     group: fx
     poster: /assets/video/posters/pond_effects.jpg
   - title: Flickering Light
     meta: Light · Particles
     src: /assets/video/fly_effects.mp4
+    preview: /assets/video/previews/fly_effects.mp4
     type: video
     group: fx
     size: wide
@@ -34,6 +38,7 @@ sections:
   - title: Flag in the Wind
     meta: Cloth · Rough pass
     src: /assets/video/flag_effects.mp4
+    preview: /assets/video/previews/flag_effects.mp4
     type: video
     group: fx
     size: wide
@@ -46,6 +51,7 @@ sections:
   - title: Into the Cave
     meta: Walk cycle · Lighting
     src: /assets/video/cave_character.mp4
+    preview: /assets/video/previews/cave_character.mp4
     type: video
     group: ch
     size: large
@@ -53,30 +59,35 @@ sections:
   - title: The Reveal
     meta: Acting · Horror beat
     src: /assets/video/reveal_character.mp4
+    preview: /assets/video/previews/reveal_character.mp4
     type: video
     group: ch
     poster: /assets/video/posters/reveal_character.jpg
   - title: Dranius
     meta: Character acting
     src: /assets/video/dranius_character.mp4
+    preview: /assets/video/previews/dranius_character.mp4
     type: video
     group: ch
     poster: /assets/video/posters/dranius_character.jpg
   - title: Goblin Writes
     meta: Acting · Props
     src: /assets/video/gob_character.mp4
+    preview: /assets/video/previews/gob_character.mp4
     type: video
     group: ch
     poster: /assets/video/posters/gob_character.jpg
   - title: The Sack
     meta: Rough animation
     src: /assets/video/sack_character.mp4
+    preview: /assets/video/previews/sack_character.mp4
     type: video
     group: ch
     poster: /assets/video/posters/sack_character.jpg
   - title: Pardon?
     meta: Dialogue · Acting
     src: /assets/video/pardon_character.mp4
+    preview: /assets/video/previews/pardon_character.mp4
     type: video
     group: ch
     poster: /assets/video/posters/pardon_character.jpg
@@ -88,6 +99,7 @@ sections:
   - title: Geng
     meta: Character loop
     src: /assets/video/geng_mm.mp4
+    preview: /assets/video/previews/geng_mm.mp4
     type: video
     group: mm
     size: square
@@ -95,6 +107,7 @@ sections:
   - title: Hang
     meta: Mascot loop
     src: /assets/video/hang_mm.mp4
+    preview: /assets/video/previews/hang_mm.mp4
     type: video
     group: mm
     size: square
@@ -102,30 +115,35 @@ sections:
   - title: Lock
     meta: Logo animation
     src: /assets/video/lock_mm.mp4
+    preview: /assets/video/previews/lock_mm.mp4
     type: video
     group: mm
     poster: /assets/video/posters/lock_mm.jpg
   - title: Loading
     meta: UI motion
     src: /assets/video/load_mm.mp4
+    preview: /assets/video/previews/load_mm.mp4
     type: video
     group: mm
     poster: /assets/video/posters/load_mm.jpg
   - title: Pursuit of Happiness — Title
     meta: Title design
     src: /assets/video/pohtitle_mm.mp4
+    preview: /assets/video/previews/pohtitle_mm.mp4
     type: video
     group: mm
     poster: /assets/video/posters/pohtitle_mm.jpg
   - title: House
     meta: Motion graphics
     src: /assets/video/house_mm.mp4
+    preview: /assets/video/previews/house_mm.mp4
     type: video
     group: mm
     poster: /assets/video/posters/house_mm.jpg
   - title: Game
     meta: Motion graphics
     src: /assets/video/game_mm.mp4
+    preview: /assets/video/previews/game_mm.mp4
     type: video
     group: mm
     poster: /assets/video/posters/game_mm.jpg
@@ -137,6 +155,7 @@ sections:
   - title: Wave
     meta: Oil on canvas
     src: /assets/images/wave_paint.jpg
+    thumb: /assets/images/thumbs/wave_paint.jpg
     type: image
     group: paint
     size: large
@@ -144,18 +163,21 @@ sections:
   - title: Fall
     meta: Oil on canvas
     src: /assets/images/fall_paint.jpg
+    thumb: /assets/images/thumbs/fall_paint.jpg
     type: image
     group: paint
     alt: Fall
   - title: Set
     meta: Oil on canvas
     src: /assets/images/set_paint.jpg
+    thumb: /assets/images/thumbs/set_paint.jpg
     type: image
     group: paint
     alt: Set
   - title: Sunset
     meta: Oil on canvas
     src: /assets/images/sunset_paint.jpg
+    thumb: /assets/images/thumbs/sunset_paint.jpg
     type: image
     group: paint
     size: wide
@@ -163,6 +185,7 @@ sections:
   - title: Lake
     meta: Oil on canvas
     src: /assets/images/lake_paint.jpg
+    thumb: /assets/images/thumbs/lake_paint.jpg
     type: image
     group: paint
     size: wide

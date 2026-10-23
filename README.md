@@ -45,12 +45,23 @@ sections:
   - title: New clip
     meta: Animation · Compositing
     src: /assets/video/new_clip.mp4
+    preview: /assets/video/previews/new_clip.mp4
     poster: /assets/video/posters/new_clip.jpg
     type: video
     group: fx
 ```
 
 The section count is computed from its `items` list, so it updates automatically.
+
+Generate lightweight grid previews and painting thumbnails with:
+
+```sh
+ffmpeg -y -i assets/video/new_clip.mp4 -vf "scale=960:-2:flags=lanczos" -c:v libx264 -preset slow -crf 23 -profile:v high -pix_fmt yuv420p -an -movflags +faststart assets/video/previews/new_clip.mp4
+convert assets/images/new_paint.jpg -resize '1200x>' -strip -interlace Plane -quality 82 assets/images/thumbs/new_paint.jpg
+```
+
+Keep `src` pointed at the original so the lightbox retains full quality. Put
+`preview:` after `src:` for videos and `thumb:` after `src:` for paintings.
 
 ## Deployment
 
