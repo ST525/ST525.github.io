@@ -8,9 +8,7 @@ export function initSocialDock() {
   function update() {
     frame = 0;
     const overlap = Math.max(0, window.innerHeight - footer.getBoundingClientRect().top);
-    const extraSpace = Math.max(0, 32 - parseFloat(getComputedStyle(dock).bottom));
-    const offset = overlap ? overlap + extraSpace : 0;
-    dock.style.transform = offset ? 'translateY(' + (-offset) + 'px)' : '';
+    dock.style.transform = overlap ? 'translateY(' + (-overlap) + 'px)' : '';
   }
   function schedule() {
     if (!frame) frame = requestAnimationFrame(update);
