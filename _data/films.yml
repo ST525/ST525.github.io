@@ -71,8 +71,7 @@ films:
   music: "“Wind of Tomorrow” by Sunset Rollercoaster"
 - title: Pursuit of Happiness
   year: 2025 · Animated short
-  description: A short animated film exploring an office worker pursuing happiness from his
-    dull desk job. I managed production and handled the 2D effects, compositing and edit.
+  description: Office worker pursues happiness from his dull desk job.
   embed: https://www.youtube-nocookie.com/embed/s233VhYstE0
   roles:
   - Production Manager
@@ -82,8 +81,7 @@ films:
 - title: Bedtime
   year: 2023 · Animated short
   description: A haunting animated short that delves into the eerie atmosphere of nighttime.
-    Directed, animated and designed from concept to completion, featuring hand-crafted backgrounds
-    and character animation.
+    Directed, animated and designed from concept to completion.
   embed: https://www.youtube-nocookie.com/embed/VNXa0pUEEcg
   roles:
   - Director
