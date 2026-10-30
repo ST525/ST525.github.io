@@ -64,7 +64,7 @@
 }
 
 .tag {
-  padding: 0.4rem 0.8rem;
+  padding: 0.32rem 0.8rem 0.48rem;
   border: 1px solid var(--border);
   background: var(--surface);
   border-radius: 999px;
@@ -141,7 +141,6 @@
   width: 24px;
   height: 24px;
   fill: #fff;
-  margin-left: 3px;
 }
 
 .film-poster-link:hover .film-poster-play,
@@ -212,6 +211,7 @@
 
 .film-page-logline .eyebrow,
 .film-page-credits .eyebrow,
+.film-page-music .eyebrow,
 .film-page-awards .eyebrow {
   margin-bottom: 1rem;
 }
