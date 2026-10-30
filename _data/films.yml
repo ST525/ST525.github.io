@@ -55,6 +55,11 @@ films:
     alt: "A boy blows a kiss to the Sphinx while a friend rides a camel in front of the pyramids."
   - src: /assets/images/films/graduation-trip/graduation-trip-still-04.jpg
     alt: "The friends dance on the ice with a penguin, a seal and a horse in front of a glacier."
+- title: Wind of Tomorrow
+  year: 2026 · One Week Film
+  embed: https://www.youtube-nocookie.com/embed/DHdRooYrCNk
+  roles:
+  - Compositor
 - title: Pursuit of Happiness
   year: 2025 · Animated short
   description: A short animated film exploring an office worker pursuing happiness from his
