@@ -19,6 +19,8 @@ layout: default
         loading="lazy"
         referrerpolicy="strict-origin-when-cross-origin"></iframe>
     </div>
+  {% elsif film.video %}
+    {% include film-video.html film=film %}
   {% elsif film.poster %}
     {% include film-poster.html film=film link=film.watch %}
   {% else %}

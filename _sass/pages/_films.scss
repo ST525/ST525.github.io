@@ -89,7 +89,8 @@
   box-shadow: 0 30px 60px -30px var(--shadow-media);
 }
 
-.video-wrapper iframe {
+.video-wrapper iframe,
+.video-wrapper video {
   position: absolute;
   inset: 0;
   width: 100%;

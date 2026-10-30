@@ -1,0 +1,11 @@
+{% assign film = include.film %}
+<div class="video-wrapper reveal">
+  <video
+    controls
+    playsinline
+    preload="none"
+    {% if film.poster %}poster="{{ film.poster.src }}"{% endif %}
+    aria-label="{{ film.title | escape }}">
+    <source src="{{ film.video }}" type="video/mp4">
+  </video>
+</div>
