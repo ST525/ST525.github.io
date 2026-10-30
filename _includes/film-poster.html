@@ -1,9 +1,16 @@
 {% assign film = include.film %}
-{% if include.link and film.url %}
+{% assign href = film.watch | default: film.url %}
+{% if include.link and href %}
   <a
     class="film-poster-link"
-    href="{{ film.url }}"
-    aria-label="{{ film.title | escape }} film page">
+    href="{{ href }}"
+    {% if film.watch %}
+    target="_blank"
+    rel="noopener"
+    aria-label="Watch {{ film.title | escape }} on YouTube"
+    {% else %}
+    aria-label="{{ film.title | escape }} film page"
+    {% endif %}>
 {% endif %}
 <div class="video-wrapper film-poster reveal">
   <img
@@ -13,7 +20,12 @@
     height="1080"
     decoding="async"
     {% if include.loading %}loading="{{ include.loading }}"{% endif %}>
+  {% if film.watch %}
+    <span class="film-poster-play">
+      {% include icons/play.svg %}
+    </span>
+  {% endif %}
 </div>
-{% if include.link and film.url %}
+{% if include.link and href %}
   </a>
 {% endif %}

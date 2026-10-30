@@ -57,7 +57,12 @@ films:
     alt: "The friends dance on the ice with a penguin, a seal and a horse in front of a glacier."
 - title: Wind of Tomorrow
   year: 2026 · One Week Film
-  embed: https://www.youtube-nocookie.com/embed/DHdRooYrCNk
+  # The YouTube embed is blocked (likely a music claim); swap back to
+  # embed: https://www.youtube-nocookie.com/embed/DHdRooYrCNk once it plays off-site.
+  watch: https://youtu.be/DHdRooYrCNk
+  poster:
+    src: /assets/images/films/wind-of-tomorrow/wind-of-tomorrow-poster.jpg
+    alt: "Silhouettes of a couple embracing behind a glowing paper window."
   roles:
   - Compositor
 - title: Pursuit of Happiness
