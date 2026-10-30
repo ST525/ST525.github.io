@@ -65,7 +65,7 @@ films:
   video: /assets/video/films/wind-of-tomorrow.mp4
   poster:
     src: /assets/images/films/wind-of-tomorrow/wind-of-tomorrow-poster.jpg
-    alt: "Silhouettes of a couple embracing behind a glowing paper window."
+    alt: "Dappled sunlight through leafy branches on textured paper."
   roles:
   - Compositor
   music: "“Wind of Tomorrow” by Sunset Rollercoaster"
