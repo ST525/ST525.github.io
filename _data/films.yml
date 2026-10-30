@@ -33,6 +33,7 @@ films:
   slug: graduation-trip
   url: /films/graduation-trip/
   year: 2026 · Animated short
+  embed: https://www.youtube-nocookie.com/embed/c6Gm4HxVJX4
   description: >-
     When the graduation trip gets cancelled during the pandemic, three high school friends plan to have their own imaginary trip on a video call to enjoy their last time together before they all go into the next chapter of their lives.
   roles:
@@ -55,6 +56,8 @@ films:
     alt: "A boy blows a kiss to the Sphinx while a friend rides a camel in front of the pyramids."
   - src: /assets/images/films/graduation-trip/graduation-trip-still-04.jpg
     alt: "The friends dance on the ice with a penguin, a seal and a horse in front of a glacier."
+  - src: /assets/images/films/graduation-trip/graduation-trip-poster.jpg
+    alt: "Three friends laugh together on a video call."
 - title: Wind of Tomorrow
   slug: wind-of-tomorrow
   url: /films/wind-of-tomorrow/
