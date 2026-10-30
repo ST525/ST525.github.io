@@ -58,6 +58,19 @@ films:
     alt: "The friends dance on the ice with a penguin, a seal and a horse in front of a glacier."
   - src: /assets/images/films/graduation-trip/graduation-trip-poster.jpg
     alt: "Three friends laugh together on a video call."
+- title: Wind of Tomorrow
+  slug: wind-of-tomorrow
+  url: /films/wind-of-tomorrow/
+  year: 2026 · One Week Film
+  # The YouTube embed is blocked (likely a music claim); swap back to
+  # embed: https://www.youtube-nocookie.com/embed/DHdRooYrCNk once it plays off-site.
+  watch: https://youtu.be/DHdRooYrCNk
+  poster:
+    src: /assets/images/films/wind-of-tomorrow/wind-of-tomorrow-poster.jpg
+    alt: "Silhouettes of a couple embracing behind a glowing paper window."
+  roles:
+  - Compositor
+  music: "“Wind of Tomorrow” by Sunset Rollercoaster"
 - title: Pursuit of Happiness
   year: 2025 · Animated short
   description: A short animated film exploring an office worker pursuing happiness from his

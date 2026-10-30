@@ -20,13 +20,13 @@ layout: default
         referrerpolicy="strict-origin-when-cross-origin"></iframe>
     </div>
   {% elsif film.poster %}
-    {% include film-poster.html film=film %}
+    {% include film-poster.html film=film link=film.watch %}
   {% else %}
     {% include film-placeholder.html film=film %}
   {% endif %}
 </section>
 
-{% if film.description or film.roles %}
+{% if film.description or film.roles or film.music %}
   <div class="container film-page-overview">
     {% if film.description %}
       <section class="film-page-logline">
@@ -42,6 +42,12 @@ layout: default
             <span class="tag">{{ role }}</span>
           {% endfor %}
         </div>
+      </section>
+    {% endif %}
+    {% if film.music %}
+      <section class="film-page-music">
+        <h2 class="eyebrow">Music</h2>
+        <p class="film-description">{{ film.music }}</p>
       </section>
     {% endif %}
   </div>

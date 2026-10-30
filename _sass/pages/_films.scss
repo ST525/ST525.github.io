@@ -64,7 +64,7 @@
 }
 
 .tag {
-  padding: 0.4rem 0.8rem;
+  padding: 0.32rem 0.8rem 0.48rem;
   border: 1px solid var(--border);
   background: var(--surface);
   border-radius: 999px;
@@ -119,6 +119,34 @@
 .film-poster-link:hover .film-poster img,
 .film-poster-link:focus-visible .film-poster img {
   transform: scale(1.03);
+}
+
+.film-poster-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 64px;
+  height: 64px;
+  margin: -32px 0 0 -32px;
+  border-radius: 50%;
+  background: rgba(18, 18, 18, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.film-poster-play svg {
+  width: 24px;
+  height: 24px;
+  fill: #fff;
+}
+
+.film-poster-link:hover .film-poster-play,
+.film-poster-link:focus-visible .film-poster-play {
+  background: var(--accent);
+  border-color: var(--accent);
 }
 
 .film-poster-link:focus-visible {
@@ -183,6 +211,7 @@
 
 .film-page-logline .eyebrow,
 .film-page-credits .eyebrow,
+.film-page-music .eyebrow,
 .film-page-awards .eyebrow {
   margin-bottom: 1rem;
 }
