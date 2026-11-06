@@ -284,31 +284,119 @@
   color: #fff;
 }
 
-/* ---------- PAINTING: gallery wall ---------- */
-.gallery-wall {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(3rem, 7vw, 6rem) clamp(2rem, 6vw, 6rem);
-  align-items: end;
-  padding-top: clamp(1rem, 3vw, 2rem);
-  padding-bottom: clamp(3rem, 7vw, 6rem);
+/* ---------- PAINTING: faux-3D gallery room ---------- */
+.gallery-3d {
+  padding-bottom: clamp(3rem, 6vw, 5rem);
+}
+
+.gallery-room {
+  --room-h: clamp(440px, 50vw, 680px);
+  --room-depth: 600px;
+  position: relative;
+  height: var(--room-h);
+  overflow: hidden;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  perspective: 1100px;
+  perspective-origin: 50% 46%;
+}
+
+.room-stage {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+}
+
+.room-wall,
+.room-floor,
+.room-ceiling {
+  position: absolute;
+}
+
+.room-wall {
+  top: 9%;
+  bottom: 21%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 6%;
+  padding: 0 6%;
+  background: var(--surface);
+}
+
+.room-wall--back {
+  left: 24%;
+  right: 24%;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.05), transparent 45%), var(--surface);
+}
+
+.room-wall--left,
+.room-wall--right {
+  width: var(--room-depth);
+}
+
+.room-wall--left {
+  right: 76%;
+  transform-origin: right center;
+  transform: rotateY(90deg);
+}
+
+.room-wall--right {
+  left: 76%;
+  transform-origin: left center;
+  transform: rotateY(-90deg);
+}
+
+.room-wall--left::after,
+.room-wall--right::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.12);
+  pointer-events: none;
+}
+
+.room-floor,
+.room-ceiling {
+  left: 24%;
+  right: 24%;
+  height: var(--room-depth);
+}
+
+.room-floor {
+  top: 79%;
+  transform-origin: top center;
+  transform: rotateX(90deg);
+  background:
+    repeating-linear-gradient(to right, transparent 0 46px, var(--border-strong) 46px 47px),
+    var(--bg);
+}
+
+.room-ceiling {
+  bottom: 91%;
+  transform-origin: bottom center;
+  transform: rotateX(-90deg);
+  background:
+    linear-gradient(to right, transparent 49.6%, var(--border-strong) 49.6% 50.4%, transparent 50.4%),
+    var(--surface-2);
 }
 
 .gallery-piece {
+  position: relative;
+  z-index: 1;
   margin: 0;
+  flex: 0 1 36%;
 }
 
-.gallery-piece--feature {
-  grid-column: 1 / -1;
-  width: min(100%, calc(900px * var(--scale)));
-  justify-self: center;
+.room-wall--back .gallery-piece {
+  flex-basis: 82%;
 }
 
 .gallery-frame {
-  padding: clamp(0.6rem, 1.4vw, 1.1rem);
-  background: var(--surface);
-  border: 1px solid var(--border);
-  box-shadow: 0 30px 60px -30px var(--shadow);
+  border: 5px solid var(--text);
+  background: var(--text);
+  box-shadow: 0 18px 36px -16px var(--shadow);
   cursor: zoom-in;
   transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
   outline: none;
@@ -320,8 +408,8 @@
 }
 
 .gallery-frame:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 40px 70px -30px var(--shadow);
+  transform: translateY(-3px);
+  box-shadow: 0 26px 44px -16px var(--shadow);
 }
 
 .gallery-frame:focus-visible {
@@ -331,20 +419,27 @@
 .gallery-label {
   display: flex;
   flex-direction: column;
-  gap: 0.2rem;
-  margin-top: 1.1rem;
-  padding-left: 0.75rem;
+  gap: 0.15rem;
+  margin-top: 0.8rem;
+  padding-left: 0.6rem;
   border-left: 2px solid var(--accent);
+  white-space: nowrap;
 }
 
 .gallery-title {
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 600;
 }
 
 .gallery-meta {
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   color: var(--muted);
+}
+
+.gallery-hint {
+  margin-top: 1rem;
+  font-size: 0.8rem;
+  color: var(--faint);
 }
 
 @media (max-width: 1024px) {
@@ -365,7 +460,33 @@
   .ch-shot { grid-template-columns: minmax(0, 1fr); }
   .ch-shot:nth-child(even) .ch-media { order: 0; }
 
-  .gallery-wall { grid-template-columns: minmax(0, 1fr); }
+  .gallery-room {
+    height: auto;
+    perspective: none;
+    overflow: visible;
+    border: none;
+    background: none;
+  }
+
+  .room-stage { position: static; display: grid; gap: 2.5rem; }
+  .room-floor, .room-ceiling { display: none; }
+
+  .room-wall,
+  .room-wall--left,
+  .room-wall--right,
+  .room-wall--back {
+    position: static;
+    width: auto;
+    transform: none;
+    display: grid;
+    gap: 2.5rem;
+    padding: 0;
+    background: none;
+  }
+
+  .room-wall--back { order: -1; }
+  .room-wall::after { display: none; }
+  .gallery-hint { display: none; }
 }
 
 @media (max-width: 560px) {
