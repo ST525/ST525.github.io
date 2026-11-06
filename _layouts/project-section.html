@@ -2,7 +2,7 @@
 layout: default
 ---
 {% assign section = site.data.projects.sections | where: "slug", page.section | first %}
-<div class="container hero project-section-hero">
+<div class="container hero project-section-hero project-section-hero--{{ section.slug }}">
   <a class="project-section-back" href="/projects/">← All projects</a>
   <span class="eyebrow">Projects</span>
   <h1 class="hero-title">{{ section.title | upcase }}</h1>
@@ -12,10 +12,4 @@ layout: default
   </div>
 </div>
 
-<section class="container section project-section">
-  <div class="project-grid">
-    {% for item in section.items %}
-      {% include project-card.html item=item %}
-    {% endfor %}
-  </div>
-</section>
+{% include project-layouts/{{ section.slug }}.html section=section %}

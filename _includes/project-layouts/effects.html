@@ -1,0 +1,35 @@
+{% assign items = include.section.items %}
+{% assign first = items | first %}
+<section class="container fx-stage" data-fx-reel>
+  <div class="fx-screen">
+    <div class="fx-feature card video-card" data-lightbox="fx-feature"
+      data-src="{{ first.src }}" data-type="video" data-title="{{ first.title }}" data-meta="{{ first.meta }}">
+      <video muted loop playsinline preload="none" poster="{{ first.poster }}" data-src="{{ first.preview | default: first.src }}" aria-hidden="true"></video>
+      <div class="card-play">{% include icons/play.svg %}</div>
+    </div>
+  </div>
+
+  <div class="fx-info" aria-live="polite">
+    <span class="fx-counter"><span data-fx-num>01</span> / {{ items.size | prepend: '0' | slice: -2, 2 }}</span>
+    <h2 class="fx-title" data-fx-title>{{ first.title }}</h2>
+    <ul class="fx-tags" data-fx-tags>
+      {% assign tags = first.meta | split: ' · ' %}
+      {% for tag in tags %}<li>{{ tag }}</li>{% endfor %}
+    </ul>
+  </div>
+
+  <div class="fx-strip" role="group" aria-label="Choose a clip">
+    {% for item in items %}
+      <button type="button" class="fx-thumb{% if forloop.first %} is-active{% endif %}"
+        aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}"
+        data-src="{{ item.src }}" data-preview="{{ item.preview | default: item.src }}" data-poster="{{ item.poster }}"
+        data-title="{{ item.title }}" data-meta="{{ item.meta }}" data-num="{{ forloop.index | prepend: '0' | slice: -2, 2 }}">
+        <img src="{{ item.poster }}" alt="" loading="lazy">
+        <span class="fx-thumb-label">
+          <span class="fx-thumb-num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+          <span class="fx-thumb-title">{{ item.title }}</span>
+        </span>
+      </button>
+    {% endfor %}
+  </div>
+</section>

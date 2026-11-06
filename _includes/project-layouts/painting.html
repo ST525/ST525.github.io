@@ -1,0 +1,14 @@
+<section class="container gallery-wall">
+  {% for item in include.section.items %}
+    <figure class="gallery-piece{% if item['size'] == 'large' %} gallery-piece--feature{% endif %} reveal">
+      <div class="gallery-frame" data-lightbox="paint"
+        data-src="{{ item.src }}" data-type="image" data-title="{{ item.title }}" data-meta="{{ item.meta }}">
+        <img src="{{ item.thumb | default: item.src }}" alt="{{ item.alt | default: item.title }}" loading="lazy">
+      </div>
+      <figcaption class="gallery-label">
+        <span class="gallery-title">{{ item.title }}</span>
+        <span class="gallery-meta">Andrew Yen · {{ item.meta }}</span>
+      </figcaption>
+    </figure>
+  {% endfor %}
+</section>
