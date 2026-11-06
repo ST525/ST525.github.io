@@ -72,12 +72,11 @@
 }
 
 .project-section-back {
-  display: inline-block;
-  margin-bottom: 1.5rem;
+  display: block;
+  margin-bottom: 1.25rem;
   color: var(--muted);
-  font-size: 0.9rem;
   text-decoration: none;
-  transition: color 0.2s ease;
+  transition: color 0.25s ease;
 }
 
 .project-section-back:hover,
