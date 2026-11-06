@@ -284,163 +284,245 @@
   color: #fff;
 }
 
-/* ---------- PAINTING: faux-3D gallery room ---------- */
+/* ---------- PAINTING: gallery wall carousel + pin board ---------- */
 .gallery-3d {
-  padding-bottom: clamp(3rem, 6vw, 5rem);
+  padding-bottom: clamp(2.5rem, 5vw, 4rem);
 }
 
 .gallery-room {
-  --room-h: clamp(440px, 50vw, 680px);
-  --room-depth: 600px;
+  --room-h: clamp(460px, 48vw, 660px);
   position: relative;
   height: var(--room-h);
   overflow: hidden;
-  border-radius: var(--radius);
   border: 1px solid var(--border);
-  background: var(--surface-2);
-  perspective: 1100px;
-  perspective-origin: 50% 46%;
-}
-
-.room-stage {
-  position: absolute;
-  inset: 0;
-  transform-style: preserve-3d;
-}
-
-.room-wall,
-.room-floor,
-.room-ceiling {
-  position: absolute;
-}
-
-.room-wall {
-  top: 9%;
-  bottom: 21%;
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-  gap: 6%;
-  padding: 0 6%;
-  background: var(--surface);
-}
-
-.room-wall--back {
-  left: 24%;
-  right: 24%;
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.05), transparent 45%), var(--surface);
-}
-
-.room-wall--left,
-.room-wall--right {
-  width: var(--room-depth);
-}
-
-.room-wall--left {
-  right: 76%;
-  transform-origin: right center;
-  transform: rotateY(90deg);
-}
-
-.room-wall--right {
-  left: 76%;
-  transform-origin: left center;
-  transform: rotateY(-90deg);
-}
-
-.room-wall--left::after,
-.room-wall--right::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.12);
-  pointer-events: none;
-}
-
-.room-floor,
-.room-ceiling {
-  left: 24%;
-  right: 24%;
-  height: var(--room-depth);
+  border-radius: var(--radius);
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.04), transparent 40%), var(--surface);
+  perspective: 900px;
+  perspective-origin: 50% 40%;
 }
 
 .room-floor {
-  top: 79%;
+  position: absolute;
+  left: -40%;
+  right: -40%;
+  top: 82%;
+  height: 600px;
   transform-origin: top center;
   transform: rotateX(90deg);
+  border-top: 2px solid var(--border-strong);
   background:
-    repeating-linear-gradient(to right, transparent 0 46px, var(--border-strong) 46px 47px),
+    repeating-linear-gradient(to right, transparent 0 56px, var(--border-strong) 56px 57px),
     var(--bg);
 }
 
-.room-ceiling {
-  bottom: 91%;
-  transform-origin: bottom center;
-  transform: rotateX(-90deg);
-  background:
-    linear-gradient(to right, transparent 49.6%, var(--border-strong) 49.6% 50.4%, transparent 50.4%),
-    var(--surface-2);
+.room-track {
+  position: absolute;
+  inset: 0 0 18% 0;
 }
 
-.gallery-piece {
-  position: relative;
-  z-index: 1;
+.room-slide {
+  position: absolute;
+  top: 50%;
+  left: 50%;
   margin: 0;
-  flex: 0 1 36%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: clamp(0.9rem, 1.6vw, 1.25rem);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(0.5);
+  transition: left 0.6s var(--ease), transform 0.6s var(--ease), opacity 0.45s ease, visibility 0s linear 0.6s;
 }
 
-.room-wall--back .gallery-piece {
-  flex-basis: 82%;
+.room-slide.is-active,
+.room-slide.is-prev,
+.room-slide.is-next {
+  visibility: visible;
+  pointer-events: auto;
+  transition: left 0.6s var(--ease), transform 0.6s var(--ease), opacity 0.45s ease;
 }
 
-.gallery-frame {
-  border: 5px solid var(--text);
+.room-slide.is-active {
+  opacity: 1;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+
+.room-slide.is-prev,
+.room-slide.is-next {
+  opacity: 0.55;
+  transform: translate(-50%, -50%) scale(0.55);
+  cursor: pointer;
+}
+
+.room-slide.is-prev { left: 9%; }
+.room-slide.is-next { left: 91%; }
+
+.room-slide.is-prev:hover,
+.room-slide.is-next:hover {
+  opacity: 0.8;
+}
+
+.room-frame {
+  flex: none;
+  border: 6px solid var(--text);
   background: var(--text);
-  box-shadow: 0 18px 36px -16px var(--shadow);
+  box-shadow: 0 24px 40px -18px var(--shadow);
   cursor: zoom-in;
-  transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
   outline: none;
 }
 
-.gallery-frame img {
-  width: 100%;
+.room-slide:not(.is-active) .room-frame {
+  cursor: pointer;
+}
+
+.room-frame img {
+  display: block;
+  width: auto;
   height: auto;
+  max-width: min(46vw, calc(560px * var(--scale)));
+  max-height: calc(var(--room-h) * 0.5);
 }
 
-.gallery-frame:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 26px 44px -16px var(--shadow);
-}
-
-.gallery-frame:focus-visible {
+.room-frame:focus-visible,
+.pin-frame:focus-visible {
   box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--accent);
 }
 
-.gallery-label {
+/* Museum-style wall label */
+.museum-card {
   display: flex;
   flex-direction: column;
-  gap: 0.15rem;
-  margin-top: 0.8rem;
-  padding-left: 0.6rem;
-  border-left: 2px solid var(--accent);
-  white-space: nowrap;
+  gap: 0.2rem;
+  width: calc(190px * var(--scale));
+  padding: 0.9rem 1rem 0.8rem;
+  background: var(--bg);
+  border: 1px solid var(--border-strong);
+  border-radius: 2px;
+  box-shadow: 0 6px 14px -8px var(--shadow);
+  line-height: 1.3;
 }
 
-.gallery-title {
-  font-size: 0.9rem;
-  font-weight: 600;
+.room-slide .museum-card {
+  margin-bottom: 0.25rem;
+  transition: opacity 0.3s ease;
 }
 
-.gallery-meta {
-  font-size: 0.7rem;
+.room-slide:not(.is-active) .museum-card {
+  opacity: 0;
+}
+
+.museum-artist {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.museum-title {
+  font-size: 0.95rem;
+  font-style: italic;
+  font-weight: 500;
+}
+
+.museum-medium {
+  font-size: 0.75rem;
   color: var(--muted);
 }
 
-.gallery-hint {
-  margin-top: 1rem;
-  font-size: 0.8rem;
+.museum-num {
+  margin-top: 0.5rem;
+  padding-top: 0.45rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
   color: var(--faint);
+  font-variant-numeric: tabular-nums;
 }
+
+.room-nav {
+  position: absolute;
+  top: 41%;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: calc(48px * var(--scale));
+  height: calc(48px * var(--scale));
+  padding: 0;
+  border: 1px solid var(--border-strong);
+  border-radius: 50%;
+  background: var(--bg);
+  color: var(--text);
+  cursor: pointer;
+  transform: translateY(-50%);
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
+.room-nav svg {
+  width: 45%;
+  height: 45%;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.room-nav--prev { left: 1.25rem; }
+.room-nav--next { right: 1.25rem; }
+
+.room-nav:hover,
+.room-nav:focus-visible {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+/* Pinterest-style board of every painting */
+.gallery-pins {
+  padding-bottom: clamp(3rem, 6vw, 5rem);
+}
+
+.pin-board {
+  columns: 3;
+  column-gap: clamp(1rem, 2vw, 1.5rem);
+}
+
+.pin {
+  break-inside: avoid;
+  margin: 0 0 clamp(1.25rem, 2.5vw, 2rem);
+}
+
+.pin-frame {
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  cursor: zoom-in;
+  outline: none;
+}
+
+.pin-frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: transform 0.5s var(--ease);
+}
+
+.pin-frame:hover img {
+  transform: scale(1.03);
+}
+
+.museum-card--small {
+  width: auto;
+  margin-top: 0.6rem;
+  padding: 0.6rem 0.75rem;
+  box-shadow: none;
+}
+
+.museum-card--small .museum-title { font-size: 0.85rem; }
+.museum-card--small .museum-medium { font-size: 0.7rem; }
 
 @media (max-width: 1024px) {
   .mm-board { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -460,33 +542,26 @@
   .ch-shot { grid-template-columns: minmax(0, 1fr); }
   .ch-shot:nth-child(even) .ch-media { order: 0; }
 
-  .gallery-room {
-    height: auto;
-    perspective: none;
-    overflow: visible;
-    border: none;
-    background: none;
+  .gallery-room { --room-h: 520px; }
+  .room-track { bottom: 14%; }
+  .room-floor { top: 86%; }
+
+  .room-slide {
+    align-items: center;
+    top: 45%;
   }
 
-  .room-stage { position: static; display: grid; gap: 2.5rem; }
-  .room-floor, .room-ceiling { display: none; }
+  .room-slide.is-prev { left: -14%; }
+  .room-slide.is-next { left: 114%; }
 
-  .room-wall,
-  .room-wall--left,
-  .room-wall--right,
-  .room-wall--back {
-    position: static;
-    width: auto;
-    transform: none;
-    display: grid;
-    gap: 2.5rem;
-    padding: 0;
-    background: none;
+  .room-frame img {
+    max-width: 72vw;
+    max-height: 260px;
   }
 
-  .room-wall--back { order: -1; }
-  .room-wall::after { display: none; }
-  .gallery-hint { display: none; }
+  .room-slide .museum-card { width: auto; min-width: 180px; }
+  .room-nav { top: auto; bottom: 1rem; transform: none; }
+  .pin-board { columns: 2; }
 }
 
 @media (max-width: 560px) {

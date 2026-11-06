@@ -6,6 +6,7 @@ import { initFooterYear } from './modules/footer-year.js';
 import { initSocialDock } from './modules/social-dock.js';
 import { initThemeToggle } from './modules/theme-toggle.js';
 import { initFxReel } from './modules/fx-reel.js';
+import { initGalleryRoom } from './modules/gallery-room.js';
 
 initThemeToggle();
 initNavigation();
@@ -13,5 +14,6 @@ initLazyVideo();
 initReveal();
 initFxReel();
 initLightbox();
+initGalleryRoom();
 initFooterYear();
 initSocialDock();

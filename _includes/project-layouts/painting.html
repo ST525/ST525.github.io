@@ -1,21 +1,51 @@
 {% assign items = include.section.items %}
-{% assign half = items.size | plus: 0 | divided_by: 2 %}
-{% assign right_offset = half | plus: 1 %}
-<section class="container gallery-3d reveal">
+<section class="container gallery-3d reveal" data-gallery-room>
   <div class="gallery-room">
-    <div class="room-stage">
-      <div class="room-ceiling" aria-hidden="true"></div>
-      <div class="room-floor" aria-hidden="true"></div>
-      <div class="room-wall room-wall--left">
-        {% for item in items offset: 1 limit: half %}{% include project-layouts/gallery-piece.html item=item %}{% endfor %}
-      </div>
-      <div class="room-wall room-wall--back">
-        {% include project-layouts/gallery-piece.html item=items.first %}
-      </div>
-      <div class="room-wall room-wall--right">
-        {% for item in items offset: right_offset %}{% include project-layouts/gallery-piece.html item=item %}{% endfor %}
-      </div>
+    <div class="room-floor" aria-hidden="true"></div>
+    <div class="room-track" role="group" aria-roledescription="carousel" aria-label="Gallery">
+      {% for item in items %}
+        {% assign num = forloop.index | prepend: '0' | slice: -2, 2 %}
+        <figure class="room-slide{% if forloop.first %} is-active{% endif %}" data-index="{{ forloop.index0 }}"
+          aria-label="{{ forloop.index }} of {{ items.size }}">
+          <div class="room-frame" data-lightbox="paint-room"
+            data-src="{{ item.src }}" data-type="image" data-title="{{ item.title }}" data-meta="{{ item.meta }}">
+            <img src="{{ item.thumb | default: item.src }}" alt="{{ item.alt | default: item.title }}" loading="lazy">
+          </div>
+          <figcaption class="museum-card">
+            <span class="museum-artist">Andrew Yen</span>
+            <span class="museum-title">{{ item.title }}</span>
+            <span class="museum-medium">{{ item.meta }}</span>
+            <span class="museum-num">{{ num }} / {{ items.size | prepend: '0' | slice: -2, 2 }}</span>
+          </figcaption>
+        </figure>
+      {% endfor %}
     </div>
+    <button type="button" class="room-nav room-nav--prev" data-room-prev aria-label="Previous painting">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" /></svg>
+    </button>
+    <button type="button" class="room-nav room-nav--next" data-room-next aria-label="Next painting">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg>
+    </button>
   </div>
-  <p class="gallery-hint">Click a painting to view it full size.</p>
+</section>
+
+<section class="container gallery-pins">
+  <div class="section-head">
+    <h2 class="section-title">All works</h2>
+    <span class="section-count">{{ items.size }} {{ include.section.unit }}</span>
+  </div>
+  <div class="pin-board">
+    {% for item in items %}
+      <figure class="pin reveal">
+        <div class="pin-frame" data-lightbox="paint"
+          data-src="{{ item.src }}" data-type="image" data-title="{{ item.title }}" data-meta="{{ item.meta }}">
+          <img src="{{ item.thumb | default: item.src }}" alt="{{ item.alt | default: item.title }}" loading="lazy">
+        </div>
+        <figcaption class="museum-card museum-card--small">
+          <span class="museum-title">{{ item.title }}</span>
+          <span class="museum-medium">Andrew Yen · {{ item.meta }}</span>
+        </figcaption>
+      </figure>
+    {% endfor %}
+  </div>
 </section>
