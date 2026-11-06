@@ -9,7 +9,7 @@
 
 .film-container {
   display: grid;
-  grid-template-columns: minmax(0, 1.6fr) minmax(260px, 1fr);
+  grid-template-columns: minmax(0, 1.6fr) minmax(calc(260px * var(--scale)), 1fr);
   gap: 2.5rem;
   align-items: start;
 }
@@ -126,9 +126,9 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 64px;
-  height: 64px;
-  margin: -32px 0 0 -32px;
+  width: calc(64px * var(--scale));
+  height: calc(64px * var(--scale));
+  margin: calc(-32px * var(--scale)) 0 0 calc(-32px * var(--scale));
   border-radius: 50%;
   background: rgba(18, 18, 18, 0.6);
   border: 1px solid rgba(255, 255, 255, 0.25);
@@ -139,8 +139,8 @@
 }
 
 .film-poster-play svg {
-  width: 24px;
-  height: 24px;
+  width: calc(24px * var(--scale));
+  height: calc(24px * var(--scale));
   fill: #fff;
 }
 
@@ -205,7 +205,7 @@
 
 .film-page-overview {
   display: grid;
-  grid-template-columns: minmax(0, 1.6fr) minmax(260px, 1fr);
+  grid-template-columns: minmax(0, 1.6fr) minmax(calc(260px * var(--scale)), 1fr);
   gap: clamp(2.5rem, 5vw, 4rem) 3rem;
   align-items: start;
 }

@@ -37,7 +37,7 @@
 .section-desc {
   color: var(--muted);
   margin-top: 0.5rem;
-  max-width: 520px;
+  max-width: calc(520px * var(--scale));
 }
 
 .section-count {

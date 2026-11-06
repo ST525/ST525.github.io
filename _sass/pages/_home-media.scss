@@ -2,7 +2,7 @@
 .video-container {
   position: relative;
   width: 100%;
-  max-width: 960px;
+  max-width: calc(960px * var(--scale));
   aspect-ratio: 16 / 9;
   border-radius: var(--radius);
   overflow: hidden;
@@ -37,8 +37,8 @@
 }
 
 .home-sidebar-icon {
-  width: 42px;
-  height: 42px;
+  width: calc(42px * var(--scale));
+  height: calc(42px * var(--scale));
   display: flex;
   align-items: center;
   justify-content: center;

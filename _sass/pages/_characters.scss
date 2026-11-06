@@ -9,7 +9,7 @@
 
 .character {
   display: grid;
-  grid-template-columns: minmax(200px, 0.8fr) minmax(0, 3fr);
+  grid-template-columns: minmax(calc(200px * var(--scale)), 0.8fr) minmax(0, 3fr);
   gap: 2rem;
   align-items: start;
 }

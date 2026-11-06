@@ -1,12 +1,12 @@
 // Document defaults, selection, and skip-link styles.
 html {
-  font-size: 15px;
+  font-size: calc(15px * var(--scale));
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
 }
 
 @media (min-width: 1600px) {
-  html { font-size: 16px; }
+  html { font-size: calc(16px * var(--scale)); }
 }
 
 body {
