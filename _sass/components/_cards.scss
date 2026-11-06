@@ -112,9 +112,9 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 52px;
-  height: 52px;
-  margin: -26px 0 0 -26px;
+  width: calc(52px * var(--scale));
+  height: calc(52px * var(--scale));
+  margin: calc(-26px * var(--scale)) 0 0 calc(-26px * var(--scale));
   border-radius: 50%;
   background: rgba(18, 18, 18, 0.6);
   border: 1px solid rgba(255, 255, 255, 0.25);
@@ -129,8 +129,8 @@
 }
 
 .card-play svg {
-  width: 20px;
-  height: 20px;
+  width: calc(20px * var(--scale));
+  height: calc(20px * var(--scale));
   fill: #fff;
 }
 
