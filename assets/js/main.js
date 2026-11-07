@@ -7,6 +7,7 @@ import { initSocialDock } from './modules/social-dock.js';
 import { initThemeToggle } from './modules/theme-toggle.js';
 import { initFxReel } from './modules/fx-reel.js';
 import { initGalleryRoom } from './modules/gallery-room.js';
+import { initPinBoard } from './modules/pin-board.js';
 
 initThemeToggle();
 initNavigation();
@@ -15,5 +16,6 @@ initReveal();
 initFxReel();
 initLightbox();
 initGalleryRoom();
+initPinBoard();
 initFooterYear();
 initSocialDock();

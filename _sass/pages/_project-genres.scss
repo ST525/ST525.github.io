@@ -430,7 +430,7 @@
   position: absolute;
   inset: -50% -42% -30%;
   z-index: 0;
-  background: radial-gradient(ellipse 50% 50% at 50% 38%, var(--gallery-beam), transparent 75%);
+  background: var(--gallery-wash);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.6s ease;
@@ -455,8 +455,21 @@
 }
 
 .room-slide.is-lit .room-frame {
-  box-shadow: 0 22px 36px -18px var(--shadow), 0 2px 6px rgba(0, 0, 0, 0.25), 0 0 40px 4px var(--gallery-halo);
+  box-shadow: 0 26px 34px -16px var(--gallery-cast), 0 2px 6px rgba(0, 0, 0, 0.25), 0 0 40px 4px var(--gallery-halo);
 }
+
+/* Light falling on the canvas from above: brighter at the top edge, fading down */
+.room-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, var(--gallery-sheen), transparent 70%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s ease;
+}
+
+.room-slide.is-lit .room-frame::after { opacity: 1; }
 
 .room-slide:not(.is-active) .room-frame {
   cursor: pointer;
@@ -604,12 +617,23 @@
 }
 
 .pin-board {
-  columns: 3;
-  column-gap: clamp(1rem, 2vw, 1.5rem);
+  --cols: 3;
+  display: grid;
+  grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+  align-items: start;
+  gap: 0 clamp(1rem, 2vw, 1.5rem);
+}
+
+.pin-board.is-masonry {
+  display: flex;
+}
+
+.pin-col {
+  flex: 1;
+  min-width: 0;
 }
 
 .pin {
-  break-inside: avoid;
   margin: 0 0 clamp(1.25rem, 2.5vw, 2rem);
 }
 
@@ -655,7 +679,7 @@
 
   .gallery-3d,
   .gallery-pins .section-head { display: none; }
-  .pin-board { columns: 2; }
+  .pin-board { --cols: 2; }
 }
 
 @media (max-width: 560px) {

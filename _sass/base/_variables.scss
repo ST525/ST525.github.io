@@ -26,7 +26,10 @@
   --museum-ink: #141414;
   --museum-muted: #5c5a57;
   --gallery-beam: rgba(255, 240, 214, 0.3);
-  --gallery-halo: rgba(255, 244, 225, 0.3);
+  --gallery-halo: transparent;
+  --gallery-sheen: rgba(255, 238, 205, 0.2);
+  --gallery-wash: radial-gradient(ellipse 36% 60% at 50% 10%, var(--gallery-beam), transparent 85%);
+  --gallery-cast: rgba(0, 0, 0, 0.85);
   --gallery-floor: #3b2a1c;
   --gallery-baseboard: #1a1918;
   --gallery-baseboard-edge: #2e2c2a;
@@ -66,6 +69,9 @@
   --museum-muted: #6b6b6b;
   --gallery-beam: rgba(255, 255, 255, 0.9);
   --gallery-halo: rgba(255, 255, 255, 0.95);
+  --gallery-sheen: transparent;
+  --gallery-wash: radial-gradient(ellipse 50% 50% at 50% 38%, var(--gallery-beam), transparent 75%);
+  --gallery-cast: var(--shadow);
   --gallery-floor: #b98c5f;
   --gallery-baseboard: #f7f5f1;
   --gallery-baseboard-edge: #d9d5ce;
