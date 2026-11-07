@@ -285,6 +285,9 @@
 }
 
 /* ---------- PAINTING: gallery wall carousel + pin board ---------- */
+$frame-ink: #141210;
+$frame-wood: linear-gradient(135deg, #2e2a26 0%, #141210 38%, #1f1b18 68%, #0b0a09 100%);
+
 .gallery-3d {
   padding-bottom: clamp(2.5rem, 5vw, 4rem);
 }
@@ -443,8 +446,9 @@
 .room-frame {
   position: relative;
   z-index: 1;
-  border: 5px solid var(--text);
-  background: var(--text);
+  border: clamp(8px, 0.85cqw, 13px) solid $frame-ink;
+  border-image: $frame-wood 1;
+  background: $frame-ink;
   box-shadow: 0 22px 36px -18px var(--shadow), 0 2px 6px rgba(0, 0, 0, 0.25), 0 0 40px 4px transparent;
   cursor: zoom-in;
   outline: none;
@@ -491,6 +495,8 @@
   height: auto;
   max-width: 40cqw;
   max-height: calc(var(--room-h) * 0.5);
+  outline: 1px solid rgba(255, 255, 255, 0.12);
+  outline-offset: -1px;
 }
 
 .room-frame:focus-visible,
@@ -634,8 +640,9 @@
 
 .pin-frame {
   overflow: hidden;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border);
+  border: clamp(5px, 0.6vw, 9px) solid $frame-ink;
+  border-image: $frame-wood 1;
+  background: $frame-ink;
   cursor: zoom-in;
   outline: none;
   transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
@@ -652,6 +659,8 @@
   display: block;
   width: 100%;
   height: auto;
+  outline: 1px solid rgba(255, 255, 255, 0.12);
+  outline-offset: -1px;
 }
 
 @media (max-width: 1024px) {
