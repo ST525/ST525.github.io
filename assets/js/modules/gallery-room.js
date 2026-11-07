@@ -1,31 +1,41 @@
-// Painting page: step through the gallery wall with the arrow buttons.
+// Painting page: pan along the gallery wall with the floor arrows.
 export function initGalleryRoom() {
-  document.querySelectorAll('[data-gallery-room]').forEach(function (room) {
-    const slides = Array.from(room.querySelectorAll('.room-slide'));
-    const prevBtn = room.querySelector('[data-room-prev]');
-    const nextBtn = room.querySelector('[data-room-next]');
-    if (!slides.length) return;
+  document.querySelectorAll('[data-gallery-room]').forEach(function (section) {
+    const room = section.querySelector('.gallery-room');
+    const track = section.querySelector('.room-track');
+    const floor = section.querySelector('.room-floor');
+    const slides = Array.from(section.querySelectorAll('.room-slide'));
+    const prevBtn = section.querySelector('[data-room-prev]');
+    const nextBtn = section.querySelector('[data-room-next]');
+    if (!room || !track || !slides.length) return;
     let current = 0;
 
+    function pan() {
+      const slide = slides[current];
+      const x = room.clientWidth / 2 - (slide.offsetLeft + slide.offsetWidth / 2);
+      track.style.transform = 'translateX(' + x + 'px)';
+      if (floor) floor.style.backgroundPositionX = x + 'px';
+    }
+
     function show(index) {
-      const n = slides.length;
-      current = (index + n) % n;
+      current = Math.max(0, Math.min(slides.length - 1, index));
       slides.forEach(function (slide, i) {
-        const offset = (i - current + n) % n;
-        slide.classList.toggle('is-active', offset === 0);
-        slide.classList.toggle('is-next', n > 1 && offset === 1);
-        slide.classList.toggle('is-prev', n > 2 && offset === n - 1);
+        const active = i === current;
+        slide.classList.toggle('is-active', active);
+        slide.setAttribute('aria-hidden', String(!active));
         const frame = slide.querySelector('[data-lightbox]');
-        if (frame) frame.tabIndex = offset === 0 ? 0 : -1;
-        slide.setAttribute('aria-hidden', String(offset !== 0));
+        if (frame) frame.tabIndex = active ? 0 : -1;
       });
+      if (prevBtn) prevBtn.disabled = current === 0;
+      if (nextBtn) nextBtn.disabled = current === slides.length - 1;
+      pan();
     }
 
     prevBtn && prevBtn.addEventListener('click', function () { show(current - 1); });
     nextBtn && nextBtn.addEventListener('click', function () { show(current + 1); });
 
-    // Clicking a side painting brings it to the centre instead of opening the viewer.
-    room.addEventListener('click', function (e) {
+    // Clicking a neighbouring painting walks to it instead of opening the viewer.
+    track.addEventListener('click', function (e) {
       const slide = e.target.closest('.room-slide');
       if (!slide || slide.classList.contains('is-active')) return;
       e.preventDefault();
@@ -33,12 +43,14 @@ export function initGalleryRoom() {
       show(slides.indexOf(slide));
     }, true);
 
-    room.addEventListener('keydown', function (e) {
+    section.addEventListener('keydown', function (e) {
       if (document.querySelector('.lightbox.active')) return;
       if (e.key === 'ArrowLeft') { e.preventDefault(); show(current - 1); }
       if (e.key === 'ArrowRight') { e.preventDefault(); show(current + 1); }
     });
 
+    window.addEventListener('resize', pan);
+    window.addEventListener('load', pan);
     show(0);
   });
 }
