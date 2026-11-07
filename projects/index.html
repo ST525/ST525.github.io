@@ -15,7 +15,7 @@ redirect_from:
 
 {% for section in site.data.projects.sections %}
   <section class="container section">
-    {% include section-head.html section=section %}
+    {% include section-head.html section=section link=true %}
     <div class="project-grid">
       {% for item in section.items %}
         {% include project-card.html item=item %}

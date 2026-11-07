@@ -1,0 +1,13 @@
+<section class="container mm-board">
+  {% for item in include.section.items %}
+    <div class="mm-tile card video-card{% if item['size'] == 'square' %} mm-tile--square{% endif %} reveal" data-lightbox="mm"
+      data-src="{{ item.src }}" data-type="video" data-title="{{ item.title }}" data-meta="{{ item.meta }}">
+      <video muted loop playsinline preload="none" poster="{{ item.poster }}" data-src="{{ item.preview | default: item.src }}" aria-hidden="true"></video>
+      <div class="mm-label">
+        <span class="mm-num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+        <span class="mm-title">{{ item.title }}</span>
+        <span class="mm-meta">{{ item.meta }}</span>
+      </div>
+    </div>
+  {% endfor %}
+</section>
