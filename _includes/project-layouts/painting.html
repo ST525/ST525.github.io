@@ -2,6 +2,7 @@
 <section class="gallery-3d reveal" data-gallery-room>
   <div class="gallery-room">
     <div class="room-floor" aria-hidden="true"></div>
+    <div class="room-wall" aria-hidden="true"></div>
     <div class="room-track" role="group" aria-roledescription="carousel" aria-label="Gallery">
       {% for item in items %}
                 <figure class="room-slide{% if forloop.first %} is-active{% endif %}" data-index="{{ forloop.index0 }}"
