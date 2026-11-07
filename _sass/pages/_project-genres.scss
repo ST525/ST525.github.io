@@ -347,8 +347,32 @@
   cursor: pointer;
 }
 
+.room-track {
+  transform-style: preserve-3d;
+}
+
+/* Fisheye: the centre painting bulges forward, neighbours bend away toward the edges */
 .room-hang {
   position: relative;
+  transform: perspective(800px) rotateY(0deg) scale(1.04);
+  transition: transform 0.8s var(--ease);
+}
+
+.room-slide.is-left .room-hang {
+  transform: perspective(800px) rotateY(-30deg);
+}
+
+.room-slide.is-right .room-hang {
+  transform: perspective(800px) rotateY(30deg);
+}
+
+.gallery-room::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  box-shadow: inset 0 0 14cqw var(--gallery-vignette);
+  pointer-events: none;
 }
 
 /* Soft, blurred spotlight beam from the ceiling */

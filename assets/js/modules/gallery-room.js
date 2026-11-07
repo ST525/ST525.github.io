@@ -44,9 +44,11 @@ export function initGalleryRoom() {
 
     function paint() {
       const current = logical();
-      slides.forEach(function (slide) {
+      slides.forEach(function (slide, i) {
         const active = Number(slide.dataset.index) === current;
         slide.classList.toggle('is-active', active);
+        slide.classList.toggle('is-left', i < pos);
+        slide.classList.toggle('is-right', i > pos);
         if (slide.classList.contains('is-clone')) return;
         slide.setAttribute('aria-hidden', String(!active));
         const frame = slide.querySelector('[data-lightbox]');
@@ -59,6 +61,7 @@ export function initGalleryRoom() {
       if (pos >= CLONES && pos < CLONES + n) return;
       pos = CLONES + logical();
       track.classList.add('is-jumping');
+      paint();
       pan();
       void track.offsetWidth;
       track.classList.remove('is-jumping');
