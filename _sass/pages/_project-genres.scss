@@ -295,7 +295,7 @@
   height: var(--room-h);
   overflow: hidden;
   border-block: 1px solid var(--border);
-  background: var(--gallery-wall);
+  background: linear-gradient(to bottom, var(--gallery-wall-shade), transparent 55%), var(--gallery-wall);
   perspective: 900px;
   perspective-origin: 50% 40%;
   container-type: inline-size;
@@ -325,6 +325,11 @@
   display: flex;
   align-items: stretch;
   transition: transform 0.8s var(--ease);
+}
+
+.room-track.is-jumping,
+.room-track.is-jumping * {
+  transition: none !important;
 }
 
 .room-slide {
@@ -392,11 +397,11 @@
 
 .room-slide:not(.is-active) .room-frame,
 .room-slide:not(.is-active) .museum-card {
-  filter: brightness(0.4);
+  filter: brightness(0.65);
 }
 
 .room-slide:not(.is-active):hover .room-frame {
-  filter: brightness(0.6);
+  filter: brightness(0.85);
 }
 
 .room-frame img {
