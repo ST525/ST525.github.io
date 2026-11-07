@@ -1,0 +1,20 @@
+<section class="container ch-reel">
+  {% for item in include.section.items %}
+    {% assign num = forloop.index | prepend: '0' | slice: -2, 2 %}
+    <article class="ch-shot reveal">
+      <div class="ch-media card video-card" data-lightbox="ch"
+        data-src="{{ item.src }}" data-type="video" data-title="{{ item.title }}" data-meta="{{ item.meta }}">
+        <video muted loop playsinline preload="none" poster="{{ item.poster }}" data-src="{{ item.preview | default: item.src }}" aria-hidden="true"></video>
+        <div class="card-play">{% include icons/play.svg %}</div>
+      </div>
+      <div class="ch-notes">
+        <span class="ch-scene">Shot {{ num }}</span>
+        <h2 class="ch-title">{{ item.title }}</h2>
+        <ul class="ch-sheet" aria-label="Notes">
+          {% assign notes = item.meta | split: ' · ' %}
+          {% for note in notes %}<li>{{ note }}</li>{% endfor %}
+        </ul>
+      </div>
+    </article>
+  {% endfor %}
+</section>

@@ -1,8 +1,19 @@
 <div class="section-head">
   <div>
     <div class="section-index">{{ include.section.id }}</div>
-    <h2 class="section-title">{{ include.section.title }}</h2>
+    <h2 class="section-title">
+      {% if include.link and include.section.url %}
+        <a class="section-title-link" href="{{ include.section.url }}">{{ include.section.title }}</a>
+      {% else %}
+        {{ include.section.title }}
+      {% endif %}
+    </h2>
     <p class="section-desc">{{ include.section.description }}</p>
   </div>
-  <span class="section-count">{{ include.section.items.size }} {{ include.section.unit }}</span>
+  <div class="section-head-actions">
+    {% if include.link and include.section.url %}
+      <a class="btn btn-ghost section-view-all" href="{{ include.section.url }}">View all →</a>
+    {% endif %}
+    <span class="section-count">{{ include.section.items.size }} {{ include.section.unit }}</span>
+  </div>
 </div>

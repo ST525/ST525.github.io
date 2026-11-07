@@ -1,0 +1,15 @@
+---
+layout: default
+---
+{% assign section = site.data.projects.sections | where: "slug", page.section | first %}
+<div class="container hero project-section-hero project-section-hero--{{ section.slug }}">
+  <a class="project-section-back" href="/projects/">← All projects</a>
+  <span class="eyebrow">Projects</span>
+  <h1 class="hero-title">{{ section.title | upcase }}</h1>
+  <p class="hero-subtitle">{{ section.description }}</p>
+  <div class="project-section-count">
+    <span class="section-count">{{ section.items.size }} {{ section.unit }}</span>
+  </div>
+</div>
+
+{% include project-layouts/{{ section.slug }}.html section=section %}
