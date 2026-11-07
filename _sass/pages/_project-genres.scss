@@ -290,12 +290,11 @@
 }
 
 .gallery-room {
-  --room-h: clamp(460px, 48vw, 660px);
+  --room-h: max(460px, calc(100svh - var(--header-h)));
   position: relative;
   height: var(--room-h);
   overflow: hidden;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
+  border-block: 1px solid var(--border);
   background: var(--gallery-wall);
   perspective: 900px;
   perspective-origin: 50% 40%;
