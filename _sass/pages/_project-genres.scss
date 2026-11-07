@@ -359,11 +359,13 @@
 }
 
 .room-slide.is-left .room-hang {
-  transform: perspective(800px) rotateY(-30deg);
+  transform-origin: right center;
+  transform: perspective(800px) rotateY(-30deg) scale(0.78);
 }
 
 .room-slide.is-right .room-hang {
-  transform: perspective(800px) rotateY(30deg);
+  transform-origin: left center;
+  transform: perspective(800px) rotateY(30deg) scale(0.78);
 }
 
 .gallery-room::after {
@@ -398,9 +400,9 @@
   top: -2.5rem;
   bottom: 2.5rem;
   left: 50%;
-  width: 56cqw;
+  width: 72cqw;
   transform: translateX(-50%);
-  filter: blur(14px);
+  filter: blur(18px);
   pointer-events: none;
   transition: opacity 0.6s ease;
 }
@@ -414,7 +416,7 @@
   position: absolute;
   inset: 0;
   background: linear-gradient(to bottom, var(--gallery-beam), transparent 95%);
-  clip-path: polygon(45% 0, 55% 0, 88% 100%, 12% 100%);
+  clip-path: polygon(38% 0, 62% 0, 94% 100%, 6% 100%);
 }
 
 .room-frame {
