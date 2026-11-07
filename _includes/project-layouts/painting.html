@@ -7,20 +7,24 @@
         {% assign num = forloop.index | prepend: '0' | slice: -2, 2 %}
         <figure class="room-slide{% if forloop.first %} is-active{% endif %}" data-index="{{ forloop.index0 }}"
           aria-label="{{ forloop.index }} of {{ items.size }}">
-          <div class="room-frame" data-lightbox="paint-room"
-            data-src="{{ item.src }}" data-type="image" data-title="{{ item.title }}" data-meta="{{ item.meta }}">
-            <img src="{{ item.thumb | default: item.src }}" alt="{{ item.alt | default: item.title }}">
+          <div class="room-hang">
+            <span class="room-light" aria-hidden="true"></span>
+            <div class="room-frame" data-lightbox="paint-room"
+              data-src="{{ item.src }}" data-type="image" data-title="{{ item.title }}" data-meta="{{ item.meta }}">
+              <img src="{{ item.thumb | default: item.src }}" alt="{{ item.alt | default: item.title }}">
+            </div>
+            <div class="museum-card">
+              <span class="museum-artist">Andrew Yen</span>
+              <span class="museum-title">{{ item.title }}</span>
+              <span class="museum-medium">{{ item.meta }}</span>
+              <span class="museum-num">{{ num }} / {{ items.size | prepend: '0' | slice: -2, 2 }}</span>
+            </div>
           </div>
-          <figcaption class="museum-card">
-            <span class="museum-artist">Andrew Yen</span>
-            <span class="museum-title">{{ item.title }}</span>
-            <span class="museum-medium">{{ item.meta }}</span>
-            <span class="museum-num">{{ num }} / {{ items.size | prepend: '0' | slice: -2, 2 }}</span>
-          </figcaption>
         </figure>
       {% endfor %}
     </div>
     <div class="room-arrows">
+      <span class="room-ring" aria-hidden="true"></span>
       <button type="button" class="room-arrow room-arrow--prev" data-room-prev aria-label="Previous painting">
         <svg viewBox="0 0 48 40" aria-hidden="true"><path d="M30 3 6 20l24 17 9-6-15-11 15-11z" /></svg>
       </button>
