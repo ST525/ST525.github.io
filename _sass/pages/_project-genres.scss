@@ -323,17 +323,19 @@
   bottom: 24%;
   left: 0;
   display: flex;
-  align-items: center;
+  align-items: stretch;
   transition: transform 0.8s var(--ease);
 }
 
 .room-slide {
   flex: none;
-  width: 34cqw;
+  position: relative;
+  width: 60cqw;
   margin: 0;
   display: flex;
+  align-items: center;
   justify-content: center;
-  padding: 1.5rem 0 4.5rem;
+  padding: 2rem 0 3rem;
 }
 
 .room-slide:not(.is-active) {
@@ -344,40 +346,36 @@
   position: relative;
 }
 
-/* Picture light: fixture, arm and a soft beam washing the wall */
-.room-light {
+/* Ceiling spotlight with a soft, blurred beam */
+.room-lamp {
   position: absolute;
+  top: 0;
   left: 50%;
-  bottom: calc(100% + 16px);
-  width: 44%;
-  height: 7px;
-  border-radius: 4px;
+  z-index: 2;
+  width: calc(40px * var(--scale));
+  height: calc(14px * var(--scale));
+  border-radius: 0 0 calc(20px * var(--scale)) calc(20px * var(--scale));
   background: var(--text);
   transform: translateX(-50%);
+}
+
+.room-light {
+  position: absolute;
+  top: calc(10px * var(--scale));
+  bottom: 2.5rem;
+  left: 50%;
+  width: 56cqw;
+  transform: translateX(-50%);
+  filter: blur(14px);
+  pointer-events: none;
 }
 
 .room-light::before {
   content: "";
   position: absolute;
-  top: 100%;
-  left: 50%;
-  width: 2px;
-  height: 16px;
-  background: var(--text);
-  transform: translateX(-50%);
-}
-
-.room-light::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  width: 250%;
-  height: calc(var(--room-h) * 0.55);
-  background: linear-gradient(to bottom, var(--gallery-beam), transparent 90%);
-  clip-path: polygon(38% 0, 62% 0, 100% 100%, 0 100%);
-  transform: translateX(-50%);
-  pointer-events: none;
+  inset: 0;
+  background: linear-gradient(to bottom, var(--gallery-beam), transparent 95%);
+  clip-path: polygon(47% 0, 53% 0, 88% 100%, 12% 100%);
 }
 
 .room-frame {
@@ -398,8 +396,8 @@
   display: block;
   width: auto;
   height: auto;
-  max-width: 21cqw;
-  max-height: calc(var(--room-h) * 0.34);
+  max-width: 40cqw;
+  max-height: calc(var(--room-h) * 0.5);
 }
 
 .room-frame:focus-visible,
@@ -440,30 +438,19 @@
   color: var(--muted);
 }
 
-.museum-num {
-  margin-top: 0.5rem;
-  padding-top: 0.45rem;
-  border-top: 1px solid var(--border);
-  font-size: 0.68rem;
-  letter-spacing: 0.12em;
-  color: var(--faint);
-  font-variant-numeric: tabular-nums;
-}
-
 .room-hang .museum-card {
   position: absolute;
   top: calc(100% + 0.75rem);
   left: 0;
   z-index: 1;
-  width: max(9cqw, calc(112px * var(--scale)));
-  padding: 0.5rem 0.6rem 0.45rem;
-  gap: 0.1rem;
+  width: max(7cqw, calc(88px * var(--scale)));
+  padding: 0.4rem 0.5rem 0.35rem;
+  gap: 0.05rem;
 }
 
-.room-hang .museum-artist { font-size: 0.58rem; }
-.room-hang .museum-title { font-size: 0.76rem; }
-.room-hang .museum-medium { font-size: 0.6rem; }
-.room-hang .museum-num { margin-top: 0.3rem; padding-top: 0.3rem; font-size: 0.55rem; }
+.room-hang .museum-artist { font-size: 0.52rem; }
+.room-hang .museum-title { font-size: 0.68rem; }
+.room-hang .museum-medium { font-size: 0.54rem; }
 
 /* Street View-style arrows lying on the floor */
 .room-arrows {
@@ -474,16 +461,17 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: calc(340px * var(--scale));
-  height: calc(150px * var(--scale));
-  transform: translateX(-50%) perspective(500px) rotateX(58deg);
+  width: clamp(120px, 16cqw, calc(200px * var(--scale)));
+  aspect-ratio: 1;
+  padding: 0 clamp(14px, 2cqw, calc(26px * var(--scale)));
+  transform: translateX(-50%) perspective(500px) rotateX(60deg);
 }
 
 .room-ring {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: calc(150px * var(--scale));
+  width: 100%;
   aspect-ratio: 1;
   border: 3px solid rgba(255, 255, 255, 0.9);
   border-radius: 50%;

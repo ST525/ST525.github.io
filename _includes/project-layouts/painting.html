@@ -4,11 +4,11 @@
     <div class="room-floor" aria-hidden="true"></div>
     <div class="room-track" role="group" aria-roledescription="carousel" aria-label="Gallery">
       {% for item in items %}
-        {% assign num = forloop.index | prepend: '0' | slice: -2, 2 %}
-        <figure class="room-slide{% if forloop.first %} is-active{% endif %}" data-index="{{ forloop.index0 }}"
+                <figure class="room-slide{% if forloop.first %} is-active{% endif %}" data-index="{{ forloop.index0 }}"
           aria-label="{{ forloop.index }} of {{ items.size }}">
+          <span class="room-lamp" aria-hidden="true"></span>
+          <span class="room-light" aria-hidden="true"></span>
           <div class="room-hang">
-            <span class="room-light" aria-hidden="true"></span>
             <div class="room-frame" data-lightbox="paint-room"
               data-src="{{ item.src }}" data-type="image" data-title="{{ item.title }}" data-meta="{{ item.meta }}">
               <img src="{{ item.thumb | default: item.src }}" alt="{{ item.alt | default: item.title }}">
@@ -17,7 +17,6 @@
               <span class="museum-artist">Andrew Yen</span>
               <span class="museum-title">{{ item.title }}</span>
               <span class="museum-medium">{{ item.meta }}</span>
-              <span class="museum-num">{{ num }} / {{ items.size | prepend: '0' | slice: -2, 2 }}</span>
             </div>
           </div>
         </figure>
