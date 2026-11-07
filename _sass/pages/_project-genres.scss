@@ -513,20 +513,14 @@
   line-height: 1.3;
 }
 
-.museum-artist {
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
 .museum-title {
   font-size: 0.95rem;
   font-style: italic;
   font-weight: 500;
 }
 
-.museum-medium {
+.museum-medium,
+.museum-detail {
   font-size: 0.75rem;
   color: var(--museum-muted);
 }
@@ -541,9 +535,9 @@
   gap: 0.05rem;
 }
 
-.room-hang .museum-artist { font-size: 0.52rem; }
 .room-hang .museum-title { font-size: 0.68rem; }
-.room-hang .museum-medium { font-size: 0.54rem; }
+.room-hang .museum-medium,
+.room-hang .museum-detail { font-size: 0.54rem; }
 
 /* Street View-style arrows lying on the floor, one each side */
 .room-arrows {

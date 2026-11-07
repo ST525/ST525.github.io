@@ -10,13 +10,13 @@
           <div class="room-hang">
             <span class="room-light" aria-hidden="true"></span>
             <div class="room-frame" data-lightbox="paint-room"
-              data-src="{{ item.src }}" data-type="image" data-title="{{ item.title }}" data-meta="{{ item.meta }}">
+              data-src="{{ item.src }}" data-type="image" data-title="{{ item.title }}" data-meta="{{ item.meta }} · {{ item.year }} · {{ item.dims }}">
               <img src="{{ item.thumb | default: item.src }}" alt="{{ item.alt | default: item.title }}">
             </div>
             <div class="museum-card">
-              <span class="museum-artist">Andrew Yen</span>
               <span class="museum-title">{{ item.title }}</span>
               <span class="museum-medium">{{ item.meta }}</span>
+              <span class="museum-detail">{{ item.year }} · {{ item.dims }}</span>
             </div>
           </div>
         </figure>
@@ -42,7 +42,7 @@
     {% for item in items %}
       <figure class="pin reveal">
         <div class="pin-frame" data-lightbox="paint"
-          data-src="{{ item.src }}" data-type="image" data-title="{{ item.title }}" data-meta="{{ item.meta }}">
+          data-src="{{ item.src }}" data-type="image" data-title="{{ item.title }}" data-meta="{{ item.meta }} · {{ item.year }} · {{ item.dims }}">
           <img src="{{ item.thumb | default: item.src }}" alt="{{ item.alt | default: item.title }}" loading="lazy">
         </div>
       </figure>

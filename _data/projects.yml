@@ -162,6 +162,8 @@ sections:
   items:
   - title: Wave
     meta: Oil on canvas
+    year: "2016"
+    dims: "27 × 41 cm"
     src: /assets/images/wave_paint.jpg
     thumb: /assets/images/thumbs/wave_paint.jpg
     type: image
@@ -170,6 +172,8 @@ sections:
     alt: Wave
   - title: Fall
     meta: Oil on canvas
+    year: "2016"
+    dims: "???"
     src: /assets/images/fall_paint.jpg
     thumb: /assets/images/thumbs/fall_paint.jpg
     type: image
@@ -177,6 +181,8 @@ sections:
     alt: Fall
   - title: Set
     meta: Oil on canvas
+    year: "2015"
+    dims: "31 × 41 cm"
     src: /assets/images/set_paint.jpg
     thumb: /assets/images/thumbs/set_paint.jpg
     type: image
@@ -184,6 +190,8 @@ sections:
     alt: Set
   - title: Sunset
     meta: Oil on canvas
+    year: "???"
+    dims: "???"
     src: /assets/images/sunset_paint.jpg
     thumb: /assets/images/thumbs/sunset_paint.jpg
     type: image
@@ -192,9 +200,38 @@ sections:
     alt: Sunset
   - title: Lake
     meta: Oil on canvas
+    year: "2015"
+    dims: "30 × 40 cm"
     src: /assets/images/lake_paint.jpg
     thumb: /assets/images/thumbs/lake_paint.jpg
     type: image
     group: paint
     size: wide
     alt: Lake
+  - title: Flower
+    meta: Oil on canvas
+    year: "2014"
+    dims: "???"
+    src: /assets/images/flower_paint.jpg
+    thumb: /assets/images/thumbs/flower_paint.jpg
+    type: image
+    group: paint
+    alt: Flower
+  - title: Rock
+    meta: Oil on canvas
+    year: "???"
+    dims: "???"
+    src: /assets/images/rock_paint.jpg
+    thumb: /assets/images/thumbs/rock_paint.jpg
+    type: image
+    group: paint
+    alt: Rock
+  - title: Tree Mountain
+    meta: Oil on canvas
+    year: "2017"
+    dims: "???"
+    src: /assets/images/tree_mountain_paint.jpg
+    thumb: /assets/images/thumbs/tree_mountain_paint.jpg
+    type: image
+    group: paint
+    alt: Tree Mountain
