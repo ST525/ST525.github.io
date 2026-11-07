@@ -40,8 +40,33 @@ export function initGalleryRoom() {
       else img.addEventListener('load', fn, { once: true });
     }
 
+    function insets() {
+      let baseline = Infinity;
+      slides.forEach(function (slide) {
+        const img = slide.querySelector('img');
+        const hang = slide.querySelector('.room-hang');
+        if (!img || !hang || !img.complete || !img.naturalWidth ||
+          !img.naturalHeight || img.naturalHeight > img.naturalWidth) return;
+        baseline = Math.min(baseline, (slide.offsetWidth - hang.offsetWidth) / 2);
+      });
+
+      slides.forEach(function (slide) {
+        const img = slide.querySelector('img');
+        const hang = slide.querySelector('.room-hang');
+        const isPortrait = img && img.complete && img.naturalWidth &&
+          img.naturalHeight > img.naturalWidth;
+        const inset = isPortrait && hang && Number.isFinite(baseline)
+          ? Math.max(0, (slide.offsetWidth - hang.offsetWidth) / 2 - baseline)
+          : 0;
+        slide.style.setProperty('--inset', inset + 'px');
+      });
+    }
+
     slides.forEach(function (slide) {
-      whenLoaded(slide, function () { slide.classList.add('is-loaded'); });
+      whenLoaded(slide, function () {
+        slide.classList.add('is-loaded');
+        insets();
+      });
     });
 
     // The active painting's light only switches on once it has stopped and its image is loaded
@@ -141,14 +166,26 @@ export function initGalleryRoom() {
       move(Math.sign(slides.indexOf(slide) - pos));
     }, true);
 
-    section.addEventListener('keydown', function (e) {
+    document.addEventListener('keydown', function (e) {
+      if (e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
       if (document.querySelector('.lightbox.active')) return;
+      const target = e.target;
+      if (target instanceof Element &&
+        (target.matches('input, textarea, select') || target.isContentEditable)) return;
+      if (section.offsetParent === null) return;
+      const rect = section.getBoundingClientRect();
+      if (rect.bottom <= 0 || rect.top >= window.innerHeight ||
+        rect.right <= 0 || rect.left >= window.innerWidth) return;
       if (e.key === 'ArrowLeft') { e.preventDefault(); move(-1); }
       if (e.key === 'ArrowRight') { e.preventDefault(); move(1); }
     });
 
-    window.addEventListener('resize', pan);
+    window.addEventListener('resize', function () {
+      insets();
+      pan();
+    });
     window.addEventListener('load', pan);
+    insets();
     paint();
     track.classList.add('is-jumping');
     pan();

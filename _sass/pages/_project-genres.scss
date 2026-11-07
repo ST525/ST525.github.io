@@ -347,6 +347,7 @@
 }
 
 .room-slide {
+  --inset: 0px;
   flex: none;
   position: relative;
   width: 60cqw;
@@ -374,12 +375,12 @@
 
 .room-slide.is-left .room-hang {
   transform-origin: right center;
-  transform: perspective(800px) rotateY(-30deg) scale(0.78);
+  transform: translateX(var(--inset)) perspective(800px) rotateY(-30deg) scale(0.78);
 }
 
 .room-slide.is-right .room-hang {
   transform-origin: left center;
-  transform: perspective(800px) rotateY(30deg) scale(0.78);
+  transform: translateX(calc(-1 * var(--inset))) perspective(800px) rotateY(30deg) scale(0.78);
 }
 
 .gallery-room::after {
@@ -566,9 +567,10 @@
   color: #fff;
   cursor: pointer;
   pointer-events: auto;
+  opacity: 0.45;
   filter: drop-shadow(0 3px 3px rgba(0, 0, 0, 0.45));
   transform: perspective(400px) rotateX(60deg);
-  transition: color 0.25s ease, border-color 0.25s ease, opacity 0.25s ease;
+  transition: opacity 0.25s ease;
 }
 
 /* Tilted to follow the floor line as it curves up toward the edges */
@@ -593,8 +595,7 @@
 
 .room-arrow:hover,
 .room-arrow:focus-visible {
-  color: var(--accent);
-  border-color: var(--accent);
+  opacity: 1;
   outline: none;
 }
 
