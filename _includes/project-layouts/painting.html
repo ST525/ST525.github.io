@@ -6,7 +6,6 @@
       {% for item in items %}
                 <figure class="room-slide{% if forloop.first %} is-active{% endif %}" data-index="{{ forloop.index0 }}"
           aria-label="{{ forloop.index }} of {{ items.size }}">
-          <span class="room-lamp" aria-hidden="true"></span>
           <span class="room-light" aria-hidden="true"></span>
           <div class="room-hang">
             <div class="room-frame" data-lightbox="paint-room"
@@ -23,7 +22,6 @@
       {% endfor %}
     </div>
     <div class="room-arrows">
-      <span class="room-ring" aria-hidden="true"></span>
       <button type="button" class="room-arrow room-arrow--prev" data-room-prev aria-label="Previous painting">
         <svg viewBox="0 0 48 40" aria-hidden="true"><path d="M30 3 6 20l24 17 9-6-15-11 15-11z" /></svg>
       </button>

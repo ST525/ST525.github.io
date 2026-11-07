@@ -21,6 +21,7 @@
   --shadow-media: rgba(0, 0, 0, 0.9);
   --gallery-wall: var(--surface);
   --gallery-beam: rgba(255, 240, 214, 0.22);
+  --gallery-floor: #3b2a1c;
   --radius: 14px;
   --radius-sm: 8px;
   --scale: 1;
@@ -52,6 +53,7 @@
   --shadow-media: rgba(0, 0, 0, 0.25);
   --gallery-wall: var(--surface-2);
   --gallery-beam: rgba(255, 255, 255, 0.85);
+  --gallery-floor: #b98c5f;
 }
 
 @media (min-width: 1025px) {
