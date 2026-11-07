@@ -22,11 +22,14 @@
   --gallery-wall: var(--surface);
   --gallery-wall-shade: rgba(0, 0, 0, 0.35);
   --gallery-vignette: rgba(0, 0, 0, 0.75);
-  --museum-card: #fff;
+  --museum-card: #d6d2ca;
   --museum-ink: #141414;
-  --museum-muted: #6b6b6b;
-  --gallery-beam: rgba(255, 240, 214, 0.22);
+  --museum-muted: #5c5a57;
+  --gallery-beam: rgba(255, 240, 214, 0.3);
+  --gallery-halo: rgba(255, 244, 225, 0.3);
   --gallery-floor: #3b2a1c;
+  --gallery-baseboard: #1a1918;
+  --gallery-baseboard-edge: #2e2c2a;
   --radius: 14px;
   --radius-sm: 8px;
   --scale: 1;
@@ -59,8 +62,13 @@
   --gallery-wall: var(--surface-2);
   --gallery-wall-shade: rgba(0, 0, 0, 0.1);
   --gallery-vignette: rgba(0, 0, 0, 0.35);
-  --gallery-beam: rgba(255, 255, 255, 0.85);
+  --museum-card: #fff;
+  --museum-muted: #6b6b6b;
+  --gallery-beam: rgba(255, 255, 255, 0.9);
+  --gallery-halo: rgba(255, 255, 255, 0.95);
   --gallery-floor: #b98c5f;
+  --gallery-baseboard: #f7f5f1;
+  --gallery-baseboard-edge: #d9d5ce;
 }
 
 @media (min-width: 1025px) {

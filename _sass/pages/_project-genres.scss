@@ -309,12 +309,26 @@
   height: 600px;
   transform-origin: top center;
   transform: rotateX(90deg);
+  overflow: hidden;
   border-top: 3px solid rgba(0, 0, 0, 0.35);
+  background: var(--gallery-floor);
+}
+
+/* Planks repeat every 1368px; the strip is wide enough to slide several paintings at once */
+.room-boards {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -20000px;
+  right: -20000px;
   background:
     repeating-linear-gradient(to right, transparent 0 56px, rgba(0, 0, 0, 0.28) 56px 57px),
-    repeating-linear-gradient(to right, transparent 0 9px, rgba(255, 255, 255, 0.035) 9px 11px, transparent 11px 23px, rgba(0, 0, 0, 0.05) 23px 24px),
-    var(--gallery-floor);
-  transition: background-position 0.8s var(--ease);
+    repeating-linear-gradient(to right, transparent 0 9px, rgba(255, 255, 255, 0.035) 9px 11px, transparent 11px 23px, rgba(0, 0, 0, 0.05) 23px 24px);
+  transition: transform 0.8s var(--ease);
+}
+
+.room-boards.is-jumping {
+  transition: none;
 }
 
 .room-track {
@@ -394,44 +408,54 @@
   pointer-events: none;
 }
 
-/* Soft, blurred spotlight beam from the ceiling */
+/* Baseboard: follows the wall's curved bottom edge, with a thin top lip */
+.room-wall::before,
+.room-wall::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+.room-wall::before {
+  border-bottom: calc(1.4cqw + 3px) solid var(--gallery-baseboard-edge);
+}
+
+.room-wall::after {
+  border-bottom: 1.4cqw solid var(--gallery-baseboard);
+}
+
+/* Gallery wall wash: a soft pool of light around each painting, brightest above it */
 .room-light {
   position: absolute;
-  top: -2.5rem;
-  bottom: 2.5rem;
-  left: 50%;
-  width: 72cqw;
-  transform: translateX(-50%);
-  filter: blur(18px);
+  inset: -50% -42% -30%;
+  z-index: 0;
+  background: radial-gradient(ellipse 50% 50% at 50% 38%, var(--gallery-beam), transparent 75%);
+  opacity: 0;
   pointer-events: none;
   transition: opacity 0.6s ease;
 }
 
-.room-slide:not(.is-active) .room-light {
-  opacity: 0.35;
-}
-
-.room-light::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, var(--gallery-beam), transparent 95%);
-  clip-path: polygon(38% 0, 62% 0, 94% 100%, 6% 100%);
-}
+.room-slide.is-loaded .room-light { opacity: 0.4; }
+.room-slide.is-lit .room-light { opacity: 1; }
 
 .room-frame {
   position: relative;
   z-index: 1;
   border: 5px solid var(--text);
   background: var(--text);
-  box-shadow: 0 22px 36px -18px var(--shadow), 0 2px 6px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 22px 36px -18px var(--shadow), 0 2px 6px rgba(0, 0, 0, 0.25), 0 0 40px 4px transparent;
   cursor: zoom-in;
   outline: none;
 }
 
 .room-hang .room-frame,
 .room-hang .museum-card {
-  transition: filter 0.6s ease;
+  transition: filter 0.6s ease, box-shadow 0.6s ease;
+}
+
+.room-slide.is-lit .room-frame {
+  box-shadow: 0 22px 36px -18px var(--shadow), 0 2px 6px rgba(0, 0, 0, 0.25), 0 0 40px 4px var(--gallery-halo);
 }
 
 .room-slide:not(.is-active) .room-frame {
@@ -540,8 +564,16 @@
   transition: color 0.25s ease, border-color 0.25s ease, opacity 0.25s ease;
 }
 
-.room-arrow--prev { left: 14cqw; }
-.room-arrow--next { right: 14cqw; }
+/* Tilted to follow the floor line as it curves up toward the edges */
+.room-arrow--prev {
+  left: 5cqw;
+  transform: rotate(12deg) perspective(400px) rotateX(60deg);
+}
+
+.room-arrow--next {
+  right: 5cqw;
+  transform: rotate(-12deg) perspective(400px) rotateX(60deg);
+}
 
 .room-arrow svg {
   display: block;
@@ -587,28 +619,21 @@
   border: 1px solid var(--border);
   cursor: zoom-in;
   outline: none;
+  transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
+}
+
+.pin-frame:hover {
+  position: relative;
+  z-index: 1;
+  transform: scale(1.03);
+  box-shadow: 0 18px 30px -16px var(--shadow);
 }
 
 .pin-frame img {
   display: block;
   width: 100%;
   height: auto;
-  transition: transform 0.5s var(--ease);
 }
-
-.pin-frame:hover img {
-  transform: scale(1.03);
-}
-
-.museum-card--small {
-  width: auto;
-  margin-top: 0.6rem;
-  padding: 0.6rem 0.75rem;
-  box-shadow: none;
-}
-
-.museum-card--small .museum-title { font-size: 0.85rem; }
-.museum-card--small .museum-medium { font-size: 0.7rem; }
 
 @media (max-width: 1024px) {
   .mm-board { grid-template-columns: repeat(2, minmax(0, 1fr)); }
