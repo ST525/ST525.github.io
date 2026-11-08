@@ -5,7 +5,6 @@ sections:
   url: /projects/effects/
   title: Effects Animation
   description: 2D effects — fire, water, light and smoke — animated and composited into scenes.
-  unit: clips
   items:
   - title: Burning Skeleton
     meta: Fire · Smoke · Comp
@@ -50,7 +49,6 @@ sections:
   url: /projects/character/
   title: Character Animation
   description: Acting, walk cycles and horror beats, from rough animation to final colour.
-  unit: clips
   items:
   - title: Into the Cave
     meta: Walk cycle · Lighting
@@ -100,7 +98,6 @@ sections:
   url: /projects/motion-media/
   title: Motion Media
   description: Logo animation, title design and short motion graphics loops.
-  unit: clips
   items:
   - title: Geng
     meta: Character loop
@@ -158,7 +155,7 @@ sections:
   url: /projects/painting/
   title: Painting
   description: Traditional oil studies of light, water and landscape.
-  unit: works
+  preview: 5
   items:
   - title: Wave
     meta: Oil on canvas

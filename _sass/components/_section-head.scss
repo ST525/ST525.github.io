@@ -1,4 +1,4 @@
-// Portfolio section headings and counts.
+// Portfolio section headings.
 /* ---------- SECTION HEADER ---------- */
 .section {
   padding-top: clamp(2.5rem, 5vw, 4.5rem);
@@ -64,13 +64,6 @@
   font-size: 0.8rem;
 }
 
-.section-count {
-  font-size: 0.8rem;
-  color: var(--faint);
-  white-space: nowrap;
-  padding-bottom: 0.3rem;
-}
-
 .project-section-back {
   display: block;
   margin-bottom: 1.25rem;
@@ -82,8 +75,4 @@
 .project-section-back:hover,
 .project-section-back:focus-visible {
   color: var(--accent);
-}
-
-.project-section-count {
-  margin-top: 1.25rem;
 }

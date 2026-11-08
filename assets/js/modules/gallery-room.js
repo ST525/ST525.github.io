@@ -1,8 +1,12 @@
 // Painting page: pan along a looping gallery wall with the floor arrows.
+import { createFloor, FLOOR_PERIOD } from './gallery-floor.js';
+
 const CLONES = 2;
 const PLANKS = 1368; // repeat length of the floorboard pattern
+const OMEGA = 7;
 
 export function initGalleryRoom() {
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   document.querySelectorAll('[data-gallery-room]').forEach(function (section) {
     const room = section.querySelector('.gallery-room');
     const track = section.querySelector('.room-track');
@@ -12,6 +16,7 @@ export function initGalleryRoom() {
     const nextBtn = section.querySelector('[data-room-next]');
     if (!room || !track || !real.length) return;
     const n = real.length;
+    const floor = createFloor(room, section.querySelector('.room-wall'));
 
     // Copies of the last/first paintings on either end so the wall never shows a bare side.
     function cloneOf(slide) {
@@ -29,10 +34,17 @@ export function initGalleryRoom() {
       track.appendChild(cloneOf(real[i % n]));
     }
     const slides = Array.from(track.querySelectorAll('.room-slide'));
+    const hangs = slides.map(function (slide) { return slide.querySelector('.room-hang'); });
+    const inset = slides.map(function () { return 0; });
 
     let pos = CLONES;
     let moving = false;
-    let arriveTimer;
+    let x = 0;
+    let v = 0;
+    let target = 0;
+    let boardOffset = 0;
+    let raf = 0;
+    let last = 0;
 
     function whenLoaded(slide, fn) {
       const img = slide.querySelector('img');
@@ -55,10 +67,28 @@ export function initGalleryRoom() {
         const hang = slide.querySelector('.room-hang');
         const isPortrait = img && img.complete && img.naturalWidth &&
           img.naturalHeight > img.naturalWidth;
-        const inset = isPortrait && hang && Number.isFinite(baseline)
+        const px = isPortrait && hang && Number.isFinite(baseline)
           ? Math.max(0, (slide.offsetWidth - hang.offsetWidth) / 2 - baseline)
           : 0;
-        slide.style.setProperty('--inset', inset + 'px');
+        slide.style.setProperty('--inset', px + 'px');
+        inset[slides.indexOf(slide)] = px;
+      });
+      bend();
+    }
+
+    // Fisheye bend from each painting's distance to the centre: -1 left neighbour, 0 centre, 1 right.
+    function bend() {
+      const mid = room.clientWidth / 2;
+      const offsets = slides.map(function (slide) {
+        const d = (slide.offsetLeft + slide.offsetWidth / 2 + x - mid) / slide.offsetWidth;
+        return Math.max(-1, Math.min(1, d));
+      });
+      offsets.forEach(function (s, i) {
+        const hang = hangs[i];
+        if (!hang) return;
+        hang.style.transformOrigin = (50 - 50 * s) + '% 50%';
+        hang.style.transform = 'translateX(' + (-s * inset[i]) + 'px) perspective(800px) rotateY(' +
+          (30 * s) + 'deg) scale(' + (1.04 - 0.26 * Math.abs(s)) + ')';
       });
     }
 
@@ -73,35 +103,66 @@ export function initGalleryRoom() {
     function light() {
       const slide = slides[pos];
       whenLoaded(slide, function () {
-        if (!moving && slides[pos] === slide) slide.classList.add('is-lit');
+        if (moving || slides[pos] !== slide) return;
+        slide.classList.add('is-lit');
+        if (floor) floor.setLit(true);
       });
     }
 
     function logical() { return (pos - CLONES + n) % n; }
 
-    function pan() {
+    function mod(value, divisor) {
+      return ((value % divisor) + divisor) % divisor;
+    }
+
+    function apply() {
+      track.style.transform = 'translateX(' + x + 'px)';
+      bend();
+      if (floor) floor.setPosition(mod(-(x + boardOffset), FLOOR_PERIOD));
+      else if (boards) boards.style.transform = 'translateX(' + (mod(x + boardOffset, PLANKS) - PLANKS) + 'px)';
+    }
+
+    function pan(snap) {
       const slide = slides[pos];
-      const target = room.clientWidth / 2 - slide.offsetWidth / 2 - slide.offsetLeft;
-      const delta = target - shiftX(track);
-      track.style.transform = 'translateX(' + target + 'px)';
-      // The floorboards slide exactly as far as the wall, on the same transition
-      if (boards) shiftBoards(shiftX(boards) + delta, track.classList.contains('is-jumping'));
+      target = room.clientWidth / 2 - slide.offsetWidth / 2 - slide.offsetLeft;
+      if (snap || reducedMotion) {
+        if (raf) cancelAnimationFrame(raf);
+        raf = 0;
+        x = target;
+        v = 0;
+        apply();
+        if (moving) arrive();
+        return;
+      }
+      if (!raf) {
+        last = performance.now();
+        raf = requestAnimationFrame(frame);
+      }
     }
 
-    function shiftBoards(x, jump) {
-      if (jump) boards.classList.add('is-jumping');
-      boards.style.transform = 'translateX(' + x + 'px)';
-      if (!jump) return;
-      void boards.offsetWidth;
-      boards.classList.remove('is-jumping');
-    }
-
-    function shiftX(el) {
-      return new DOMMatrixReadOnly(getComputedStyle(el).transform).m41;
+    function frame(t) {
+      const dt = Math.min((t - last) / 1000, 1 / 20);
+      last = t;
+      const e = x - target;
+      const k = Math.exp(-OMEGA * dt);
+      const c = v + OMEGA * e;
+      x = target + (e + c * dt) * k;
+      v = (v - OMEGA * c * dt) * k;
+      apply();
+      if (Math.abs(x - target) < 0.5 && Math.abs(v) < 5) {
+        x = target;
+        v = 0;
+        apply();
+        raf = 0;
+        arrive();
+        return;
+      }
+      raf = requestAnimationFrame(frame);
     }
 
     function paint() {
       const current = logical();
+      if (floor) floor.setLit(false);
       slides.forEach(function (slide, i) {
         const active = Number(slide.dataset.index) === current;
         slide.classList.toggle('is-active', active);
@@ -120,23 +181,21 @@ export function initGalleryRoom() {
     function settle() {
       if (pos >= CLONES && pos < CLONES + n) return;
       const from = slides[pos].offsetLeft;
-      const x = shiftX(track);
       pos = CLONES + logical();
+      const d = from - slides[pos].offsetLeft;
       track.classList.add('is-jumping');
       paint();
-      track.style.transform = 'translateX(' + (x + from - slides[pos].offsetLeft) + 'px)';
+      x += d;
+      target += d;
+      boardOffset -= d;
+      apply();
       void track.offsetWidth;
       track.classList.remove('is-jumping');
-      // Restart the boards' slide in step with the wall's
-      if (boards) shiftBoards(shiftX(boards), true);
     }
 
     function arrive() {
-      clearTimeout(arriveTimer);
       moving = false;
       settle();
-      // At rest, wrap the boards back by whole plank patterns, which looks identical
-      if (boards) shiftBoards(shiftX(boards) % PLANKS, true);
       light();
     }
 
@@ -146,13 +205,7 @@ export function initGalleryRoom() {
       moving = true;
       paint();
       pan();
-      clearTimeout(arriveTimer);
-      arriveTimer = setTimeout(arrive, 1000);
     }
-
-    track.addEventListener('transitionend', function (e) {
-      if (e.target === track && e.propertyName === 'transform') arrive();
-    });
 
     prevBtn && prevBtn.addEventListener('click', function () { move(-1); });
     nextBtn && nextBtn.addEventListener('click', function () { move(1); });
@@ -181,14 +234,15 @@ export function initGalleryRoom() {
     });
 
     window.addEventListener('resize', function () {
+      if (floor) floor.resize();
       insets();
-      pan();
+      pan(true);
     });
-    window.addEventListener('load', pan);
+    window.addEventListener('load', function () { pan(true); });
     insets();
     paint();
     track.classList.add('is-jumping');
-    pan();
+    pan(true);
     void track.offsetWidth;
     track.classList.remove('is-jumping');
     light();
