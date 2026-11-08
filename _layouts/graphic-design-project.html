@@ -1,0 +1,46 @@
+---
+layout: default
+---
+{% assign section = site.data.projects.sections | where: "slug", "graphic-design" | first %}
+{% assign project = section.projects | where: "slug", page.project | first %}
+<div class="container hero project-section-hero project-section-hero--graphic-design">
+  <a class="project-section-back" href="{{ section.url }}">← Graphic Design</a>
+  <span class="eyebrow">Graphic Design</span>
+  <h1 class="hero-title">{{ project.title | upcase }}</h1>
+  <p class="hero-subtitle">{{ project.tags }}{% if project.year %} · {{ project.year }}{% endif %}</p>
+</div>
+
+<section class="container gd-detail">
+  <div class="gd-main gd-main--{{ project.pieces.size }}">
+    {% for piece in project.pieces %}
+      {% include gd-piece.html piece=piece group="gd-main" title=project.title %}
+    {% endfor %}
+  </div>
+
+  {% for block in project.details %}
+    {% assign group = 'gd-block-' | append: forloop.index %}
+    <div class="gd-block reveal">
+      <h2 class="gd-block-title">{{ block.heading }}</h2>
+      {% if block.kind == 'process' %}
+        <ol class="gd-process">
+          {% for step in block.items %}
+            <li class="gd-step" data-lightbox="{{ group }}" data-src="{{ step.src }}" data-type="image"
+              data-title="{{ project.title }}" data-meta="{{ block.heading }}: {{ step.label }}"
+              tabindex="0" role="button" aria-label="Open {{ project.title }} {{ block.heading | downcase }}, {{ step.label }}">
+              <div class="gd-mat">
+                <img src="{{ step.thumb }}" alt="{{ project.title }} {{ block.heading | downcase }}, {{ step.label }}" width="{{ step.width }}" height="{{ step.height }}" loading="lazy" decoding="async">
+              </div>
+              <span class="gd-step-label"><b>{{ forloop.index | prepend: '0' | slice: -2, 2 }}</b> {{ step.label }}</span>
+            </li>
+          {% endfor %}
+        </ol>
+      {% else %}
+        <div class="gd-main gd-main--{{ block.items.size }}">
+          {% for piece in block.items %}
+            {% include gd-piece.html piece=piece group=group title=project.title %}
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+  {% endfor %}
+</section>

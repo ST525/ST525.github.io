@@ -239,103 +239,116 @@ sections:
   description: Posters, isometric illustration and logo design.
   hidden: true
   projects:
-  - title: Escape Dullness
+  - slug: escape-dullness
+    title: Escape Dullness
     year: 2021
     tags: Poster · Isometric illustration
+    more: See the process
     pieces:
-    - label: "Poster"
-      src: /assets/images/graphic-design/escape-dullness.jpg
-      thumb: /assets/images/graphic-design/thumbs/escape-dullness.jpg
-      width: 661
-      height: 900
-    - label: "Final render"
-      src: /assets/images/graphic-design/city-05.jpg
-      thumb: /assets/images/graphic-design/thumbs/city-05.jpg
-      width: 900
-      height: 798
-    - label: "Focus"
-      src: /assets/images/graphic-design/focus.jpg
-      thumb: /assets/images/graphic-design/thumbs/focus.jpg
-      width: 900
-      height: 900
-    process:
-    - label: "Sketch"
-      src: /assets/images/graphic-design/city-sketch.jpg
-      thumb: /assets/images/graphic-design/thumbs/city-sketch.jpg
-      width: 632
-      height: 900
-    - label: "Draft 1"
-      src: /assets/images/graphic-design/city-03.jpg
-      thumb: /assets/images/graphic-design/thumbs/city-03.jpg
-      width: 900
-      height: 647
-    - label: "Draft 2"
-      src: /assets/images/graphic-design/city-04.jpg
-      thumb: /assets/images/graphic-design/thumbs/city-04.jpg
-      width: 900
-      height: 647
-    - label: "Final render"
-      src: /assets/images/graphic-design/city-05.jpg
-      thumb: /assets/images/graphic-design/thumbs/city-05.jpg
-      width: 900
-      height: 798
-  - title: The Dark Knight
-    tags: Fan posters · Mockups
+      - label: "Poster"
+        src: /assets/images/graphic-design/escape-dullness.jpg
+        thumb: /assets/images/graphic-design/thumbs/escape-dullness.jpg
+        width: 661
+        height: 900
+    details:
+      - heading: Process
+        kind: process
+        items:
+          - label: "Sketch"
+            src: /assets/images/graphic-design/city-sketch.jpg
+            thumb: /assets/images/graphic-design/thumbs/city-sketch.jpg
+            width: 632
+            height: 900
+          - label: "Draft 1"
+            src: /assets/images/graphic-design/city-03.jpg
+            thumb: /assets/images/graphic-design/thumbs/city-03.jpg
+            width: 900
+            height: 647
+          - label: "Draft 2"
+            src: /assets/images/graphic-design/city-04.jpg
+            thumb: /assets/images/graphic-design/thumbs/city-04.jpg
+            width: 900
+            height: 647
+          - label: "Final render"
+            src: /assets/images/graphic-design/city-05.jpg
+            thumb: /assets/images/graphic-design/thumbs/city-05.jpg
+            width: 900
+            height: 798
+  - slug: focus
+    title: Focus
+    tags: Isometric illustration
     pieces:
-    - label: "Poster: Joker"
-      src: /assets/images/graphic-design/dark-knight-joker.jpg
-      thumb: /assets/images/graphic-design/thumbs/dark-knight-joker.jpg
-      width: 637
-      height: 900
-    - label: "Poster: Bat-Signal"
-      src: /assets/images/graphic-design/dark-knight-signal.jpg
-      thumb: /assets/images/graphic-design/thumbs/dark-knight-signal.jpg
-      width: 636
-      height: 900
-    - label: "Mockup: street"
-      src: /assets/images/graphic-design/dark-knight-mockup-street.jpg
-      thumb: /assets/images/graphic-design/thumbs/dark-knight-mockup-street.jpg
-      width: 600
-      height: 900
-    - label: "Mockup: storefront"
-      src: /assets/images/graphic-design/dark-knight-mockup-store.jpg
-      thumb: /assets/images/graphic-design/thumbs/dark-knight-mockup-store.jpg
-      width: 900
-      height: 600
-      size: banner
-  - title: Helmet
+      - label: "Focus"
+        src: /assets/images/graphic-design/focus.jpg
+        thumb: /assets/images/graphic-design/thumbs/focus.jpg
+        width: 900
+        height: 900
+  - slug: the-dark-knight
+    title: The Dark Knight
+    tags: Fan posters
+    more: See the mockups
+    pieces:
+      - label: "Poster: Joker"
+        src: /assets/images/graphic-design/dark-knight-joker.jpg
+        thumb: /assets/images/graphic-design/thumbs/dark-knight-joker.jpg
+        width: 637
+        height: 900
+      - label: "Poster: Bat-Signal"
+        src: /assets/images/graphic-design/dark-knight-signal.jpg
+        thumb: /assets/images/graphic-design/thumbs/dark-knight-signal.jpg
+        width: 636
+        height: 900
+    details:
+      - heading: Mockups
+        kind: spread
+        items:
+          - label: "Mockup: street"
+            src: /assets/images/graphic-design/dark-knight-mockup-street.jpg
+            thumb: /assets/images/graphic-design/thumbs/dark-knight-mockup-street.jpg
+            width: 600
+            height: 900
+          - label: "Mockup: storefront"
+            src: /assets/images/graphic-design/dark-knight-mockup-store.jpg
+            thumb: /assets/images/graphic-design/thumbs/dark-knight-mockup-store.jpg
+            width: 900
+            height: 600
+            size: wide
+  - slug: helmet
+    title: Helmet
     tags: Logo · Icon design
+    more: See the process
     pieces:
-    - label: "Final"
-      src: /assets/images/graphic-design/helmet-final.jpg
-      thumb: /assets/images/graphic-design/thumbs/helmet-final.jpg
-      width: 900
-      height: 896
-      size: half
-    - label: "Flat mark"
-      src: /assets/images/graphic-design/helmet-1.jpg
-      thumb: /assets/images/graphic-design/thumbs/helmet-1.jpg
-      width: 811
-      height: 863
-      size: half
-    process:
-    - label: "Sketch"
-      src: /assets/images/graphic-design/helmet-sketch.jpg
-      thumb: /assets/images/graphic-design/thumbs/helmet-sketch.jpg
-      width: 272
-      height: 319
-    - label: "Step 2"
-      src: /assets/images/graphic-design/helmet-3.jpg
-      thumb: /assets/images/graphic-design/thumbs/helmet-3.jpg
-      width: 900
-      height: 896
-    - label: "Step 3"
-      src: /assets/images/graphic-design/helmet-5.jpg
-      thumb: /assets/images/graphic-design/thumbs/helmet-5.jpg
-      width: 900
-      height: 896
-    - label: "Final"
-      src: /assets/images/graphic-design/helmet-final.jpg
-      thumb: /assets/images/graphic-design/thumbs/helmet-final.jpg
-      width: 900
-      height: 896
+      - label: "Final"
+        src: /assets/images/graphic-design/helmet-final.jpg
+        thumb: /assets/images/graphic-design/thumbs/helmet-final.jpg
+        width: 900
+        height: 896
+    details:
+      - heading: Process
+        kind: process
+        items:
+          - label: "Sketch"
+            src: /assets/images/graphic-design/helmet-sketch.jpg
+            thumb: /assets/images/graphic-design/thumbs/helmet-sketch.jpg
+            width: 272
+            height: 319
+          - label: "Step 1"
+            src: /assets/images/graphic-design/helmet-1.jpg
+            thumb: /assets/images/graphic-design/thumbs/helmet-1.jpg
+            width: 811
+            height: 863
+          - label: "Step 2"
+            src: /assets/images/graphic-design/helmet-3.jpg
+            thumb: /assets/images/graphic-design/thumbs/helmet-3.jpg
+            width: 900
+            height: 896
+          - label: "Step 3"
+            src: /assets/images/graphic-design/helmet-5.jpg
+            thumb: /assets/images/graphic-design/thumbs/helmet-5.jpg
+            width: 900
+            height: 896
+          - label: "Final"
+            src: /assets/images/graphic-design/helmet-final.jpg
+            thumb: /assets/images/graphic-design/thumbs/helmet-final.jpg
+            width: 900
+            height: 896

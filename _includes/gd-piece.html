@@ -1,0 +1,8 @@
+<figure class="gd-piece{% if include.piece.size %} gd-piece--{{ include.piece.size }}{% endif %}" data-lightbox="{{ include.group }}"
+  data-src="{{ include.piece.src }}" data-type="image" data-title="{{ include.title }}" data-meta="{{ include.piece.label }}"
+  tabindex="0" role="button" aria-label="Open {{ include.title }}, {{ include.piece.label }}">
+  <div class="gd-mat">
+    <img src="{{ include.piece.thumb }}" alt="{{ include.title }}, {{ include.piece.label }}" width="{{ include.piece.width }}" height="{{ include.piece.height }}" loading="lazy" decoding="async">
+  </div>
+  <figcaption>{{ include.piece.label }}</figcaption>
+</figure>

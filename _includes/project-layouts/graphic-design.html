@@ -1,40 +1,20 @@
 <section class="container gd-index">
   {% for project in include.section.projects %}
-    {% assign group = 'gd-' | append: forloop.index %}
-    <article class="gd-project reveal">
-      <header class="gd-head">
+    {% assign group = 'gd-' | append: project.slug %}
+    <article class="gd-feature reveal">
+      <div class="gd-info">
         <span class="gd-num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
         <h2 class="gd-title">{{ project.title }}</h2>
         <p class="gd-tags">{{ project.tags }}{% if project.year %} · {{ project.year }}{% endif %}</p>
-      </header>
-
-      <div class="gd-spread">
+        {% if project.details %}
+          <a class="gd-more" href="{{ include.section.url }}{{ project.slug }}/">{{ project.more }} <span aria-hidden="true">→</span></a>
+        {% endif %}
+      </div>
+      <div class="gd-main gd-main--{{ project.pieces.size }}">
         {% for piece in project.pieces %}
-          <figure class="gd-piece{% if piece.size %} gd-piece--{{ piece.size }}{% endif %}" data-lightbox="{{ group }}"
-            data-src="{{ piece.src }}" data-type="image" data-title="{{ project.title }}" data-meta="{{ piece.label }}"
-            tabindex="0" role="button" aria-label="Open {{ project.title }}, {{ piece.label }}">
-            <div class="gd-mat">
-              <img src="{{ piece.thumb }}" alt="{{ project.title }}, {{ piece.label }}" width="{{ piece.width }}" height="{{ piece.height }}" loading="lazy" decoding="async">
-            </div>
-            <figcaption>{{ piece.label }}</figcaption>
-          </figure>
+          {% include gd-piece.html piece=piece group=group title=project.title %}
         {% endfor %}
       </div>
-
-      {% if project.process %}
-        <ol class="gd-process" aria-label="Process">
-          {% for step in project.process %}
-            <li class="gd-step" data-lightbox="{{ group }}-process" data-src="{{ step.src }}" data-type="image"
-              data-title="{{ project.title }}" data-meta="Process: {{ step.label }}"
-              tabindex="0" role="button" aria-label="Open {{ project.title }} process, {{ step.label }}">
-              <div class="gd-mat">
-                <img src="{{ step.thumb }}" alt="{{ project.title }} process, {{ step.label }}" width="{{ step.width }}" height="{{ step.height }}" loading="lazy" decoding="async">
-              </div>
-              <span class="gd-step-label"><b>{{ forloop.index | prepend: '0' | slice: -2, 2 }}</b> {{ step.label }}</span>
-            </li>
-          {% endfor %}
-        </ol>
-      {% endif %}
     </article>
   {% endfor %}
 </section>
