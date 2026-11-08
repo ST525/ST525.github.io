@@ -456,13 +456,18 @@ sections:
             width: 900
             height: 600
             size: wide
-  - slug: iceberg
-    title: Iceberg
+  - slug: iceberg-polluted
+    title: Iceberg & Polluted
     tags: Isometric illustration
     pieces:
       - label: "Iceberg"
         src: /assets/images/graphic-design/iceberg.jpg
         thumb: /assets/images/graphic-design/thumbs/iceberg.jpg
+        width: 695
+        height: 900
+      - label: "Polluted"
+        src: /assets/images/graphic-design/polluted.jpg
+        thumb: /assets/images/graphic-design/thumbs/polluted.jpg
         width: 695
         height: 900
   - slug: darkness
@@ -496,15 +501,6 @@ sections:
             width: 900
             height: 630
             size: land
-  - slug: polluted
-    title: Polluted
-    tags: Isometric illustration
-    pieces:
-      - label: "Polluted"
-        src: /assets/images/graphic-design/polluted.jpg
-        thumb: /assets/images/graphic-design/thumbs/polluted.jpg
-        width: 695
-        height: 900
   - slug: 2021
     title: 2021
     year: 2021
