@@ -317,21 +317,17 @@ $frame-wood: linear-gradient(135deg, #2e2a26 0%, #141210 38%, #1f1b18 68%, #0b0a
   background: var(--gallery-floor);
 }
 
-/* Planks repeat every 1368px; the strip is wide enough to slide several paintings at once */
+/* Planks repeat every 1368px; the strip covers the full wrapped translation range */
 .room-boards {
   position: absolute;
   top: 0;
   bottom: 0;
-  left: -20000px;
-  right: -20000px;
+  left: -1400px;
+  right: -1400px;
+  will-change: transform;
   background:
     repeating-linear-gradient(to right, transparent 0 56px, rgba(0, 0, 0, 0.28) 56px 57px),
     repeating-linear-gradient(to right, transparent 0 9px, rgba(255, 255, 255, 0.035) 9px 11px, transparent 11px 23px, rgba(0, 0, 0, 0.05) 23px 24px);
-  transition: transform 0.8s var(--ease);
-}
-
-.room-boards.is-jumping {
-  transition: none;
 }
 
 .room-track {
@@ -341,7 +337,7 @@ $frame-wood: linear-gradient(135deg, #2e2a26 0%, #141210 38%, #1f1b18 68%, #0b0a
   left: 0;
   display: flex;
   align-items: stretch;
-  transition: transform 0.8s var(--ease);
+  will-change: transform;
 }
 
 .room-track.is-jumping,
@@ -373,7 +369,7 @@ $frame-wood: linear-gradient(135deg, #2e2a26 0%, #141210 38%, #1f1b18 68%, #0b0a
 .room-hang {
   position: relative;
   transform: perspective(800px) rotateY(0deg) scale(1.04);
-  transition: transform 0.8s var(--ease);
+  transition: transform 0.9s cubic-bezier(0.3, 0.1, 0.2, 1);
 }
 
 .room-slide.is-left .room-hang {
