@@ -1,7 +1,7 @@
 <section class="container gd-index">
   {% for project in include.section.projects %}
     {% assign group = 'gd-' | append: project.slug %}
-    <article class="gd-feature reveal">
+    <article class="gd-feature{% if project.pieces.size > 2 %} gd-feature--wide{% endif %} reveal">
       <div class="gd-info">
         <span class="gd-num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
         <h2 class="gd-title">{{ project.title }}</h2>

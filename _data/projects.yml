@@ -239,6 +239,53 @@ sections:
   description: Posters, isometric illustration and logo design.
   hidden: true
   projects:
+  - slug: project-sagittarius
+    title: Project Sagittarius
+    year: 2022
+    tags: Graduation show posters · Merchandise
+    more: See the merchandise
+    pieces:
+      - label: "Poster 1"
+        src: /assets/images/graphic-design/sagittarius-1.jpg
+        thumb: /assets/images/graphic-design/thumbs/sagittarius-1.jpg
+        width: 637
+        height: 900
+      - label: "Poster 2"
+        src: /assets/images/graphic-design/sagittarius-2.jpg
+        thumb: /assets/images/graphic-design/thumbs/sagittarius-2.jpg
+        width: 637
+        height: 900
+      - label: "Poster 3"
+        src: /assets/images/graphic-design/sagittarius-3.jpg
+        thumb: /assets/images/graphic-design/thumbs/sagittarius-3.jpg
+        width: 637
+        height: 900
+      - label: "Poster 4"
+        src: /assets/images/graphic-design/sagittarius-4.jpg
+        thumb: /assets/images/graphic-design/thumbs/sagittarius-4.jpg
+        width: 637
+        height: 900
+      - label: "Poster 5"
+        src: /assets/images/graphic-design/sagittarius-5.jpg
+        thumb: /assets/images/graphic-design/thumbs/sagittarius-5.jpg
+        width: 637
+        height: 900
+    details:
+      - heading: Merchandise
+        kind: spread
+        items:
+          - label: "T-shirt"
+            src: /assets/images/graphic-design/sagittarius-tshirt.jpg
+            thumb: /assets/images/graphic-design/thumbs/sagittarius-tshirt.jpg
+            width: 900
+            height: 350
+            size: land
+          - label: "Tote bag"
+            src: /assets/images/graphic-design/sagittarius-tote.jpg
+            thumb: /assets/images/graphic-design/thumbs/sagittarius-tote.jpg
+            width: 900
+            height: 600
+            size: land
   - slug: escape-dullness
     title: Escape Dullness
     year: 2021
@@ -274,6 +321,30 @@ sections:
             thumb: /assets/images/graphic-design/thumbs/city-05.jpg
             width: 900
             height: 798
+  - slug: elements
+    title: Elements
+    tags: Poster series
+    pieces:
+      - label: "Fire: The Destruction of Life"
+        src: /assets/images/graphic-design/elements-fire.jpg
+        thumb: /assets/images/graphic-design/thumbs/elements-fire.jpg
+        width: 636
+        height: 900
+      - label: "Lightning: The Energy of Life"
+        src: /assets/images/graphic-design/elements-lightning.jpg
+        thumb: /assets/images/graphic-design/thumbs/elements-lightning.jpg
+        width: 636
+        height: 900
+      - label: "Sea: The Mother of Life"
+        src: /assets/images/graphic-design/elements-sea.jpg
+        thumb: /assets/images/graphic-design/thumbs/elements-sea.jpg
+        width: 636
+        height: 900
+      - label: "Wind: The Carrier of Life"
+        src: /assets/images/graphic-design/elements-wind.jpg
+        thumb: /assets/images/graphic-design/thumbs/elements-wind.jpg
+        width: 636
+        height: 900
   - slug: focus
     title: Focus
     tags: Isometric illustration
@@ -282,6 +353,30 @@ sections:
         src: /assets/images/graphic-design/focus.jpg
         thumb: /assets/images/graphic-design/thumbs/focus.jpg
         width: 900
+        height: 900
+  - slug: optical-illusion
+    title: Optical Illusion
+    tags: Poster series
+    pieces:
+      - label: "Poster 1"
+        src: /assets/images/graphic-design/optical-illusion-1.jpg
+        thumb: /assets/images/graphic-design/thumbs/optical-illusion-1.jpg
+        width: 636
+        height: 900
+      - label: "Poster 2"
+        src: /assets/images/graphic-design/optical-illusion-2.jpg
+        thumb: /assets/images/graphic-design/thumbs/optical-illusion-2.jpg
+        width: 637
+        height: 900
+      - label: "Poster 3"
+        src: /assets/images/graphic-design/optical-illusion-3.jpg
+        thumb: /assets/images/graphic-design/thumbs/optical-illusion-3.jpg
+        width: 637
+        height: 900
+      - label: "Poster 4"
+        src: /assets/images/graphic-design/optical-illusion-4.jpg
+        thumb: /assets/images/graphic-design/thumbs/optical-illusion-4.jpg
+        width: 637
         height: 900
   - slug: the-dark-knight
     title: The Dark Knight
@@ -313,6 +408,65 @@ sections:
             width: 900
             height: 600
             size: wide
+  - slug: iceberg
+    title: Iceberg
+    tags: Isometric illustration
+    pieces:
+      - label: "Iceberg"
+        src: /assets/images/graphic-design/iceberg.jpg
+        thumb: /assets/images/graphic-design/thumbs/iceberg.jpg
+        width: 695
+        height: 900
+  - slug: darkness
+    title: Darkness
+    tags: Posters · Mockups
+    more: See the mockups
+    pieces:
+      - label: "Poster: Darkness"
+        src: /assets/images/graphic-design/darkness-poster.jpg
+        thumb: /assets/images/graphic-design/thumbs/darkness-poster.jpg
+        width: 636
+        height: 900
+      - label: "Poster: Doughnuts"
+        src: /assets/images/graphic-design/darkness-doughnuts.jpg
+        thumb: /assets/images/graphic-design/thumbs/darkness-doughnuts.jpg
+        width: 636
+        height: 900
+    details:
+      - heading: Mockups
+        kind: spread
+        items:
+          - label: "Mockup: Darkness"
+            src: /assets/images/graphic-design/darkness-mockup-1.jpg
+            thumb: /assets/images/graphic-design/thumbs/darkness-mockup-1.jpg
+            width: 900
+            height: 630
+            size: land
+          - label: "Mockup: Doughnuts"
+            src: /assets/images/graphic-design/darkness-mockup-2.jpg
+            thumb: /assets/images/graphic-design/thumbs/darkness-mockup-2.jpg
+            width: 900
+            height: 630
+            size: land
+  - slug: polluted
+    title: Polluted
+    tags: Isometric illustration
+    pieces:
+      - label: "Polluted"
+        src: /assets/images/graphic-design/polluted.jpg
+        thumb: /assets/images/graphic-design/thumbs/polluted.jpg
+        width: 695
+        height: 900
+  - slug: 2021
+    title: 2021
+    year: 2021
+    tags: Poster
+    pieces:
+      - label: "Poster"
+        src: /assets/images/graphic-design/2021.jpg
+        thumb: /assets/images/graphic-design/thumbs/2021.jpg
+        width: 900
+        height: 900
   - slug: helmet
     title: Helmet
     tags: Logo · Icon design
