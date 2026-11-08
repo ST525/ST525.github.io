@@ -1,8 +1,9 @@
 // Painting page: pan along a looping gallery wall with the floor arrows.
+import { createFloor, FLOOR_PERIOD } from './gallery-floor.js';
+
 const CLONES = 2;
 const PLANKS = 1368; // repeat length of the floorboard pattern
 const OMEGA = 7;
-const FLOOR = 0.8;
 
 export function initGalleryRoom() {
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -15,6 +16,7 @@ export function initGalleryRoom() {
     const nextBtn = section.querySelector('[data-room-next]');
     if (!room || !track || !real.length) return;
     const n = real.length;
+    const floor = createFloor(room, section.querySelector('.room-wall'));
 
     // Copies of the last/first paintings on either end so the wall never shows a bare side.
     function cloneOf(slide) {
@@ -81,7 +83,9 @@ export function initGalleryRoom() {
     function light() {
       const slide = slides[pos];
       whenLoaded(slide, function () {
-        if (!moving && slides[pos] === slide) slide.classList.add('is-lit');
+        if (moving || slides[pos] !== slide) return;
+        slide.classList.add('is-lit');
+        if (floor) floor.setLit(true);
       });
     }
 
@@ -93,9 +97,8 @@ export function initGalleryRoom() {
 
     function apply() {
       track.style.transform = 'translateX(' + x + 'px)';
-      if (boards) {
-        boards.style.transform = 'translateX(' + (mod(x * FLOOR + boardOffset, PLANKS) - PLANKS) + 'px)';
-      }
+      if (floor) floor.setPosition(mod(-(x + boardOffset), FLOOR_PERIOD));
+      else if (boards) boards.style.transform = 'translateX(' + (mod(x + boardOffset, PLANKS) - PLANKS) + 'px)';
     }
 
     function pan(snap) {
@@ -138,6 +141,7 @@ export function initGalleryRoom() {
 
     function paint() {
       const current = logical();
+      if (floor) floor.setLit(false);
       slides.forEach(function (slide, i) {
         const active = Number(slide.dataset.index) === current;
         slide.classList.toggle('is-active', active);
@@ -162,7 +166,7 @@ export function initGalleryRoom() {
       paint();
       x += d;
       target += d;
-      boardOffset -= d * FLOOR;
+      boardOffset -= d;
       apply();
       void track.offsetWidth;
       track.classList.remove('is-jumping');
@@ -209,6 +213,7 @@ export function initGalleryRoom() {
     });
 
     window.addEventListener('resize', function () {
+      if (floor) floor.resize();
       insets();
       pan(true);
     });
