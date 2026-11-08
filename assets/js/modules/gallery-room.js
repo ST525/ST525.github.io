@@ -2,6 +2,7 @@
 const CLONES = 2;
 const PLANKS = 1368; // repeat length of the floorboard pattern
 const OMEGA = 7;
+const FLOOR = 0.8;
 
 export function initGalleryRoom() {
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -93,7 +94,7 @@ export function initGalleryRoom() {
     function apply() {
       track.style.transform = 'translateX(' + x + 'px)';
       if (boards) {
-        boards.style.transform = 'translateX(' + (mod(x + boardOffset, PLANKS) - PLANKS) + 'px)';
+        boards.style.transform = 'translateX(' + (mod(x * FLOOR + boardOffset, PLANKS) - PLANKS) + 'px)';
       }
     }
 
@@ -161,7 +162,7 @@ export function initGalleryRoom() {
       paint();
       x += d;
       target += d;
-      boardOffset -= d;
+      boardOffset -= d * FLOOR;
       apply();
       void track.offsetWidth;
       track.classList.remove('is-jumping');

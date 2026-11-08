@@ -40,7 +40,6 @@ list in `_data/projects.yml`:
 sections:
 - id: '01'
   title: Effects Animation
-  unit: clips
   items:
   - title: New clip
     meta: Animation · Compositing
@@ -50,8 +49,6 @@ sections:
     type: video
     group: fx
 ```
-
-The section count is computed from its `items` list, so it updates automatically.
 
 Generate lightweight grid previews and painting thumbnails with:
 
