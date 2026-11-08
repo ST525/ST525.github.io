@@ -294,6 +294,7 @@ $frame-wood: linear-gradient(135deg, #2e2a26 0%, #141210 38%, #1f1b18 68%, #0b0a
 
 .gallery-room {
   --room-h: max(460px, calc(100svh - var(--header-h)));
+  --bow: 9cqw;
   position: relative;
   height: var(--room-h);
   overflow: hidden;
@@ -308,13 +309,21 @@ $frame-wood: linear-gradient(135deg, #2e2a26 0%, #141210 38%, #1f1b18 68%, #0b0a
   position: absolute;
   left: -40%;
   right: -40%;
-  top: calc(85% - 5cqw);
+  top: calc(85% - var(--bow));
   height: 600px;
   transform-origin: top center;
   transform: rotateX(90deg);
   overflow: hidden;
   border-top: 3px solid rgba(0, 0, 0, 0.35);
   background: var(--gallery-floor);
+}
+
+.room-floor::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, var(--gallery-floor), transparent 32%);
+  pointer-events: none;
 }
 
 /* Planks repeat every 1368px; the strip covers the full wrapped translation range */
@@ -325,9 +334,9 @@ $frame-wood: linear-gradient(135deg, #2e2a26 0%, #141210 38%, #1f1b18 68%, #0b0a
   left: -1400px;
   right: -1400px;
   will-change: transform;
+  backface-visibility: hidden;
   background:
-    repeating-linear-gradient(to right, transparent 0 56px, rgba(0, 0, 0, 0.28) 56px 57px),
-    repeating-linear-gradient(to right, transparent 0 9px, rgba(255, 255, 255, 0.035) 9px 11px, transparent 11px 23px, rgba(0, 0, 0, 0.05) 23px 24px);
+    repeating-linear-gradient(to right, transparent 0 53px, rgba(0, 0, 0, 0.04) 53.5px, rgba(0, 0, 0, 0.15) 54.5px 55px, rgba(0, 0, 0, 0.04) 56px, transparent 57px);
 }
 
 .room-track {
@@ -393,11 +402,10 @@ $frame-wood: linear-gradient(135deg, #2e2a26 0%, #141210 38%, #1f1b18 68%, #0b0a
 
 /* Barrel-lens wall: top and bottom edges bow outward, sides fall into shade */
 .room-wall {
-  --bow: 5cqw;
   position: absolute;
   left: -3%;
   right: -3%;
-  top: 0;
+  top: calc(-1 * var(--bow));
   bottom: 15%;
   border-radius: 50% / var(--bow);
   background:
@@ -578,12 +586,12 @@ $frame-wood: linear-gradient(135deg, #2e2a26 0%, #141210 38%, #1f1b18 68%, #0b0a
 /* Tilted to follow the floor line as it curves up toward the edges */
 .room-arrow--prev {
   left: 5cqw;
-  transform: rotate(12deg) perspective(400px) rotateX(60deg);
+  transform: rotate(18deg) perspective(400px) rotateX(60deg);
 }
 
 .room-arrow--next {
   right: 5cqw;
-  transform: rotate(-12deg) perspective(400px) rotateX(60deg);
+  transform: rotate(-18deg) perspective(400px) rotateX(60deg);
 }
 
 .room-arrow svg {
