@@ -232,3 +232,321 @@ sections:
     type: image
     group: paint
     alt: Tree Mountain
+- id: '05'
+  slug: graphic-design
+  url: /projects/graphic-design/
+  title: Graphic Design
+  description: Posters, isometric illustration and logo design.
+  items:
+  - title: Project Sagittarius
+    meta: "Poster"
+    src: /assets/images/graphic-design/sagittarius-1.jpg
+    thumb: /assets/images/graphic-design/thumbs/sagittarius-1.jpg
+    type: image
+    group: gd
+    size: poster
+    alt: "Project Sagittarius, Poster"
+  - title: Escape Dullness
+    meta: "Poster · Isometric illustration"
+    src: /assets/images/graphic-design/escape-dullness.jpg
+    thumb: /assets/images/graphic-design/thumbs/escape-dullness.jpg
+    type: image
+    group: gd
+    size: poster
+    alt: "Escape Dullness, Poster · Isometric illustration"
+  - title: Elements
+    meta: "Fire: The Destruction of Life"
+    src: /assets/images/graphic-design/elements-fire.jpg
+    thumb: /assets/images/graphic-design/thumbs/elements-fire.jpg
+    type: image
+    group: gd
+    size: poster
+    alt: "Elements, Fire: The Destruction of Life"
+  - title: The Dark Knight
+    meta: "Poster: Joker"
+    src: /assets/images/graphic-design/dark-knight-joker.jpg
+    thumb: /assets/images/graphic-design/thumbs/dark-knight-joker.jpg
+    type: image
+    group: gd
+    size: poster
+    alt: "The Dark Knight, Poster: Joker"
+  - title: Darkness
+    meta: "Poster: Doughnuts"
+    src: /assets/images/graphic-design/darkness-doughnuts.jpg
+    thumb: /assets/images/graphic-design/thumbs/darkness-doughnuts.jpg
+    type: image
+    group: gd
+    size: poster
+    alt: "Darkness, Poster: Doughnuts"
+  - title: Optical Illusion
+    meta: "Poster 4"
+    src: /assets/images/graphic-design/optical-illusion-4.jpg
+    thumb: /assets/images/graphic-design/thumbs/optical-illusion-4.jpg
+    type: image
+    group: gd
+    size: poster
+    alt: "Optical Illusion, Poster 4"
+  projects:
+  - slug: project-sagittarius
+    title: Project Sagittarius
+    year: 2022
+    tags: Graduation show posters · Merchandise
+    more: See the merchandise
+    pieces:
+      - label: "Poster 1"
+        src: /assets/images/graphic-design/sagittarius-1.jpg
+        thumb: /assets/images/graphic-design/thumbs/sagittarius-1.jpg
+        width: 637
+        height: 900
+      - label: "Poster 2"
+        src: /assets/images/graphic-design/sagittarius-2.jpg
+        thumb: /assets/images/graphic-design/thumbs/sagittarius-2.jpg
+        width: 637
+        height: 900
+      - label: "Poster 3"
+        src: /assets/images/graphic-design/sagittarius-3.jpg
+        thumb: /assets/images/graphic-design/thumbs/sagittarius-3.jpg
+        width: 637
+        height: 900
+      - label: "Poster 4"
+        src: /assets/images/graphic-design/sagittarius-4.jpg
+        thumb: /assets/images/graphic-design/thumbs/sagittarius-4.jpg
+        width: 637
+        height: 900
+      - label: "Poster 5"
+        src: /assets/images/graphic-design/sagittarius-5.jpg
+        thumb: /assets/images/graphic-design/thumbs/sagittarius-5.jpg
+        width: 637
+        height: 900
+    details:
+      - heading: Merchandise
+        kind: spread
+        items:
+          - label: "T-shirt"
+            src: /assets/images/graphic-design/sagittarius-tshirt.jpg
+            thumb: /assets/images/graphic-design/thumbs/sagittarius-tshirt.jpg
+            width: 900
+            height: 350
+            size: land
+          - label: "Tote bag"
+            src: /assets/images/graphic-design/sagittarius-tote.jpg
+            thumb: /assets/images/graphic-design/thumbs/sagittarius-tote.jpg
+            width: 900
+            height: 600
+            size: land
+  - slug: escape-dullness
+    title: Escape Dullness
+    year: 2021
+    tags: Poster · Isometric illustration
+    more: See the process
+    pieces:
+      - label: "Poster"
+        src: /assets/images/graphic-design/escape-dullness.jpg
+        thumb: /assets/images/graphic-design/thumbs/escape-dullness.jpg
+        width: 661
+        height: 900
+    details:
+      - heading: Process
+        kind: process
+        items:
+          - label: "Sketch"
+            src: /assets/images/graphic-design/city-sketch.jpg
+            thumb: /assets/images/graphic-design/thumbs/city-sketch.jpg
+            width: 632
+            height: 900
+          - label: "Draft 1"
+            src: /assets/images/graphic-design/city-03.jpg
+            thumb: /assets/images/graphic-design/thumbs/city-03.jpg
+            width: 900
+            height: 647
+          - label: "Draft 2"
+            src: /assets/images/graphic-design/city-04.jpg
+            thumb: /assets/images/graphic-design/thumbs/city-04.jpg
+            width: 900
+            height: 647
+          - label: "Final render"
+            src: /assets/images/graphic-design/city-05.jpg
+            thumb: /assets/images/graphic-design/thumbs/city-05.jpg
+            width: 900
+            height: 798
+  - slug: elements
+    title: Elements
+    tags: Poster series
+    pieces:
+      - label: "Fire: The Destruction of Life"
+        src: /assets/images/graphic-design/elements-fire.jpg
+        thumb: /assets/images/graphic-design/thumbs/elements-fire.jpg
+        width: 636
+        height: 900
+      - label: "Lightning: The Energy of Life"
+        src: /assets/images/graphic-design/elements-lightning.jpg
+        thumb: /assets/images/graphic-design/thumbs/elements-lightning.jpg
+        width: 636
+        height: 900
+      - label: "Sea: The Mother of Life"
+        src: /assets/images/graphic-design/elements-sea.jpg
+        thumb: /assets/images/graphic-design/thumbs/elements-sea.jpg
+        width: 636
+        height: 900
+      - label: "Wind: The Carrier of Life"
+        src: /assets/images/graphic-design/elements-wind.jpg
+        thumb: /assets/images/graphic-design/thumbs/elements-wind.jpg
+        width: 636
+        height: 900
+  - slug: focus
+    title: Focus
+    tags: Isometric illustration
+    pieces:
+      - label: "Focus"
+        src: /assets/images/graphic-design/focus.jpg
+        thumb: /assets/images/graphic-design/thumbs/focus.jpg
+        width: 900
+        height: 900
+  - slug: optical-illusion
+    title: Optical Illusion
+    tags: Poster series
+    pieces:
+      - label: "Poster 1"
+        src: /assets/images/graphic-design/optical-illusion-1.jpg
+        thumb: /assets/images/graphic-design/thumbs/optical-illusion-1.jpg
+        width: 636
+        height: 900
+      - label: "Poster 2"
+        src: /assets/images/graphic-design/optical-illusion-2.jpg
+        thumb: /assets/images/graphic-design/thumbs/optical-illusion-2.jpg
+        width: 637
+        height: 900
+      - label: "Poster 3"
+        src: /assets/images/graphic-design/optical-illusion-3.jpg
+        thumb: /assets/images/graphic-design/thumbs/optical-illusion-3.jpg
+        width: 637
+        height: 900
+      - label: "Poster 4"
+        src: /assets/images/graphic-design/optical-illusion-4.jpg
+        thumb: /assets/images/graphic-design/thumbs/optical-illusion-4.jpg
+        width: 637
+        height: 900
+  - slug: the-dark-knight
+    title: The Dark Knight
+    tags: Fan posters
+    more: See the mockups
+    pieces:
+      - label: "Poster: Joker"
+        src: /assets/images/graphic-design/dark-knight-joker.jpg
+        thumb: /assets/images/graphic-design/thumbs/dark-knight-joker.jpg
+        width: 637
+        height: 900
+      - label: "Poster: Bat-Signal"
+        src: /assets/images/graphic-design/dark-knight-signal.jpg
+        thumb: /assets/images/graphic-design/thumbs/dark-knight-signal.jpg
+        width: 636
+        height: 900
+    details:
+      - heading: Mockups
+        kind: spread
+        items:
+          - label: "Mockup: street"
+            src: /assets/images/graphic-design/dark-knight-mockup-street.jpg
+            thumb: /assets/images/graphic-design/thumbs/dark-knight-mockup-street.jpg
+            width: 600
+            height: 900
+          - label: "Mockup: storefront"
+            src: /assets/images/graphic-design/dark-knight-mockup-store.jpg
+            thumb: /assets/images/graphic-design/thumbs/dark-knight-mockup-store.jpg
+            width: 900
+            height: 600
+            size: wide
+  - slug: iceberg-polluted
+    title: Iceberg & Polluted
+    tags: Isometric illustration
+    pieces:
+      - label: "Iceberg"
+        src: /assets/images/graphic-design/iceberg.jpg
+        thumb: /assets/images/graphic-design/thumbs/iceberg.jpg
+        width: 695
+        height: 900
+      - label: "Polluted"
+        src: /assets/images/graphic-design/polluted.jpg
+        thumb: /assets/images/graphic-design/thumbs/polluted.jpg
+        width: 695
+        height: 900
+  - slug: darkness
+    title: Darkness
+    tags: Posters · Mockups
+    more: See the mockups
+    pieces:
+      - label: "Poster: Darkness"
+        src: /assets/images/graphic-design/darkness-poster.jpg
+        thumb: /assets/images/graphic-design/thumbs/darkness-poster.jpg
+        width: 636
+        height: 900
+      - label: "Poster: Doughnuts"
+        src: /assets/images/graphic-design/darkness-doughnuts.jpg
+        thumb: /assets/images/graphic-design/thumbs/darkness-doughnuts.jpg
+        width: 636
+        height: 900
+    details:
+      - heading: Mockups
+        kind: spread
+        items:
+          - label: "Mockup: Darkness"
+            src: /assets/images/graphic-design/darkness-mockup-1.jpg
+            thumb: /assets/images/graphic-design/thumbs/darkness-mockup-1.jpg
+            width: 900
+            height: 630
+            size: land
+          - label: "Mockup: Doughnuts"
+            src: /assets/images/graphic-design/darkness-mockup-2.jpg
+            thumb: /assets/images/graphic-design/thumbs/darkness-mockup-2.jpg
+            width: 900
+            height: 630
+            size: land
+  - slug: 2021
+    title: 2021
+    year: 2021
+    tags: Poster
+    pieces:
+      - label: "Poster"
+        src: /assets/images/graphic-design/2021.jpg
+        thumb: /assets/images/graphic-design/thumbs/2021.jpg
+        width: 900
+        height: 900
+  - slug: helmet
+    title: Helmet
+    tags: Logo · Icon design
+    more: See the process
+    pieces:
+      - label: "Final"
+        src: /assets/images/graphic-design/helmet-final.jpg
+        thumb: /assets/images/graphic-design/thumbs/helmet-final.jpg
+        width: 900
+        height: 896
+    details:
+      - heading: Process
+        kind: process
+        items:
+          - label: "Sketch"
+            src: /assets/images/graphic-design/helmet-sketch.jpg
+            thumb: /assets/images/graphic-design/thumbs/helmet-sketch.jpg
+            width: 272
+            height: 319
+          - label: "Step 1"
+            src: /assets/images/graphic-design/helmet-1.jpg
+            thumb: /assets/images/graphic-design/thumbs/helmet-1.jpg
+            width: 811
+            height: 863
+          - label: "Step 2"
+            src: /assets/images/graphic-design/helmet-3.jpg
+            thumb: /assets/images/graphic-design/thumbs/helmet-3.jpg
+            width: 900
+            height: 896
+          - label: "Step 3"
+            src: /assets/images/graphic-design/helmet-5.jpg
+            thumb: /assets/images/graphic-design/thumbs/helmet-5.jpg
+            width: 900
+            height: 896
+          - label: "Final"
+            src: /assets/images/graphic-design/helmet-final.jpg
+            thumb: /assets/images/graphic-design/thumbs/helmet-final.jpg
+            width: 900
+            height: 896

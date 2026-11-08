@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Projects · Space Traveller
-description: Effects animation, character animation, motion media and paintings by Andrew Yen (Space Traveller).
+description: Effects animation, character animation, motion media, paintings and graphic design by Andrew Yen (Space Traveller).
 nav: projects
 lightbox: true
 redirect_from:
@@ -10,10 +10,11 @@ redirect_from:
 <div class="container hero">
   <span class="eyebrow">Portfolio</span>
   <h1 class="hero-title">PROJECTS</h1>
-  <p class="hero-subtitle">Effects, character animation, motion media and paintings. Hover a clip for details, click to watch it full size.</p>
+  <p class="hero-subtitle">Effects, character animation, motion media, paintings and graphic design. Hover a clip for details, click to watch it full size.</p>
 </div>
 
 {% for section in site.data.projects.sections %}
+  {% if section.hidden %}{% continue %}{% endif %}
   {% assign limit = section.preview | default: section.items.size %}
   <section class="container section">
     {% include section-head.html section=section link=true %}

@@ -1,0 +1,20 @@
+<section class="container gd-index">
+  {% for project in include.section.projects %}
+    {% assign group = 'gd-' | append: project.slug %}
+    <article class="gd-feature{% if project.pieces.size > 2 %} gd-feature--wide{% endif %} reveal">
+      <div class="gd-info">
+        <span class="gd-num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+        <h2 class="gd-title">{{ project.title }}</h2>
+        <p class="gd-tags">{{ project.tags }}{% if project.year %} · {{ project.year }}{% endif %}</p>
+        {% if project.details %}
+          <a class="gd-more" href="{{ include.section.url }}{{ project.slug }}/">{{ project.more }} <span aria-hidden="true">→</span></a>
+        {% endif %}
+      </div>
+      <div class="gd-main gd-main--{{ project.pieces.size }}">
+        {% for piece in project.pieces %}
+          {% include gd-piece.html piece=piece group=group title=project.title %}
+        {% endfor %}
+      </div>
+    </article>
+  {% endfor %}
+</section>
