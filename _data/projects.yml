@@ -232,12 +232,60 @@ sections:
     type: image
     group: paint
     alt: Tree Mountain
-- id: '07'
+- id: '05'
   slug: graphic-design
   url: /projects/graphic-design/
   title: Graphic Design
   description: Posters, isometric illustration and logo design.
-  hidden: true
+  items:
+  - title: Project Sagittarius
+    meta: "Poster"
+    src: /assets/images/graphic-design/sagittarius-1.jpg
+    thumb: /assets/images/graphic-design/thumbs/sagittarius-1.jpg
+    type: image
+    group: gd
+    size: poster
+    alt: "Project Sagittarius, Poster"
+  - title: Escape Dullness
+    meta: "Poster · Isometric illustration"
+    src: /assets/images/graphic-design/escape-dullness.jpg
+    thumb: /assets/images/graphic-design/thumbs/escape-dullness.jpg
+    type: image
+    group: gd
+    size: poster
+    alt: "Escape Dullness, Poster · Isometric illustration"
+  - title: Elements
+    meta: "Fire: The Destruction of Life"
+    src: /assets/images/graphic-design/elements-fire.jpg
+    thumb: /assets/images/graphic-design/thumbs/elements-fire.jpg
+    type: image
+    group: gd
+    size: poster
+    alt: "Elements, Fire: The Destruction of Life"
+  - title: The Dark Knight
+    meta: "Poster: Joker"
+    src: /assets/images/graphic-design/dark-knight-joker.jpg
+    thumb: /assets/images/graphic-design/thumbs/dark-knight-joker.jpg
+    type: image
+    group: gd
+    size: poster
+    alt: "The Dark Knight, Poster: Joker"
+  - title: Darkness
+    meta: "Poster: Doughnuts"
+    src: /assets/images/graphic-design/darkness-doughnuts.jpg
+    thumb: /assets/images/graphic-design/thumbs/darkness-doughnuts.jpg
+    type: image
+    group: gd
+    size: poster
+    alt: "Darkness, Poster: Doughnuts"
+  - title: Optical Illusion
+    meta: "Poster 4"
+    src: /assets/images/graphic-design/optical-illusion-4.jpg
+    thumb: /assets/images/graphic-design/thumbs/optical-illusion-4.jpg
+    type: image
+    group: gd
+    size: poster
+    alt: "Optical Illusion, Poster 4"
   projects:
   - slug: project-sagittarius
     title: Project Sagittarius
