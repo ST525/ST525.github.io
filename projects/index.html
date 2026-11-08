@@ -14,6 +14,7 @@ redirect_from:
 </div>
 
 {% for section in site.data.projects.sections %}
+  {% if section.hidden %}{% continue %}{% endif %}
   {% assign limit = section.preview | default: section.items.size %}
   <section class="container section">
     {% include section-head.html section=section link=true %}

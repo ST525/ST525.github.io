@@ -17,6 +17,7 @@
 </script>
 <title>{{ page.title }}</title>
 <meta name="description" content="{{ page.description }}">
+{% if page.noindex %}<meta name="robots" content="noindex">{% endif %}
 <link rel="canonical" href="{{ site.url }}{{ page.url }}">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="{{ site.title }}">
