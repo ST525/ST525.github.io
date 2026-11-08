@@ -34,6 +34,8 @@ export function initGalleryRoom() {
       track.appendChild(cloneOf(real[i % n]));
     }
     const slides = Array.from(track.querySelectorAll('.room-slide'));
+    const hangs = slides.map(function (slide) { return slide.querySelector('.room-hang'); });
+    const inset = slides.map(function () { return 0; });
 
     let pos = CLONES;
     let moving = false;
@@ -65,10 +67,28 @@ export function initGalleryRoom() {
         const hang = slide.querySelector('.room-hang');
         const isPortrait = img && img.complete && img.naturalWidth &&
           img.naturalHeight > img.naturalWidth;
-        const inset = isPortrait && hang && Number.isFinite(baseline)
+        const px = isPortrait && hang && Number.isFinite(baseline)
           ? Math.max(0, (slide.offsetWidth - hang.offsetWidth) / 2 - baseline)
           : 0;
-        slide.style.setProperty('--inset', inset + 'px');
+        slide.style.setProperty('--inset', px + 'px');
+        inset[slides.indexOf(slide)] = px;
+      });
+      bend();
+    }
+
+    // Fisheye bend from each painting's distance to the centre: -1 left neighbour, 0 centre, 1 right.
+    function bend() {
+      const mid = room.clientWidth / 2;
+      const offsets = slides.map(function (slide) {
+        const d = (slide.offsetLeft + slide.offsetWidth / 2 + x - mid) / slide.offsetWidth;
+        return Math.max(-1, Math.min(1, d));
+      });
+      offsets.forEach(function (s, i) {
+        const hang = hangs[i];
+        if (!hang) return;
+        hang.style.transformOrigin = (50 - 50 * s) + '% 50%';
+        hang.style.transform = 'translateX(' + (-s * inset[i]) + 'px) perspective(800px) rotateY(' +
+          (30 * s) + 'deg) scale(' + (1.04 - 0.26 * Math.abs(s)) + ')';
       });
     }
 
@@ -97,6 +117,7 @@ export function initGalleryRoom() {
 
     function apply() {
       track.style.transform = 'translateX(' + x + 'px)';
+      bend();
       if (floor) floor.setPosition(mod(-(x + boardOffset), FLOOR_PERIOD));
       else if (boards) boards.style.transform = 'translateX(' + (mod(x + boardOffset, PLANKS) - PLANKS) + 'px)';
     }

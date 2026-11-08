@@ -391,8 +391,9 @@ $frame-wood: linear-gradient(135deg, #2e2a26 0%, #141210 38%, #1f1b18 68%, #0b0a
 .room-hang {
   position: relative;
   transform: perspective(800px) rotateY(0deg) scale(1.04);
-  transition: transform 0.9s cubic-bezier(0.3, 0.1, 0.2, 1);
 }
+
+/* gallery-room.js sets the bend inline from the slide position so it moves with the wall */
 
 .room-slide.is-left .room-hang {
   transform-origin: right center;
