@@ -316,7 +316,7 @@ sections:
       - label: "Poster 5"
         src: /assets/images/graphic-design/sagittarius-5.jpg
         thumb: /assets/images/graphic-design/thumbs/sagittarius-5.jpg
-        width: 637
+        width: 636
         height: 900
     details:
       - heading: Merchandise
@@ -357,18 +357,18 @@ sections:
           - label: "Draft 1"
             src: /assets/images/graphic-design/city-03.jpg
             thumb: /assets/images/graphic-design/thumbs/city-03.jpg
-            width: 900
-            height: 647
+            width: 898
+            height: 646
           - label: "Draft 2"
             src: /assets/images/graphic-design/city-04.jpg
             thumb: /assets/images/graphic-design/thumbs/city-04.jpg
-            width: 900
-            height: 647
+            width: 898
+            height: 646
           - label: "Final render"
             src: /assets/images/graphic-design/city-05.jpg
             thumb: /assets/images/graphic-design/thumbs/city-05.jpg
             width: 900
-            height: 798
+            height: 797
   - slug: elements
     title: Elements
     tags: Poster series
@@ -409,12 +409,12 @@ sections:
       - label: "Poster 1"
         src: /assets/images/graphic-design/optical-illusion-1.jpg
         thumb: /assets/images/graphic-design/thumbs/optical-illusion-1.jpg
-        width: 636
+        width: 635
         height: 900
       - label: "Poster 2"
         src: /assets/images/graphic-design/optical-illusion-2.jpg
         thumb: /assets/images/graphic-design/thumbs/optical-illusion-2.jpg
-        width: 637
+        width: 636
         height: 900
       - label: "Poster 3"
         src: /assets/images/graphic-design/optical-illusion-3.jpg
@@ -424,8 +424,8 @@ sections:
       - label: "Poster 4"
         src: /assets/images/graphic-design/optical-illusion-4.jpg
         thumb: /assets/images/graphic-design/thumbs/optical-illusion-4.jpg
-        width: 637
-        height: 900
+        width: 636
+        height: 899
   - slug: the-dark-knight
     title: The Dark Knight
     tags: Fan posters
@@ -434,7 +434,7 @@ sections:
       - label: "Poster: Joker"
         src: /assets/images/graphic-design/dark-knight-joker.jpg
         thumb: /assets/images/graphic-design/thumbs/dark-knight-joker.jpg
-        width: 637
+        width: 636
         height: 900
       - label: "Poster: Bat-Signal"
         src: /assets/images/graphic-design/dark-knight-signal.jpg
@@ -469,7 +469,7 @@ sections:
         src: /assets/images/graphic-design/polluted.jpg
         thumb: /assets/images/graphic-design/thumbs/polluted.jpg
         width: 695
-        height: 900
+        height: 899
   - slug: darkness
     title: Darkness
     tags: Posters · Mockups
@@ -483,7 +483,7 @@ sections:
       - label: "Poster: Doughnuts"
         src: /assets/images/graphic-design/darkness-doughnuts.jpg
         thumb: /assets/images/graphic-design/thumbs/darkness-doughnuts.jpg
-        width: 636
+        width: 635
         height: 900
     details:
       - heading: Mockups
@@ -520,7 +520,7 @@ sections:
         src: /assets/images/graphic-design/helmet-final.jpg
         thumb: /assets/images/graphic-design/thumbs/helmet-final.jpg
         width: 900
-        height: 896
+        height: 895
     details:
       - heading: Process
         kind: process
@@ -533,20 +533,20 @@ sections:
           - label: "Step 1"
             src: /assets/images/graphic-design/helmet-1.jpg
             thumb: /assets/images/graphic-design/thumbs/helmet-1.jpg
-            width: 811
-            height: 863
+            width: 809
+            height: 853
           - label: "Step 2"
             src: /assets/images/graphic-design/helmet-3.jpg
             thumb: /assets/images/graphic-design/thumbs/helmet-3.jpg
             width: 900
-            height: 896
+            height: 895
           - label: "Step 3"
             src: /assets/images/graphic-design/helmet-5.jpg
             thumb: /assets/images/graphic-design/thumbs/helmet-5.jpg
             width: 900
-            height: 896
+            height: 895
           - label: "Final"
             src: /assets/images/graphic-design/helmet-final.jpg
             thumb: /assets/images/graphic-design/thumbs/helmet-final.jpg
             width: 900
-            height: 896
+            height: 895

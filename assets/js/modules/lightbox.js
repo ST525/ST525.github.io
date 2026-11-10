@@ -28,6 +28,10 @@ export function initLightbox() {
     const element = items[index];
     if (!element) return;
     currentIndex = index;
+    lightbox.classList.toggle(
+      'lightbox--square',
+      element.classList.contains('gd-piece') || element.classList.contains('gd-step')
+    );
 
     const src = element.getAttribute('data-src');
     const type = element.getAttribute('data-type') ||

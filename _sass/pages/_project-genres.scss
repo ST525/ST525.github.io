@@ -382,7 +382,7 @@
   align-items: center;
   justify-content: center;
   aspect-ratio: 4 / 5;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .gd-mat img {
@@ -400,6 +400,8 @@
 .gd-piece:focus-visible .gd-mat img,
 .gd-step:hover .gd-mat img,
 .gd-step:focus-visible .gd-mat img {
+  position: relative;
+  z-index: 1;
   transform: scale(1.03);
 }
 

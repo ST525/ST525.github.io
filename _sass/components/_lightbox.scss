@@ -34,6 +34,10 @@
   background: #000;
 }
 
+.lightbox--square .lightbox-media {
+  border-radius: 0;
+}
+
 .lightbox.active .lightbox-media {
   transform: scale(1);
 }
