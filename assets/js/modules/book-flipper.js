@@ -19,7 +19,7 @@ function setup(root) {
   const sources = Array.from(list.querySelectorAll('img'));
   if (!sources.length) return;
 
-  const ratio = sources[0].width / sources[0].height || 1;
+  const ratio = Number(sources[0].getAttribute('width')) / Number(sources[0].getAttribute('height')) || 1;
   const pages = sources.map(function (img) {
     return { src: img.getAttribute('src'), alt: img.alt };
   });
