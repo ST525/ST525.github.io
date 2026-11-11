@@ -69,7 +69,15 @@
   transform-style: preserve-3d;
 }
 
+.book-volume:not(.is-spread) .book-leaf.is-turned:not(.is-moving) {
+  visibility: hidden;
+}
+
 .book-volume.no-anim {
+  transition: none;
+}
+
+.book-volume.no-anim .book-page-block {
   transition: none;
 }
 
@@ -129,6 +137,29 @@
   transform-origin: left center;
 }
 
+.book-cover-edge-face {
+  position: absolute;
+  z-index: 2;
+  background:
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.1) 0 1px, transparent 1px 3px),
+    linear-gradient(135deg, #252b3c, #101521);
+  pointer-events: none;
+}
+
+.book-cover-edge--right {
+  top: 0;
+  right: -6px;
+  bottom: -6px;
+  width: 6px;
+}
+
+.book-cover-edge--bottom {
+  right: -6px;
+  bottom: -6px;
+  left: 0;
+  height: 6px;
+}
+
 .book-leaf--cover .book-face--front {
   transform: translateZ(0.5px);
 }
@@ -144,10 +175,16 @@
     repeating-linear-gradient(0deg, #e8dec9 0 1px, #d9cfbb 1px 2px, #f4ecd9 2px 3px);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
   pointer-events: none;
+  transition: transform 0.2s var(--ease);
 }
 
 .book-page-block--left {
   transform: translate(calc(0px - var(--depth)), var(--depth));
+}
+
+.book-volume:not(.is-spread) .book-page-block--left,
+.book-volume:not(.is-spread) .book-spine-shadow {
+  display: none !important;
 }
 
 .book-page-block--right {
@@ -171,6 +208,11 @@
   pointer-events: none;
 }
 
+.book-leaf.is-curling > .book-curl,
+.book-leaf.is-curling .book-curl-strip {
+  will-change: transform;
+}
+
 .book-leaf.is-curling > .book-curl {
   display: block;
 }
@@ -182,8 +224,8 @@
 .book-curl-strip {
   position: absolute;
   top: 0;
-  left: 100%;
-  width: 100%;
+  left: 0;
+  width: auto;
   height: 100%;
   overflow: visible;
   transform-origin: left center;
@@ -192,7 +234,6 @@
 
 .book-curl-strip.is-root {
   left: 0;
-  width: calc(100% / 12 + 0.35px);
 }
 
 .book-curl-face {
@@ -202,6 +243,7 @@
   background-repeat: no-repeat;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
+  outline: 1px solid transparent;
 }
 
 .book-curl-face--back {
@@ -216,7 +258,7 @@
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: linear-gradient(90deg, rgba(0, 0, 0, 0.36), transparent 22%, rgba(255, 255, 255, 0.2) 48%, rgba(0, 0, 0, 0.24) 78%, transparent);
+  background: none;
   pointer-events: none;
 }
 

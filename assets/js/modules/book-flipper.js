@@ -67,6 +67,7 @@ function setup(root) {
   let turned = 0;
   let page = 0;
   let frameId = 0;
+  let activeAnimations = [];
   let fastClassTimer = 0;
   let zoomFocus = null;
   let zoomOpenedAt = 0;
@@ -75,6 +76,8 @@ function setup(root) {
   let pageGutter = 0;
   let pageTop = 0;
   let maxPageDepth = 14;
+  let lastLeftDepth = null;
+  let lastRightDepth = null;
 
   const leftBlock = document.createElement('div');
   leftBlock.className = 'book-page-block book-page-block--left';
@@ -115,9 +118,12 @@ function setup(root) {
         angle: 0,
         bend: 0,
         animation: null,
+        shadeFrame: 0,
         curlRoot: null,
         strips: [],
-        shadow: document.createElement('div')
+        shadow: document.createElement('div'),
+        curlTransform: '',
+        shadowOpacity: ''
       };
       state.shadow.className = 'book-turn-shadow';
       leaf.appendChild(state.shadow);
@@ -127,7 +133,11 @@ function setup(root) {
         board.className = 'book-cover-board';
         const edge = document.createElement('div');
         edge.className = 'book-cover-edge';
-        leaf.append(board, edge);
+        const rightEdge = document.createElement('div');
+        rightEdge.className = 'book-cover-edge-face book-cover-edge--right';
+        const bottomEdge = document.createElement('div');
+        bottomEdge.className = 'book-cover-edge-face book-cover-edge--bottom';
+        leaf.append(board, edge, rightEdge, bottomEdge);
       }
       leaf.appendChild(face(pages[i], 'front'));
       if (spread) leaf.appendChild(face(pages[i + 1], 'back'));
@@ -199,12 +209,6 @@ function setup(root) {
       const shade = document.createElement('div');
       shade.className = 'book-curl-shade';
 
-      const offset = (k / (CURL_STRIPS - 1)) * 100;
-      const backOffset = 100 - offset;
-      front.style.backgroundSize = CURL_STRIPS * 100 + '% 100%';
-      back.style.backgroundSize = CURL_STRIPS * 100 + '% 100%';
-      front.style.backgroundPositionX = offset + '%';
-      back.style.backgroundPositionX = backOffset + '%';
       if (frontSrc) front.style.backgroundImage = 'url("' + frontSrc.replace(/["\\]/g, '\\$&') + '")';
       else front.classList.add('is-blank');
       if (backSrc) back.style.backgroundImage = 'url("' + backSrc.replace(/["\\]/g, '\\$&') + '")';
@@ -215,6 +219,8 @@ function setup(root) {
       state.strips.push({
         element: strip,
         shade: shade,
+        front: front,
+        back: back,
         weight: k / ((CURL_STRIPS * (CURL_STRIPS - 1)) / 2)
       });
       parent = strip;
@@ -222,26 +228,69 @@ function setup(root) {
 
     state.curlRoot = root;
     leaves[index].appendChild(root);
+    sizeCurl(index);
+  }
+
+  function sizeCurl(index) {
+    const state = leafStates[index];
+    if (!state.curlRoot) return;
+    const stripWidth = pageWidth / CURL_STRIPS;
+    state.strips.forEach(function (strip, k) {
+      const left = k === 0 ? 0 : stripWidth;
+      const width = stripWidth + 1;
+      strip.element.style.left = left + 'px';
+      strip.element.style.width = width + 'px';
+      strip.front.style.backgroundSize = pageWidth + 'px 100%';
+      strip.front.style.backgroundPositionX = (-k * stripWidth) + 'px';
+      strip.back.style.backgroundSize = pageWidth + 'px 100%';
+      strip.back.style.backgroundPositionX = (-(CURL_STRIPS - 1 - k) * stripWidth) + 'px';
+    });
   }
 
   function renderCurl(index, angle, bend) {
     const state = leafStates[index];
-    state.curlRoot.style.transform = leafTransform(angle, bend, true, index);
+    const rootTransform = leafTransform(angle, bend, true, index);
+    if (state.curlTransform !== rootTransform) {
+      state.curlRoot.style.transform = rootTransform;
+      state.curlTransform = rootTransform;
+    }
+    const updateShading = state.shadeFrame++ % 2 === 0;
     let cumulativeAngle = angle;
     state.strips.forEach(function (strip) {
       const extra = bend * strip.weight;
-      strip.element.style.transform = 'rotateY(' + extra + 'deg)';
+      const transform = 'rotateY(' + extra.toFixed(1) + 'deg)';
+      if (strip.transform !== transform) {
+        strip.element.style.transform = transform;
+        strip.transform = transform;
+      }
+      const startAngle = cumulativeAngle;
       cumulativeAngle += extra;
-      const facingAway = (1 - Math.cos(cumulativeAngle * Math.PI / 180)) / 2;
-      strip.shade.style.opacity = String(0.12 + facingAway * 0.46 + Math.min(0.12, Math.abs(bend) / CURL_DEGREES * 0.12));
+      if (updateShading) {
+        const startShade = (1 - Math.cos(startAngle * Math.PI / 180)) * 0.21;
+        const endShade = (1 - Math.cos(cumulativeAngle * Math.PI / 180)) * 0.21;
+        const midAngle = (cumulativeAngle + startAngle) / 2;
+        const highlight = Math.max(0, 1 - Math.abs(Math.abs(midAngle) - 90) / 90) *
+          Math.min(0.08, Math.abs(bend) / CURL_DEGREES * 0.08);
+        const shading = 'linear-gradient(90deg, rgba(0, 0, 0, ' + startShade.toFixed(2) +
+          '), rgba(0, 0, 0, ' + endShade.toFixed(2) + ')), linear-gradient(90deg, transparent 40%, rgba(255, 255, 255, ' +
+          highlight.toFixed(2) + ') 50%, transparent 60%)';
+        if (strip.shading !== shading) {
+          strip.shade.style.backgroundImage = shading;
+          strip.shading = shading;
+        }
+      }
     });
-    state.shadow.style.opacity = String(Math.max(0, Math.sin(Math.PI * Math.abs(angle) / 180)) * 0.24);
+    const shadowOpacity = (Math.max(0, Math.sin(Math.PI * Math.abs(angle) / 180)) * 0.24).toFixed(2);
+    if (state.shadowOpacity !== shadowOpacity) {
+      state.shadow.style.opacity = shadowOpacity;
+      state.shadowOpacity = shadowOpacity;
+    }
   }
 
   function leafTransform(angle, bend, moving, index) {
     const offset = spread || !moving ? 0 : Math.max(0, -Math.cos((angle + bend) * Math.PI / 180)) * pageWidth;
     const depth = !moving && index === 0 && angle <= -90 ? 'translateZ(-6px) ' : '';
-    return depth + (offset ? 'translateX(' + offset + 'px) ' : '') + 'rotateY(' + angle + 'deg)';
+    return depth + (offset ? 'translateX(' + offset.toFixed(1) + 'px) ' : '') + 'rotateY(' + angle.toFixed(1) + 'deg)';
   }
 
   function blockDepth(count) {
@@ -251,17 +300,25 @@ function setup(root) {
 
   function updateBlocks() {
     let leftCount = 0;
+    let rightCount = 0;
     leafStates.forEach(function (state) {
-      leftCount += Math.max(0, Math.min(1, -state.angle / 180));
+      const turnedAmount = Math.max(0, Math.min(1, -state.angle / 180));
+      if (spread) leftCount += turnedAmount;
+      rightCount += 1 - turnedAmount;
     });
-    const rightCount = leafStates.length - leftCount;
-    [
-      { element: leftBlock, depth: blockDepth(leftCount) },
-      { element: rightBlock, depth: blockDepth(rightCount) }
-    ].forEach(function (block) {
-      block.element.style.display = block.depth ? 'block' : 'none';
-      block.element.style.setProperty('--depth', block.depth + 'px');
-    });
+    if (spread) rightCount = leafStates.length - leftCount;
+    const leftDepth = Math.round(blockDepth(leftCount) * 10) / 10;
+    const rightDepth = Math.round(blockDepth(rightCount) * 10) / 10;
+    if (leftDepth !== lastLeftDepth) {
+      leftBlock.style.display = leftDepth ? 'block' : 'none';
+      leftBlock.style.setProperty('--depth', leftDepth + 'px');
+      lastLeftDepth = leftDepth;
+    }
+    if (rightDepth !== lastRightDepth) {
+      rightBlock.style.display = rightDepth ? 'block' : 'none';
+      rightBlock.style.setProperty('--depth', rightDepth + 'px');
+      lastRightDepth = rightDepth;
+    }
   }
 
   function positionVolume() {
@@ -294,6 +351,7 @@ function setup(root) {
   function instant() {
     if (frameId) window.cancelAnimationFrame(frameId);
     frameId = 0;
+    activeAnimations = [];
     volume.classList.add('no-anim');
     leaves.forEach(function (leaf, i) {
       const state = leafStates[i];
@@ -317,11 +375,14 @@ function setup(root) {
     frameId = 0;
     let active = false;
     let landed = false;
-    leafStates.forEach(function (state, i) {
+    const remaining = [];
+    activeAnimations.forEach(function (i) {
+      const state = leafStates[i];
       const animation = state.animation;
       if (!animation) return;
       if (now < animation.startAt) {
         active = true;
+        remaining.push(i);
         return;
       }
       const leaf = leaves[i];
@@ -363,10 +424,11 @@ function setup(root) {
         landed = true;
       } else {
         active = true;
+        remaining.push(i);
       }
     });
 
-    updateBlocks();
+    activeAnimations = remaining;
     if (landed) render();
     if (active) frameId = window.requestAnimationFrame(animate);
   }
@@ -407,6 +469,10 @@ function setup(root) {
       };
     });
 
+    activeAnimations = leafStates.reduce(function (indices, state, index) {
+      if (state.animation) indices.push(index);
+      return indices;
+    }, []);
     if (moving.length) {
       if (!frameId) frameId = window.requestAnimationFrame(animate);
     }
@@ -556,6 +622,7 @@ function setup(root) {
       leaf.style.height = pageHeight + 'px';
     });
     leafStates.forEach(function (state, i) {
+      sizeCurl(i);
       if (leaves[i].classList.contains('is-curling')) {
         renderCurl(i, state.angle, state.bend);
       } else {
@@ -573,6 +640,7 @@ function setup(root) {
     spineShadow.style.width = (spread ? 34 : 20) + 'px';
     spineShadow.style.height = pageHeight + 'px';
     spineShadow.style.zIndex = String(leaves.length + 1);
+    spineShadow.style.display = spread ? 'block' : 'none';
     positionVolume();
   }
 
