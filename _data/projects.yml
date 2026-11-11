@@ -562,6 +562,7 @@ sections:
     thumb: /assets/images/picture-book/finding-colors/thumbs/p-01.jpg
     type: image
     group: book
+    size: book
     alt: Finding Colors, cover
   - title: Finding Colors
     meta: The purple planet
@@ -569,6 +570,7 @@ sections:
     thumb: /assets/images/picture-book/finding-colors/thumbs/p-20.jpg
     type: image
     group: book
+    size: book
     alt: Finding Colors, Z meets the purple people
   - title: Finding Colors
     meta: The golden planet
@@ -576,6 +578,7 @@ sections:
     thumb: /assets/images/picture-book/finding-colors/thumbs/p-31.jpg
     type: image
     group: book
+    size: book
     alt: Finding Colors, the little girl shows Z her necklace
   book:
     title: Finding Colors
