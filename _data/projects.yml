@@ -369,6 +369,36 @@ sections:
             thumb: /assets/images/graphic-design/thumbs/city-05.jpg
             width: 900
             height: 798
+  - slug: finding-colors
+    title: Finding Colors
+    tags: Picture book
+    more: Flip through the book
+    pieces:
+      - label: "Cover"
+        src: /assets/images/picture-book/finding-colors/p-01.jpg
+        thumb: /assets/images/picture-book/finding-colors/thumbs/p-01.jpg
+        width: 800
+        height: 714
+        size: land
+      - label: "The purple planet"
+        src: /assets/images/picture-book/finding-colors/p-20.jpg
+        thumb: /assets/images/picture-book/finding-colors/thumbs/p-20.jpg
+        width: 800
+        height: 714
+        size: land
+      - label: "The golden planet"
+        src: /assets/images/picture-book/finding-colors/p-31.jpg
+        thumb: /assets/images/picture-book/finding-colors/thumbs/p-31.jpg
+        width: 800
+        height: 714
+        size: land
+    book:
+      title: Finding Colors
+      credits: Picture by Anya Lo, Andrew Yen, Kyle Shao · Story by Tiffany Wang
+      dir: /assets/images/picture-book/finding-colors
+      pages: 53
+      width: 1400
+      height: 1250
   - slug: elements
     title: Elements
     tags: Poster series
@@ -550,33 +580,3 @@ sections:
             thumb: /assets/images/graphic-design/thumbs/helmet-final.jpg
             width: 900
             height: 896
-  - slug: finding-colors
-    title: Finding Colors
-    tags: Picture book
-    more: Flip through the book
-    pieces:
-      - label: "Cover"
-        src: /assets/images/picture-book/finding-colors/p-01.jpg
-        thumb: /assets/images/picture-book/finding-colors/thumbs/p-01.jpg
-        width: 800
-        height: 714
-        size: land
-      - label: "The purple planet"
-        src: /assets/images/picture-book/finding-colors/p-20.jpg
-        thumb: /assets/images/picture-book/finding-colors/thumbs/p-20.jpg
-        width: 800
-        height: 714
-        size: land
-      - label: "The golden planet"
-        src: /assets/images/picture-book/finding-colors/p-31.jpg
-        thumb: /assets/images/picture-book/finding-colors/thumbs/p-31.jpg
-        width: 800
-        height: 714
-        size: land
-    book:
-      title: Finding Colors
-      credits: Picture by Anya Lo, Andrew Yen, Kyle Shao · Story by Tiffany Wang
-      dir: /assets/images/picture-book/finding-colors
-      pages: 53
-      width: 1400
-      height: 1250
