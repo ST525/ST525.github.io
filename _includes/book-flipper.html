@@ -1,7 +1,6 @@
-{% assign book = include.section.book %}
-<section class="container book" data-book aria-label="{{ book.title }}, picture book">
+{% assign book = include.book %}
+<div class="book" data-book role="region" aria-label="{{ book.title }}, picture book">
   <div class="book-head">
-    <h2 class="book-title">{{ book.title }}</h2>
     <p class="book-credits">{{ book.credits }}</p>
   </div>
   <div class="book-stage">
@@ -29,4 +28,4 @@
       </svg>
     </button>
   </div>
-</section>
+</div>

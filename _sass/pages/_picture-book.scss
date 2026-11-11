@@ -1,6 +1,5 @@
 // Picture book flipper.
 .book {
-  padding-bottom: 5rem;
   overflow-x: clip;
 }
 
@@ -9,14 +8,7 @@
   text-align: center;
 }
 
-.book-title {
-  font-size: clamp(1.4rem, 2.4vw, 2rem);
-  font-weight: 700;
-  letter-spacing: 0.02em;
-}
-
 .book-credits {
-  margin-top: 0.4rem;
   color: var(--muted);
   font-size: 0.9rem;
 }
@@ -75,21 +67,14 @@
 
 .book-face {
   position: absolute;
-  inset: 0;
+  inset: 0 -0.5px;
   overflow: hidden;
-  background: #fff;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
-  box-shadow: 0 0 0 1px var(--border);
 }
 
 .book-face--back {
   transform: rotateY(180deg);
-}
-
-.book-face.is-blank {
-  background: transparent;
-  box-shadow: none;
 }
 
 .book-face img {
