@@ -1,0 +1,156 @@
+// Picture book flipper.
+.book {
+  overflow-x: clip;
+}
+
+.book-head {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.book-credits {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+// Without JavaScript the pages simply stack.
+.book-pages {
+  display: grid;
+  gap: 1.5rem;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+}
+
+.book-pages img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.book-stage {
+  display: flex;
+  justify-content: center;
+}
+
+.book-volume {
+  position: relative;
+  perspective: 2600px;
+  cursor: pointer;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: transform 0.7s var(--ease);
+}
+
+.book-leaf {
+  position: absolute;
+  inset: 0;
+  transform-origin: left center;
+  transform-style: preserve-3d;
+  transition: transform 0.9s var(--ease);
+}
+
+.book-volume.is-spread .book-leaf {
+  left: 50%;
+}
+
+.book-leaf.is-turned {
+  transform: rotateY(-180deg);
+}
+
+.book-volume.no-anim,
+.book-volume.no-anim .book-leaf {
+  transition: none;
+}
+
+.book-face {
+  position: absolute;
+  inset: 0 -0.5px;
+  overflow: hidden;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.book-face--back {
+  transform: rotateY(180deg);
+}
+
+.book-face img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.book-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.75rem;
+}
+
+.book-controls[hidden],
+.book-btn[hidden] {
+  display: none;
+}
+
+.book-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--border-strong);
+  border-radius: 50%;
+  color: var(--text);
+  background: transparent;
+  cursor: pointer;
+  transition: border-color 0.25s ease, opacity 0.25s ease;
+}
+
+.book-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+.book-btn--full svg {
+  width: 16px;
+  height: 16px;
+}
+
+.book-btn:hover:not(:disabled) {
+  border-color: var(--text);
+}
+
+.book-btn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.book-btn--full {
+  margin-left: 0.5rem;
+}
+
+.book-count {
+  min-width: 6.5rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+
+.book.is-fullscreen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: none;
+  padding: 2rem;
+  background: var(--bg);
+}
+
+.book.is-fullscreen .book-head {
+  display: none;
+}

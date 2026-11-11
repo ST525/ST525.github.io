@@ -6,7 +6,7 @@
         <span class="gd-num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
         <h2 class="gd-title">{{ project.title }}</h2>
         <p class="gd-tags">{{ project.tags }}{% if project.year %} · {{ project.year }}{% endif %}</p>
-        {% if project.details %}
+        {% if project.details or project.book %}
           <a class="gd-more" href="{{ include.section.url }}{{ project.slug }}/">{{ project.more }} <span aria-hidden="true">→</span></a>
         {% endif %}
       </div>

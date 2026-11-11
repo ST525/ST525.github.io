@@ -11,11 +11,15 @@ layout: default
 </div>
 
 <section class="container gd-detail">
-  <div class="gd-main gd-main--{{ project.pieces.size }}">
-    {% for piece in project.pieces %}
-      {% include gd-piece.html piece=piece group="gd-main" title=project.title %}
-    {% endfor %}
-  </div>
+  {% if project.book %}
+    {% include book-flipper.html book=project.book %}
+  {% else %}
+    <div class="gd-main gd-main--{{ project.pieces.size }}">
+      {% for piece in project.pieces %}
+        {% include gd-piece.html piece=piece group="gd-main" title=project.title %}
+      {% endfor %}
+    </div>
+  {% endif %}
 
   {% for block in project.details %}
     {% assign group = 'gd-block-' | append: forloop.index %}
