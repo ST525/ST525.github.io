@@ -61,16 +61,7 @@ function setup(root) {
   let page = 0;
   let timer = 0;
   let fastClassTimer = 0;
-  let zoomScale = 1;
-  let zoomX = 0;
-  let zoomY = 0;
   let zoomFocus = null;
-  let lastZoomTap = 0;
-  let lastZoomTapX = 0;
-  let lastZoomTapY = 0;
-  let backdropPointer = null;
-  const zoomPointers = new Map();
-  let zoomGesture = null;
 
   function face(data, side) {
     const el = document.createElement('div');
@@ -270,159 +261,10 @@ function setup(root) {
     window.addEventListener('blur', endPress);
   }
 
-  function clamp(value, min, max) {
-    return Math.max(min, Math.min(max, value));
-  }
-
-  function applyZoom() {
-    const maxX = Math.max(0, (zoomImage.offsetWidth * zoomScale - window.innerWidth) / 2);
-    const maxY = Math.max(0, (zoomImage.offsetHeight * zoomScale - window.innerHeight) / 2);
-    zoomX = clamp(zoomX, -maxX, maxX);
-    zoomY = clamp(zoomY, -maxY, maxY);
-    zoomImage.style.transform = 'translate(' + zoomX + 'px, ' + zoomY + 'px) scale(' + zoomScale + ')';
-  }
-
-  function setZoomAt(scale, point) {
-    const centerX = window.innerWidth / 2;
-    const centerY = window.innerHeight / 2;
-    const worldX = (point.x - centerX - zoomX) / zoomScale;
-    const worldY = (point.y - centerY - zoomY) / zoomScale;
-    zoomScale = clamp(scale, 1, 4);
-    zoomX = point.x - centerX - worldX * zoomScale;
-    zoomY = point.y - centerY - worldY * zoomScale;
-    applyZoom();
-  }
-
-  function beginSingleZoomGesture(pointer, suppressTap) {
-    zoomGesture = {
-      type: 'single',
-      id: pointer.id,
-      startX: pointer.x,
-      startY: pointer.y,
-      panX: zoomX,
-      panY: zoomY,
-      moved: false,
-      suppressTap: Boolean(suppressTap)
-    };
-  }
-
-  function beginPinchZoomGesture() {
-    const points = Array.from(zoomPointers.values()).slice(0, 2);
-    if (points.length < 2) return;
-    const dx = points[1].x - points[0].x;
-    const dy = points[1].y - points[0].y;
-    zoomGesture = {
-      type: 'pinch',
-      distance: Math.max(1, Math.hypot(dx, dy)),
-      scale: zoomScale,
-      panX: zoomX,
-      panY: zoomY,
-      midpointX: (points[0].x + points[1].x) / 2,
-      midpointY: (points[0].y + points[1].y) / 2
-    };
-    lastZoomTap = 0;
-  }
-
-  function handleZoomTap(x, y) {
-    const now = performance.now();
-    if (now - lastZoomTap < 300 && Math.hypot(x - lastZoomTapX, y - lastZoomTapY) < 32) {
-      lastZoomTap = 0;
-      setZoomAt(zoomScale > 1.01 ? 1 : 2.5, { x: x, y: y });
-      return;
-    }
-    lastZoomTap = now;
-    lastZoomTapX = x;
-    lastZoomTapY = y;
-  }
-
-  function onZoomPointerDown(e) {
-    if (e.button !== 0) return;
-    e.preventDefault();
-    const pointer = { id: e.pointerId, x: e.clientX, y: e.clientY };
-    zoomPointers.set(e.pointerId, pointer);
-    try {
-      zoomImage.setPointerCapture(e.pointerId);
-    } catch (err) {
-      // Pointer capture may be unavailable for synthetic events.
-    }
-    if (zoomPointers.size === 1) beginSingleZoomGesture(pointer, false);
-    else if (zoomPointers.size === 2) beginPinchZoomGesture();
-  }
-
-  function onZoomPointerMove(e) {
-    const pointer = zoomPointers.get(e.pointerId);
-    if (!pointer) return;
-    pointer.x = e.clientX;
-    pointer.y = e.clientY;
-
-    if (zoomPointers.size >= 2) {
-      if (!zoomGesture || zoomGesture.type !== 'pinch') beginPinchZoomGesture();
-      if (!zoomGesture || zoomGesture.type !== 'pinch') return;
-      const points = Array.from(zoomPointers.values()).slice(0, 2);
-      const dx = points[1].x - points[0].x;
-      const dy = points[1].y - points[0].y;
-      const distance = Math.max(1, Math.hypot(dx, dy));
-      const midpointX = (points[0].x + points[1].x) / 2;
-      const midpointY = (points[0].y + points[1].y) / 2;
-      const nextScale = clamp(zoomGesture.scale * distance / zoomGesture.distance, 1, 4);
-      const centerX = window.innerWidth / 2;
-      const centerY = window.innerHeight / 2;
-      const worldX = (zoomGesture.midpointX - centerX - zoomGesture.panX) / zoomGesture.scale;
-      const worldY = (zoomGesture.midpointY - centerY - zoomGesture.panY) / zoomGesture.scale;
-      zoomScale = nextScale;
-      zoomX = midpointX - centerX - worldX * zoomScale;
-      zoomY = midpointY - centerY - worldY * zoomScale;
-      applyZoom();
-      return;
-    }
-
-    if (!zoomGesture || zoomGesture.type !== 'single' || zoomGesture.id !== e.pointerId) return;
-    const moveX = e.clientX - zoomGesture.startX;
-    const moveY = e.clientY - zoomGesture.startY;
-    if (Math.hypot(moveX, moveY) > 8) zoomGesture.moved = true;
-    if (zoomScale > 1 && zoomGesture.moved) {
-      zoomX = zoomGesture.panX + moveX;
-      zoomY = zoomGesture.panY + moveY;
-      applyZoom();
-    }
-  }
-
-  function finishZoomPointer(e, cancelled) {
-    const pointer = zoomPointers.get(e.pointerId);
-    if (!pointer) return;
-    pointer.x = e.clientX;
-    pointer.y = e.clientY;
-    const wasPinch = zoomGesture && zoomGesture.type === 'pinch';
-    let isTap = false;
-    if (!wasPinch && zoomGesture && zoomGesture.type === 'single' && zoomGesture.id === e.pointerId) {
-      const moveX = e.clientX - zoomGesture.startX;
-      const moveY = e.clientY - zoomGesture.startY;
-      if (Math.hypot(moveX, moveY) > 8) zoomGesture.moved = true;
-      isTap = !cancelled && !zoomGesture.moved && !zoomGesture.suppressTap;
-    }
-    zoomPointers.delete(e.pointerId);
-    if (wasPinch) {
-      lastZoomTap = 0;
-      if (zoomPointers.size >= 2) beginPinchZoomGesture();
-      else if (zoomPointers.size === 1) beginSingleZoomGesture(zoomPointers.values().next().value, true);
-      else zoomGesture = null;
-      return;
-    }
-    zoomGesture = null;
-    if (isTap) handleZoomTap(e.clientX, e.clientY);
-  }
-
   function closeZoom() {
     if (zoomOverlay.hidden) return;
     zoomOverlay.hidden = true;
     document.body.classList.remove('lightbox-open');
-    zoomPointers.clear();
-    zoomGesture = null;
-    backdropPointer = null;
-    zoomScale = 1;
-    zoomX = 0;
-    zoomY = 0;
-    zoomImage.style.transform = '';
     const target = zoomFocus && zoomFocus !== document.body && zoomFocus.isConnected ? zoomFocus : volume;
     zoomFocus = null;
     target.focus({ preventScroll: true });
@@ -438,38 +280,12 @@ function setup(root) {
     zoomImage.alt = data.alt;
     zoomImage.setAttribute('aria-label', title + ' page ' + (turned + 1));
     zoomOverlay.setAttribute('aria-label', title + ' page ' + (turned + 1));
-    zoomScale = 1;
-    zoomX = 0;
-    zoomY = 0;
-    lastZoomTap = 0;
-    zoomImage.style.transform = 'translate(0px, 0px) scale(1)';
     zoomOverlay.hidden = false;
     document.body.classList.add('lightbox-open');
     zoomClose.focus({ preventScroll: true });
   }
 
-  zoomImage.addEventListener('load', function () {
-    if (!zoomOverlay.hidden) applyZoom();
-  });
-  zoomImage.addEventListener('pointerdown', onZoomPointerDown);
-  zoomImage.addEventListener('pointermove', onZoomPointerMove);
-  zoomImage.addEventListener('pointerup', function (e) { finishZoomPointer(e, false); });
-  zoomImage.addEventListener('pointercancel', function (e) { finishZoomPointer(e, true); });
-  zoomClose.addEventListener('click', closeZoom);
-  zoomOverlay.addEventListener('pointerdown', function (e) {
-    if (e.target === zoomOverlay && e.button === 0) {
-      backdropPointer = { id: e.pointerId, x: e.clientX, y: e.clientY };
-    }
-  });
-  zoomOverlay.addEventListener('pointerup', function (e) {
-    if (!backdropPointer || backdropPointer.id !== e.pointerId) return;
-    const moved = Math.hypot(e.clientX - backdropPointer.x, e.clientY - backdropPointer.y);
-    backdropPointer = null;
-    if (moved <= SWIPE && zoomScale === 1) closeZoom();
-  });
-  zoomOverlay.addEventListener('pointercancel', function (e) {
-    if (backdropPointer && backdropPointer.id === e.pointerId) backdropPointer = null;
-  });
+  zoomOverlay.addEventListener('click', closeZoom);
 
   function size() {
     const header = document.querySelector('.header');
@@ -498,7 +314,7 @@ function setup(root) {
       return;
     }
     if (SINGLE.matches) {
-      openZoom();
+      window.requestAnimationFrame(openZoom);
       return;
     }
     const box = stage.getBoundingClientRect();
@@ -538,13 +354,9 @@ function setup(root) {
     });
   }
 
-  SINGLE.addEventListener('change', function () {
-    if (!SINGLE.matches) closeZoom();
-    build();
-  });
+  SINGLE.addEventListener('change', build);
   window.addEventListener('resize', function () {
     size();
-    if (!zoomOverlay.hidden) applyZoom();
   });
   build();
 }

@@ -171,8 +171,9 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background: rgba(0, 0, 0, 0.96);
+  background: #000;
   touch-action: none;
+  overscroll-behavior: contain;
 }
 
 .book-zoom[hidden] {
@@ -181,15 +182,15 @@
 
 .book-zoom img {
   display: block;
-  max-width: 100vw;
-  max-height: 100vh;
+  width: auto;
+  height: auto;
+  max-width: calc(100vw - 2rem);
+  max-height: calc(100vh - 2rem);
+  max-height: calc(100dvh - 2rem);
   object-fit: contain;
-  transform-origin: center;
   user-select: none;
   -webkit-user-select: none;
   -webkit-user-drag: none;
-  touch-action: none;
-  will-change: transform;
 }
 
 .book-zoom-close {
