@@ -210,6 +210,8 @@ export class Editor {
   }
 
   onKeyDown(e) {
+    // Enter/Tab that confirm an IME candidate (Zhuyin, Pinyin, Cangjie…) belong to the IME.
+    if (e.isComposing || e.keyCode === 229) return;
     if (e.key === 'Enter' && !e.shiftKey && !e.ctrlKey && !e.metaKey) {
       e.preventDefault();
       this.handleEnter();
