@@ -62,6 +62,7 @@ function setup(root) {
   let timer = 0;
   let fastClassTimer = 0;
   let zoomFocus = null;
+  let zoomOpenedAt = 0;
 
   function face(data, side) {
     const el = document.createElement('div');
@@ -281,11 +282,17 @@ function setup(root) {
     zoomImage.setAttribute('aria-label', title + ' page ' + (turned + 1));
     zoomOverlay.setAttribute('aria-label', title + ' page ' + (turned + 1));
     zoomOverlay.hidden = false;
+    zoomOpenedAt = performance.now();
     document.body.classList.add('lightbox-open');
     zoomClose.focus({ preventScroll: true });
   }
 
-  zoomOverlay.addEventListener('click', closeZoom);
+  zoomOverlay.addEventListener('click', function () {
+    const fromOpeningTap = zoomOpenedAt && performance.now() - zoomOpenedAt < 500;
+    zoomOpenedAt = 0;
+    if (fromOpeningTap) return;
+    closeZoom();
+  });
 
   function size() {
     const header = document.querySelector('.header');
@@ -314,7 +321,7 @@ function setup(root) {
       return;
     }
     if (SINGLE.matches) {
-      window.requestAnimationFrame(openZoom);
+      openZoom();
       return;
     }
     const box = stage.getBoundingClientRect();
