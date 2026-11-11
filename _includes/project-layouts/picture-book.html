@@ -1,0 +1,32 @@
+{% assign book = include.section.book %}
+<section class="container book" data-book aria-label="{{ book.title }}, picture book">
+  <div class="book-head">
+    <h2 class="book-title">{{ book.title }}</h2>
+    <p class="book-credits">{{ book.credits }}</p>
+  </div>
+  <div class="book-stage">
+    <ol class="book-pages">
+      {% for i in (1..book.pages) %}
+        {% assign n = i | prepend: '0' | slice: -2, 2 %}
+        <li class="book-page">
+          <img src="{{ book.dir }}/p-{{ n }}.jpg" alt="{{ book.title }}, page {{ i }}" width="{{ book.width }}" height="{{ book.height }}" loading="lazy" decoding="async">
+        </li>
+      {% endfor %}
+    </ol>
+  </div>
+  <div class="book-controls" hidden>
+    <button type="button" class="book-btn" data-book-prev aria-label="Previous page">
+      {% include icons/chevron-left.svg %}
+    </button>
+    <span class="book-count" data-book-count aria-live="polite"></span>
+    <button type="button" class="book-btn" data-book-next aria-label="Next page">
+      {% include icons/chevron-right.svg %}
+    </button>
+    <button type="button" class="book-btn book-btn--full" data-book-full aria-label="Full screen" hidden>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline>
+        <line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line>
+      </svg>
+    </button>
+  </div>
+</section>
