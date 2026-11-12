@@ -221,10 +221,15 @@ function setup(root) {
   function sizeCurl(index) {
     const state = curlStates[index];
     if (!state || !state.root || !pageWidth) return;
-    const stripWidth = pageWidth / CURL_STRIPS;
+    const deviceScale = window.devicePixelRatio || 1;
+    const rawStripWidth = pageWidth / CURL_STRIPS;
+    const stripWidth = deviceScale > 1
+      ? Math.round(rawStripWidth * deviceScale) / deviceScale
+      : rawStripWidth;
+    const overlap = deviceScale > 1 ? 2 : 1;
     state.strips.forEach(function (strip, k) {
       strip.element.style.left = (k === 0 ? 0 : stripWidth) + 'px';
-      strip.element.style.width = stripWidth + 1 + 'px';
+      strip.element.style.width = stripWidth + overlap + 'px';
       strip.front.style.backgroundSize = pageWidth + 'px 100%';
       strip.front.style.backgroundPositionX = (-k * stripWidth) + 'px';
       if (strip.back) {
