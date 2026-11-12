@@ -64,6 +64,7 @@ function setup(root) {
   let page = 0;
   let pageWidth = 0;
   let patch = null;
+  let patchTimer = 0;
   let turnTimers = new WeakMap();
   let fastClassTimer = 0;
   let zoomFocus = null;
@@ -103,17 +104,22 @@ function setup(root) {
 
   // While a leaf turns, Chrome feathers its edge along the spine, and the
   // resting right leaf's 0.5px face overhang shows through as a hairline on
-  // the left page. A 2px sliver of the left page sits above the resting
-  // leaves (and under the moving one) so the blend is invisible.
-  function showPatch(target) {
+  // the left page. A 2px sliver of the page that is under the moving leaf's
+  // root sits above the resting leaves (and under the moving one) so the
+  // blend is invisible. Going forward that is the current left page until the
+  // leaf passes the spine, then the page landing there; the patch also reaches
+  // half a pixel past the spine so the pixel the spine splits isn't half next
+  // page.
+  function showPatch(leftPage, forward) {
     if (!patch || !spread) return;
-    const src = pageImage(2 * target - 1);
+    const src = pageImage(leftPage);
     if (!src) {
       patch.classList.remove('is-on');
       return;
     }
     patch.style.backgroundImage = 'url("' + src.replace(/["\\]/g, '\\$&') + '")';
-    patch.style.backgroundSize = pageWidth + 'px 100%';
+    patch.style.width = forward ? '2.5px' : '2px';
+    patch.style.backgroundSize = (forward ? pageWidth + 1 : pageWidth) + 'px 100%';
     patch.style.backgroundPositionX = (2 - pageWidth) + 'px';
     patch.style.zIndex = String(leaves.length + 1);
     patch.classList.add('is-on');
@@ -298,6 +304,7 @@ function setup(root) {
       clearTurnTimer(leaf);
       leaf.classList.remove('is-moving', 'is-turning', 'is-curl-fwd', 'is-curl-back');
     });
+    clearTimeout(patchTimer);
     if (patch) patch.classList.remove('is-on');
     render();
     void volume.offsetWidth;
@@ -326,11 +333,15 @@ function setup(root) {
       }
       leaf.style.zIndex = String(n + 2 + (forward ? i : n - i));
     }
-    showPatch(target);
+    const turnMs = volume.classList.contains('is-fast') ? FAST_MS : TURN_MS;
+    clearTimeout(patchTimer);
+    showPatch(2 * (forward ? turned : target) - 1, forward);
+    if (forward) {
+      patchTimer = setTimeout(function () { showPatch(2 * target - 1, true); }, turnMs / 2);
+    }
     turned = target;
     page = visible()[0];
     render();
-    const turnMs = volume.classList.contains('is-fast') ? FAST_MS : TURN_MS;
     for (let i = lo; i < hi; i++) {
       const leaf = leaves[i];
       clearTurnTimer(leaf);
