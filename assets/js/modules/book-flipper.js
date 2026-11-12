@@ -6,12 +6,6 @@ const REPEAT_MS = 160;
 const FAST_MS = 320;
 const PRELOAD = 4;
 const SWIPE = 40;
-const CURL_STRIPS = 12;
-const CURL_DEGREES = 60;
-const FAST_CURL_DEGREES = 30;
-const STAGGER_MS = 40;
-const MAX_STAGGER_MS = 600;
-const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 export function initBookFlipper() {
   document.querySelectorAll('[data-book]').forEach(setup);
@@ -62,35 +56,22 @@ function setup(root) {
 
   let spread = false;
   let leaves = [];
-  let leafStates = [];
   let images = [];
   let turned = 0;
   let page = 0;
-  let frameId = 0;
-  let activeAnimations = [];
+  let turnTimers = new WeakMap();
   let fastClassTimer = 0;
   let zoomFocus = null;
   let zoomOpenedAt = 0;
-  let pageWidth = 0;
-  let pageHeight = 0;
-  let pageGutter = 0;
-  let pageTop = 0;
-  let maxPageDepth = 14;
-  let lastLeftDepth = null;
-  let lastRightDepth = null;
-
-  const leftBlock = document.createElement('div');
-  leftBlock.className = 'book-page-block book-page-block--left';
-  const rightBlock = document.createElement('div');
-  rightBlock.className = 'book-page-block book-page-block--right';
-  const spineShadow = document.createElement('div');
-  spineShadow.className = 'book-spine-shadow';
 
   function face(data, side) {
     const el = document.createElement('div');
     el.className = 'book-face book-face--' + side;
+    const shade = document.createElement('div');
+    shade.className = 'book-face-shade';
     if (!data) {
       el.classList.add('is-blank');
+      el.appendChild(shade);
       return el;
     }
     const img = document.createElement('img');
@@ -98,35 +79,36 @@ function setup(root) {
     img.decoding = 'async';
     img.draggable = false;
     img.dataset.src = data.src;
-    el.appendChild(img);
+    el.append(img, shade);
     images.push(img);
     return el;
+  }
+
+  function clearTurnTimer(leaf) {
+    clearTimeout(turnTimers.get(leaf));
+    turnTimers.delete(leaf);
+  }
+
+  function finishTurn(leaf) {
+    clearTurnTimer(leaf);
+    leaf.classList.remove('is-moving', 'is-turning');
+    if (leaf.isConnected) render();
   }
 
   function build() {
     spread = !SINGLE.matches;
     const per = spread ? 2 : 1;
+    leaves.forEach(clearTurnTimer);
     leaves = [];
-    leafStates = [];
     images = [];
-    volume.replaceChildren(leftBlock, rightBlock, spineShadow);
+    volume.replaceChildren();
     volume.classList.toggle('is-spread', spread);
     for (let i = 0; i < pages.length; i += per) {
       const leaf = document.createElement('div');
       leaf.className = 'book-leaf';
-      const state = {
-        angle: 0,
-        bend: 0,
-        animation: null,
-        shadeFrame: 0,
-        curlRoot: null,
-        strips: [],
-        shadow: document.createElement('div'),
-        curlTransform: '',
-        shadowOpacity: ''
-      };
-      state.shadow.className = 'book-turn-shadow';
-      leaf.appendChild(state.shadow);
+      leaf.addEventListener('transitionend', function (event) {
+        if (event.target === leaf && event.propertyName === 'transform') finishTurn(leaf);
+      });
       if (i === 0) {
         leaf.classList.add('book-leaf--cover');
         const board = document.createElement('div');
@@ -143,12 +125,10 @@ function setup(root) {
       if (spread) leaf.appendChild(face(pages[i + 1], 'back'));
       volume.appendChild(leaf);
       leaves.push(leaf);
-      leafStates.push(state);
     }
     turned = spread ? Math.floor((page + 1) / 2) : page;
-    volume.classList.add('no-anim');
-    size();
     instant();
+    size();
   }
 
   function maxTurned() {
@@ -176,305 +156,57 @@ function setup(root) {
     }
   }
 
-  function pageImage(index) {
-    const img = images[index];
-    if (!img) return '';
-    if (img.dataset.src) {
-      img.src = img.dataset.src;
-      delete img.dataset.src;
-    }
-    return img.currentSrc || img.src;
-  }
-
-  function ensureCurl(index) {
-    const state = leafStates[index];
-    if (state.curlRoot) return;
-    const frontIndex = spread ? index * 2 : index;
-    const backIndex = spread ? index * 2 + 1 : index + 1;
-    const frontSrc = pageImage(frontIndex);
-    const backSrc = pageImage(backIndex);
-    const root = document.createElement('div');
-    root.className = 'book-curl';
-    root.style.transform = leafTransform(state.angle, state.bend, true, index);
-
-    let parent = root;
-    for (let k = 0; k < CURL_STRIPS; k++) {
-      const strip = document.createElement('div');
-      strip.className = 'book-curl-strip' + (k === 0 ? ' is-root' : '');
-
-      const front = document.createElement('div');
-      front.className = 'book-curl-face book-curl-face--front';
-      const back = document.createElement('div');
-      back.className = 'book-curl-face book-curl-face--back';
-      const shade = document.createElement('div');
-      shade.className = 'book-curl-shade';
-
-      if (frontSrc) front.style.backgroundImage = 'url("' + frontSrc.replace(/["\\]/g, '\\$&') + '")';
-      else front.classList.add('is-blank');
-      if (backSrc) back.style.backgroundImage = 'url("' + backSrc.replace(/["\\]/g, '\\$&') + '")';
-      else back.classList.add('is-blank');
-
-      strip.append(front, back, shade);
-      parent.appendChild(strip);
-      state.strips.push({
-        element: strip,
-        shade: shade,
-        front: front,
-        back: back,
-        weight: k / ((CURL_STRIPS * (CURL_STRIPS - 1)) / 2)
-      });
-      parent = strip;
-    }
-
-    state.curlRoot = root;
-    leaves[index].appendChild(root);
-    sizeCurl(index);
-  }
-
-  function sizeCurl(index) {
-    const state = leafStates[index];
-    if (!state.curlRoot) return;
-    const stripWidth = pageWidth / CURL_STRIPS;
-    state.strips.forEach(function (strip, k) {
-      const left = k === 0 ? 0 : stripWidth;
-      const width = stripWidth + 1;
-      strip.element.style.left = left + 'px';
-      strip.element.style.width = width + 'px';
-      strip.front.style.backgroundSize = pageWidth + 'px 100%';
-      strip.front.style.backgroundPositionX = (-k * stripWidth) + 'px';
-      strip.back.style.backgroundSize = pageWidth + 'px 100%';
-      strip.back.style.backgroundPositionX = (-(CURL_STRIPS - 1 - k) * stripWidth) + 'px';
-    });
-  }
-
-  function renderCurl(index, angle, bend) {
-    const state = leafStates[index];
-    const rootTransform = leafTransform(angle, bend, true, index);
-    if (state.curlTransform !== rootTransform) {
-      state.curlRoot.style.transform = rootTransform;
-      state.curlTransform = rootTransform;
-    }
-    const updateShading = state.shadeFrame++ % 2 === 0;
-    let cumulativeAngle = angle;
-    state.strips.forEach(function (strip) {
-      const extra = bend * strip.weight;
-      const transform = 'rotateY(' + extra.toFixed(1) + 'deg)';
-      if (strip.transform !== transform) {
-        strip.element.style.transform = transform;
-        strip.transform = transform;
-      }
-      const startAngle = cumulativeAngle;
-      cumulativeAngle += extra;
-      if (updateShading) {
-        const startShade = (1 - Math.cos(startAngle * Math.PI / 180)) * 0.21;
-        const endShade = (1 - Math.cos(cumulativeAngle * Math.PI / 180)) * 0.21;
-        const midAngle = (cumulativeAngle + startAngle) / 2;
-        const highlight = Math.max(0, 1 - Math.abs(Math.abs(midAngle) - 90) / 90) *
-          Math.min(0.08, Math.abs(bend) / CURL_DEGREES * 0.08);
-        const shading = 'linear-gradient(90deg, rgba(0, 0, 0, ' + startShade.toFixed(2) +
-          '), rgba(0, 0, 0, ' + endShade.toFixed(2) + ')), linear-gradient(90deg, transparent 40%, rgba(255, 255, 255, ' +
-          highlight.toFixed(2) + ') 50%, transparent 60%)';
-        if (strip.shading !== shading) {
-          strip.shade.style.backgroundImage = shading;
-          strip.shading = shading;
-        }
-      }
-    });
-    const shadowOpacity = (Math.max(0, Math.sin(Math.PI * Math.abs(angle) / 180)) * 0.24).toFixed(2);
-    if (state.shadowOpacity !== shadowOpacity) {
-      state.shadow.style.opacity = shadowOpacity;
-      state.shadowOpacity = shadowOpacity;
-    }
-  }
-
-  function leafTransform(angle, bend, moving, index) {
-    const offset = spread || !moving ? 0 : Math.max(0, -Math.cos((angle + bend) * Math.PI / 180)) * pageWidth;
-    const depth = !moving && index === 0 && angle <= -90 ? 'translateZ(-6px) ' : '';
-    return depth + (offset ? 'translateX(' + offset.toFixed(1) + 'px) ' : '') + 'rotateY(' + angle.toFixed(1) + 'deg)';
-  }
-
-  function blockDepth(count) {
-    if (count < 0.01 || !leafStates.length) return 0;
-    return Math.max(1.5, Math.min(maxPageDepth, (count / leafStates.length) * maxPageDepth));
-  }
-
-  function updateBlocks() {
-    let leftCount = 0;
-    let rightCount = 0;
-    leafStates.forEach(function (state) {
-      const turnedAmount = Math.max(0, Math.min(1, -state.angle / 180));
-      if (spread) leftCount += turnedAmount;
-      rightCount += 1 - turnedAmount;
-    });
-    if (spread) rightCount = leafStates.length - leftCount;
-    const leftDepth = Math.round(blockDepth(leftCount) * 10) / 10;
-    const rightDepth = Math.round(blockDepth(rightCount) * 10) / 10;
-    if (leftDepth !== lastLeftDepth) {
-      leftBlock.style.display = leftDepth ? 'block' : 'none';
-      leftBlock.style.setProperty('--depth', leftDepth + 'px');
-      lastLeftDepth = leftDepth;
-    }
-    if (rightDepth !== lastRightDepth) {
-      rightBlock.style.display = rightDepth ? 'block' : 'none';
-      rightBlock.style.setProperty('--depth', rightDepth + 'px');
-      lastRightDepth = rightDepth;
-    }
-  }
-
-  function positionVolume() {
-    let shift = 0;
-    if (spread && turned === 0) shift = -pageWidth / 2;
-    volume.style.transform = shift ? 'translateX(' + shift + 'px)' : '';
-  }
-
   function render() {
     const n = leaves.length;
     leaves.forEach(function (leaf, i) {
       const isTurned = i < turned;
       leaf.classList.toggle('is-turned', isTurned);
-      const state = leafStates[i];
-      if (!leaf.classList.contains('is-moving')) {
-        leaf.style.zIndex = String(state.angle <= -90 ? i + 1 : n - i);
-      }
+      leaf.style.zIndex = leaf.classList.contains('is-moving') ? leaf.style.zIndex : String(isTurned ? i + 1 : n - i);
     });
 
-    positionVolume();
+    let shift = 0;
+    if (spread && turned === 0) shift = -25;
+    volume.style.transform = shift ? 'translateX(' + shift + '%)' : '';
 
     const shown = visible().map(function (i) { return i + 1; });
     count.textContent = shown.join('–') + ' / ' + pages.length;
     prevBtn.disabled = turned === 0;
     nextBtn.disabled = turned === maxTurned();
     load();
-    updateBlocks();
   }
 
   function instant() {
-    if (frameId) window.cancelAnimationFrame(frameId);
-    frameId = 0;
-    activeAnimations = [];
     volume.classList.add('no-anim');
-    leaves.forEach(function (leaf, i) {
-      const state = leafStates[i];
-      state.animation = null;
-      state.angle = i < turned ? -180 : 0;
-      state.bend = 0;
-      leaf.classList.remove('is-moving', 'is-curling');
-      leaf.style.transform = leafTransform(state.angle, state.bend, leaf.classList.contains('is-moving'), i);
-      state.shadow.style.opacity = '0';
+    leaves.forEach(function (leaf) {
+      clearTurnTimer(leaf);
+      leaf.classList.remove('is-moving', 'is-turning');
     });
     render();
     void volume.offsetWidth;
     volume.classList.remove('no-anim');
   }
 
-  function easeInOutCubic(value) {
-    return value < 0.5 ? 4 * value * value * value : 1 - Math.pow(-2 * value + 2, 3) / 2;
-  }
-
-  function animate(now) {
-    frameId = 0;
-    let active = false;
-    let landed = false;
-    const remaining = [];
-    activeAnimations.forEach(function (i) {
-      const state = leafStates[i];
-      const animation = state.animation;
-      if (!animation) return;
-      if (now < animation.startAt) {
-        active = true;
-        remaining.push(i);
-        return;
-      }
-      const leaf = leaves[i];
-      if (!animation.started) {
-        animation.started = true;
-        leaf.classList.add('is-moving');
-        leaf.style.zIndex = String(leaves.length + 1 + (animation.dir < 0 ? i : leaves.length - i));
-        if (!animation.reduced && i !== 0) {
-          ensureCurl(i);
-          leaf.classList.add('is-curling');
-          leaf.style.transform = 'none';
-        } else {
-          leaf.classList.remove('is-curling');
-          leaf.style.transform = leafTransform(state.angle, state.bend, true, i);
-        }
-      }
-
-      const progress = Math.min(1, (now - animation.startAt) / animation.duration);
-      const eased = easeInOutCubic(progress);
-      state.angle = animation.from + (animation.to - animation.from) * eased;
-      const flat = animation.reduced || i === 0;
-      state.bend = flat ? 0 : animation.bendFrom * (1 - eased) +
-        animation.dir * animation.curlDegrees * Math.sin(Math.PI * eased);
-      if (flat) {
-        leaf.style.transform = leafTransform(state.angle, state.bend, true, i);
-        state.shadow.style.opacity = '0';
-      } else {
-        renderCurl(i, state.angle, state.bend);
-      }
-
-      if (progress >= 1) {
-        state.angle = animation.to;
-        state.bend = 0;
-        state.animation = null;
-        leaf.classList.remove('is-moving', 'is-curling');
-        leaf.style.transform = leafTransform(state.angle, state.bend, false, i);
-        leaf.style.zIndex = String(state.angle <= -90 ? i + 1 : leaves.length - i);
-        state.shadow.style.opacity = '0';
-        landed = true;
-      } else {
-        active = true;
-        remaining.push(i);
-      }
-    });
-
-    activeAnimations = remaining;
-    if (landed) render();
-    if (active) frameId = window.requestAnimationFrame(animate);
-  }
-
   function go(target) {
     target = Math.max(0, Math.min(maxTurned(), target));
     if (target === turned) return;
+    const n = leaves.length;
     const forward = target > turned;
-    const now = performance.now();
-    const moving = [];
-    leafStates.forEach(function (state, i) {
-      const destination = i < target ? -180 : 0;
-      if (state.animation && Math.abs(state.animation.to - destination) < 0.01) return;
-      if (!state.animation && Math.abs(state.angle - destination) < 0.01) return;
-      moving.push({ index: i, destination: destination, wasStarted: Boolean(state.animation && state.animation.started) });
-    });
-    moving.sort(function (a, b) { return forward ? a.index - b.index : b.index - a.index; });
-
+    const lo = Math.min(target, turned);
+    const hi = Math.max(target, turned);
+    // Leaves in motion ride above both stacks until they land.
+    for (let i = lo; i < hi; i++) {
+      leaves[i].classList.add('is-moving');
+      leaves[i].classList.add('is-turning');
+      leaves[i].style.zIndex = String(n + 1 + (forward ? i : n - i));
+    }
     turned = target;
     page = visible()[0];
     render();
-
-    const staggerStep = moving.length > 1 ? Math.min(STAGGER_MS, MAX_STAGGER_MS / (moving.length - 1)) : 0;
-    moving.forEach(function (item, order) {
-      const state = leafStates[item.index];
-      const fast = volume.classList.contains('is-fast');
-      const reduced = REDUCED_MOTION.matches;
-      state.animation = {
-        from: state.angle,
-        to: item.destination,
-        startAt: now + (item.wasStarted ? 0 : order * staggerStep),
-        duration: reduced ? 200 : (fast ? FAST_MS : TURN_MS),
-        bendFrom: state.bend,
-        dir: item.destination < state.angle ? -1 : 1,
-        curlDegrees: fast ? FAST_CURL_DEGREES : CURL_DEGREES,
-        reduced: reduced,
-        started: false
-      };
-    });
-
-    activeAnimations = leafStates.reduce(function (indices, state, index) {
-      if (state.animation) indices.push(index);
-      return indices;
-    }, []);
-    if (moving.length) {
-      if (!frameId) frameId = window.requestAnimationFrame(animate);
+    const turnMs = volume.classList.contains('is-fast') ? FAST_MS : TURN_MS;
+    for (let i = lo; i < hi; i++) {
+      const leaf = leaves[i];
+      clearTurnTimer(leaf);
+      turnTimers.set(leaf, setTimeout(function () { finishTurn(leaf); }, turnMs + 100));
     }
     if (volume.classList.contains('is-fast')) scheduleFastModeRemoval();
   }
@@ -599,49 +331,11 @@ function setup(root) {
     const header = document.querySelector('.header');
     const full = document.fullscreenElement === root;
     const chrome = (full ? 0 : (header ? header.offsetHeight : 0)) + controls.offsetHeight + (full ? 64 : 140);
+    const maxH = Math.max(220, window.innerHeight - chrome);
     const per = spread ? 2 : 1;
-    maxPageDepth = SINGLE.matches ? 8 : 14;
-    const coverBleed = Math.ceil(Math.min(stage.clientWidth / per, window.innerWidth) * 0.015);
-    pageGutter = Math.ceil(maxPageDepth + coverBleed + 2);
-    pageTop = coverBleed + 1;
-    const pageBottom = maxPageDepth + coverBleed + 2;
-    const maxPageHeight = Math.max(160, window.innerHeight - chrome - pageTop - pageBottom);
-    pageWidth = Math.max(1, Math.floor(Math.min((stage.clientWidth - 2 * pageGutter) / per, maxPageHeight * ratio)));
-    pageHeight = Math.round(pageWidth / ratio);
-    volume.style.width = pageWidth * per + pageGutter * 2 + 'px';
-    volume.style.height = pageTop + pageHeight + pageBottom + 'px';
-    volume.style.setProperty('--page-width', pageWidth + 'px');
-    volume.style.setProperty('--page-height', pageHeight + 'px');
-    volume.style.setProperty('--page-gutter', pageGutter + 'px');
-    volume.style.setProperty('--page-top', pageTop + 'px');
-
-    leaves.forEach(function (leaf) {
-      leaf.style.left = pageGutter + (spread ? pageWidth : 0) + 'px';
-      leaf.style.top = pageTop + 'px';
-      leaf.style.width = pageWidth + 'px';
-      leaf.style.height = pageHeight + 'px';
-    });
-    leafStates.forEach(function (state, i) {
-      sizeCurl(i);
-      if (leaves[i].classList.contains('is-curling')) {
-        renderCurl(i, state.angle, state.bend);
-      } else {
-        leaves[i].style.transform = leafTransform(state.angle, state.bend, leaves[i].classList.contains('is-moving'), i);
-      }
-    });
-    [leftBlock, rightBlock].forEach(function (block, i) {
-      block.style.left = pageGutter + (i && spread ? pageWidth : 0) + 'px';
-      block.style.top = pageTop + 'px';
-      block.style.width = pageWidth + 'px';
-      block.style.height = pageHeight + 'px';
-    });
-    spineShadow.style.left = pageGutter + (spread ? pageWidth : 0) - (spread ? 17 : 10) + 'px';
-    spineShadow.style.top = pageTop + 'px';
-    spineShadow.style.width = (spread ? 34 : 20) + 'px';
-    spineShadow.style.height = pageHeight + 'px';
-    spineShadow.style.zIndex = String(leaves.length + 1);
-    spineShadow.style.display = spread ? 'block' : 'none';
-    positionVolume();
+    const pageW = Math.floor(Math.min(stage.clientWidth / per, maxH * ratio));
+    volume.style.width = pageW * per + 'px';
+    volume.style.height = Math.round(pageW / ratio) + 'px';
   }
 
   bindArrow(prevBtn, prev);
@@ -703,7 +397,6 @@ function setup(root) {
   SINGLE.addEventListener('change', build);
   window.addEventListener('resize', function () {
     size();
-    render();
   });
   build();
 }
