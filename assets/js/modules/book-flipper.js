@@ -63,6 +63,7 @@ function setup(root) {
   let turned = 0;
   let page = 0;
   let pageWidth = 0;
+  let patch = null;
   let turnTimers = new WeakMap();
   let fastClassTimer = 0;
   let zoomFocus = null;
@@ -96,7 +97,26 @@ function setup(root) {
   function finishTurn(leaf) {
     clearTurnTimer(leaf);
     leaf.classList.remove('is-moving', 'is-turning', 'is-curl-fwd', 'is-curl-back');
+    if (patch && !volume.querySelector('.book-leaf.is-moving')) patch.classList.remove('is-on');
     if (leaf.isConnected) render();
+  }
+
+  // While a leaf turns, Chrome feathers its edge along the spine, and the
+  // resting right leaf's 0.5px face overhang shows through as a hairline on
+  // the left page. A 2px sliver of the left page sits above the resting
+  // leaves (and under the moving one) so the blend is invisible.
+  function showPatch(target) {
+    if (!patch || !spread) return;
+    const src = pageImage(2 * target - 1);
+    if (!src) {
+      patch.classList.remove('is-on');
+      return;
+    }
+    patch.style.backgroundImage = 'url("' + src.replace(/["\\]/g, '\\$&') + '")';
+    patch.style.backgroundSize = pageWidth + 'px 100%';
+    patch.style.backgroundPositionX = (2 - pageWidth) + 'px';
+    patch.style.zIndex = String(leaves.length + 1);
+    patch.classList.add('is-on');
   }
 
   function build() {
@@ -116,6 +136,9 @@ function setup(root) {
     backBottom.className = 'book-cover-edge-face book-cover-edge--bottom';
     back.append(backRight, backBottom);
     volume.appendChild(back);
+    patch = document.createElement('div');
+    patch.className = 'book-spine-patch';
+    volume.appendChild(patch);
     for (let i = 0; i < pages.length; i += per) {
       const leaf = document.createElement('div');
       leaf.className = 'book-leaf';
@@ -244,7 +267,7 @@ function setup(root) {
       strip.front.style.backgroundSize = pageWidth + 'px 100%';
       strip.front.style.backgroundPositionX = (-k * stripWidth) + 'px';
       if (strip.back) {
-        strip.back.style.backgroundSize = pageWidth + 'px 100%';
+        strip.back.style.backgroundSize = (k ? pageWidth : pageWidth + 1) + 'px 100%';
         strip.back.style.backgroundPositionX = (-(pageWidth - k * stripWidth - width)) + 'px';
       }
     });
@@ -275,6 +298,7 @@ function setup(root) {
       clearTurnTimer(leaf);
       leaf.classList.remove('is-moving', 'is-turning', 'is-curl-fwd', 'is-curl-back');
     });
+    if (patch) patch.classList.remove('is-on');
     render();
     void volume.offsetWidth;
     volume.classList.remove('no-anim');
@@ -300,8 +324,9 @@ function setup(root) {
         ensureCurl(i);
         leaf.classList.add(forward ? 'is-curl-fwd' : 'is-curl-back');
       }
-      leaf.style.zIndex = String(n + 1 + (forward ? i : n - i));
+      leaf.style.zIndex = String(n + 2 + (forward ? i : n - i));
     }
+    showPatch(target);
     turned = target;
     page = visible()[0];
     render();

@@ -260,6 +260,21 @@
   left: 50%;
 }
 
+.book-spine-patch {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(50% - 2px);
+  width: 2px;
+  display: none;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+
+.book-spine-patch.is-on {
+  display: block;
+}
+
 .book-cover-edge {
   position: absolute;
   top: -1.5%;
