@@ -38,6 +38,9 @@
   position: relative;
   perspective: 4200px;
   --turn-ms: 0.9s;
+  --book-cover: #17171e;
+  --book-cover-side: #101016;
+  --book-cover-bottom: #0c0c11;
   cursor: pointer;
   touch-action: pan-y;
   user-select: none;
@@ -176,7 +179,7 @@
 }
 
 .book-curl-face--back {
-  transform: rotateY(180deg) translateZ(0.25px);
+  transform: rotateY(180deg);
 }
 
 .book-curl-face.is-blank {
@@ -196,6 +199,14 @@
   pointer-events: none;
 }
 
+.book-curl-face--back .book-curl-shade {
+  background: linear-gradient(
+    270deg,
+    rgba(0, 0, 0, var(--curl-shade-start)),
+    rgba(0, 0, 0, var(--curl-shade-end))
+  );
+}
+
 .book-leaf.is-curl-fwd .book-curl-strip:not(.is-root) {
   animation: book-curl-fwd var(--turn-ms) ease-in-out both;
 }
@@ -211,12 +222,12 @@
 
 @keyframes book-curl-fwd {
   0%, 100% { transform: rotateY(0deg); }
-  40% { transform: rotateY(calc(var(--curl-k) * -1deg)); }
+  40% { transform: rotateY(calc(var(--curl-k) * 1deg)); }
 }
 
 @keyframes book-curl-back {
   0%, 100% { transform: rotateY(0deg); }
-  40% { transform: rotateY(calc(var(--curl-k) * 1deg)); }
+  40% { transform: rotateY(calc(var(--curl-k) * -1deg)); }
 }
 
 @keyframes book-curl-shade {
@@ -228,15 +239,25 @@
   transform-style: preserve-3d;
 }
 
-.book-cover-board {
+.book-cover-board,
+.book-back {
   position: absolute;
   inset: -1.5% -1.5% -1.5% 0;
-  border: 1px solid rgba(210, 218, 234, 0.2);
-  background:
-    repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.025) 0 1px, transparent 1px 4px),
-    linear-gradient(135deg, #252b3c, #121722);
+  background: var(--book-cover);
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.35);
+}
+
+.book-cover-board {
   transform: translateZ(-5px);
+}
+
+.book-back {
+  z-index: 0;
+  pointer-events: none;
+}
+
+.book-volume.is-spread .book-back {
+  left: 50%;
 }
 
 .book-cover-edge {
@@ -245,10 +266,7 @@
   left: 101.5%;
   width: 6px;
   height: 103%;
-  border: 1px solid rgba(185, 193, 210, 0.22);
-  background:
-    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.12) 0 1px, transparent 1px 3px),
-    #101521;
+  background: var(--book-cover-side);
   backface-visibility: visible;
   transform: rotateY(90deg);
   transform-origin: left center;
@@ -257,9 +275,6 @@
 .book-cover-edge-face {
   position: absolute;
   z-index: 2;
-  background:
-    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.1) 0 1px, transparent 1px 3px),
-    linear-gradient(135deg, #252b3c, #101521);
   pointer-events: none;
 }
 
@@ -268,6 +283,7 @@
   right: -6px;
   bottom: -6px;
   width: 6px;
+  background: var(--book-cover-side);
 }
 
 .book-cover-edge--bottom {
@@ -275,6 +291,7 @@
   bottom: -6px;
   left: 0;
   height: 6px;
+  background: var(--book-cover-bottom);
 }
 
 .book-leaf--cover .book-face--front {

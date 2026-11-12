@@ -108,6 +108,14 @@ function setup(root) {
     images = [];
     volume.replaceChildren();
     volume.classList.toggle('is-spread', spread);
+    const back = document.createElement('div');
+    back.className = 'book-back';
+    const backRight = document.createElement('div');
+    backRight.className = 'book-cover-edge-face book-cover-edge--right';
+    const backBottom = document.createElement('div');
+    backBottom.className = 'book-cover-edge-face book-cover-edge--bottom';
+    back.append(backRight, backBottom);
+    volume.appendChild(back);
     for (let i = 0; i < pages.length; i += per) {
       const leaf = document.createElement('div');
       leaf.className = 'book-leaf';
@@ -195,9 +203,11 @@ function setup(root) {
 
       if (frontSrc) front.style.backgroundImage = 'url("' + frontSrc.replace(/["\\]/g, '\\$&') + '")';
       else front.classList.add('is-blank');
+      front.appendChild(shade);
       if (back) {
         if (backSrc) back.style.backgroundImage = 'url("' + backSrc.replace(/["\\]/g, '\\$&') + '")';
         else back.classList.add('is-blank');
+        back.appendChild(shade.cloneNode());
       }
 
       strip.style.setProperty('--curl-k', (45 * k / 28).toFixed(4));
@@ -207,7 +217,6 @@ function setup(root) {
       strip.style.setProperty('--curl-shade-end', k ? '1' : '0');
       strip.appendChild(front);
       if (back) strip.appendChild(back);
-      strip.appendChild(shade);
       parent.appendChild(strip);
       state.strips.push({ element: strip, front: front, back: back });
       parent = strip;
@@ -227,14 +236,16 @@ function setup(root) {
       ? Math.round(rawStripWidth * deviceScale) / deviceScale
       : rawStripWidth;
     const overlap = deviceScale > 1 ? 2 : 1;
+    const last = CURL_STRIPS - 1;
     state.strips.forEach(function (strip, k) {
+      const width = k === last ? pageWidth - last * stripWidth : stripWidth + overlap;
       strip.element.style.left = (k === 0 ? 0 : stripWidth) + 'px';
-      strip.element.style.width = stripWidth + overlap + 'px';
+      strip.element.style.width = width + 'px';
       strip.front.style.backgroundSize = pageWidth + 'px 100%';
       strip.front.style.backgroundPositionX = (-k * stripWidth) + 'px';
       if (strip.back) {
         strip.back.style.backgroundSize = pageWidth + 'px 100%';
-        strip.back.style.backgroundPositionX = (-(CURL_STRIPS - 1 - k) * stripWidth) + 'px';
+        strip.back.style.backgroundPositionX = (-(pageWidth - k * stripWidth - width)) + 'px';
       }
     });
   }
