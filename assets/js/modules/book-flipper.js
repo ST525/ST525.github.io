@@ -104,13 +104,11 @@ function setup(root) {
 
   // While a leaf turns, Chrome feathers its edge along the spine, and the
   // resting right leaf's 0.5px face overhang shows through as a hairline on
-  // the left page. A 2px sliver of the page that is under the moving leaf's
-  // root sits above the resting leaves (and under the moving one) so the
-  // blend is invisible. Going forward that is the current left page until the
-  // leaf passes the spine, then the page landing there; the patch also reaches
-  // half a pixel past the spine so the pixel the spine splits isn't half next
-  // page.
-  function showPatch(leftPage, forward) {
+  // the left page. A 2.5px sliver of the page beside the moving leaf's root
+  // sits above the resting leaves (and under the moving one) so the blend is
+  // invisible. It reaches half a pixel past the spine so the pixel the spine
+  // splits isn't half the resting right page either.
+  function showPatch(leftPage) {
     if (!patch || !spread) return;
     const src = pageImage(leftPage);
     if (!src) {
@@ -118,8 +116,8 @@ function setup(root) {
       return;
     }
     patch.style.backgroundImage = 'url("' + src.replace(/["\\]/g, '\\$&') + '")';
-    patch.style.width = forward ? '2.5px' : '2px';
-    patch.style.backgroundSize = (forward ? pageWidth + 1 : pageWidth) + 'px 100%';
+    patch.style.width = '2.5px';
+    patch.style.backgroundSize = (pageWidth + 1) + 'px 100%';
     patch.style.backgroundPositionX = (2 - pageWidth) + 'px';
     patch.style.zIndex = String(leaves.length + 1);
     patch.classList.add('is-on');
@@ -264,7 +262,10 @@ function setup(root) {
     const stripWidth = deviceScale > 1
       ? Math.round(rawStripWidth * deviceScale) / deviceScale
       : rawStripWidth;
-    const overlap = deviceScale > 1 ? 2 : 1;
+    // Each strip runs on under the next one. Three px keeps the hinge pixel
+    // covered when the strips are foreshortened, so the two anti-aliased
+    // edges there can't leak the page below as a dark seam.
+    const overlap = 3;
     const last = CURL_STRIPS - 1;
     state.strips.forEach(function (strip, k) {
       const width = k === last ? pageWidth - last * stripWidth : stripWidth + overlap;
@@ -319,6 +320,7 @@ function setup(root) {
     const lo = Math.min(target, turned);
     const hi = Math.max(target, turned);
     const jump = hi - lo;
+    let curling = false;
     // Leaves in motion ride above both stacks until they land.
     for (let i = lo; i < hi; i++) {
       const leaf = leaves[i];
@@ -332,13 +334,17 @@ function setup(root) {
         leaf.classList.add(forward ? 'is-curl-fwd' : 'is-curl-back');
       }
       leaf.style.zIndex = String(n + 2 + (forward ? i : n - i));
+      if (shouldCurl) curling = true;
     }
     const turnMs = volume.classList.contains('is-fast') ? FAST_MS : TURN_MS;
+    // Until the moving leaf crosses the spine, the page beside its root is
+    // still the current left page (either direction); after that it is the
+    // left page of the destination spread. Curling turns ease in-out and
+    // cross at half time; flat turns use the site ease and cross early.
+    const crossMs = turnMs * (curling ? 0.5 : 0.13);
     clearTimeout(patchTimer);
-    showPatch(2 * (forward ? turned : target) - 1, forward);
-    if (forward) {
-      patchTimer = setTimeout(function () { showPatch(2 * target - 1, true); }, turnMs / 2);
-    }
+    showPatch(2 * turned - 1);
+    patchTimer = setTimeout(function () { showPatch(2 * target - 1); }, crossMs);
     turned = target;
     page = visible()[0];
     render();
