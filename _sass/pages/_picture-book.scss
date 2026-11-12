@@ -53,6 +53,11 @@
   transition: transform 0.9s var(--ease);
 }
 
+.book-leaf.is-curl-fwd,
+.book-leaf.is-curl-back {
+  transition-timing-function: ease-in-out;
+}
+
 .book-volume.is-fast .book-leaf {
   transition-duration: 0.32s;
 }
@@ -114,13 +119,110 @@
   background: linear-gradient(to left, rgba(0, 0, 0, 0.28), rgba(0, 0, 0, 0.06) 40%, rgba(255, 255, 255, 0.06) 100%);
 }
 
-.book-leaf.is-turning .book-face-shade {
+.book-leaf.is-turning:not(.is-curl-fwd):not(.is-curl-back) .book-face-shade {
   animation: book-shade var(--turn-ms) var(--ease) both;
 }
 
 @keyframes book-shade {
   0%, 100% { opacity: 0; }
   50% { opacity: 1; }
+}
+
+.book-curl {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: none;
+  transform-style: preserve-3d;
+  pointer-events: none;
+}
+
+.book-leaf.is-curl-fwd > .book-curl,
+.book-leaf.is-curl-back > .book-curl {
+  display: block;
+}
+
+.book-leaf.is-curl-fwd > .book-face,
+.book-leaf.is-curl-back > .book-face {
+  visibility: hidden;
+}
+
+.book-curl-strip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  overflow: visible;
+  transform: rotateY(0deg);
+  transform-origin: left center;
+  transform-style: preserve-3d;
+}
+
+.book-curl-strip.is-root {
+  left: 0;
+}
+
+.book-volume.is-fast .book-curl-strip:not(.is-root) {
+  --curl-k: var(--curl-k-fast);
+}
+
+.book-curl-face {
+  position: absolute;
+  inset: 0;
+  background-color: #f5edda;
+  background-repeat: no-repeat;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  outline: 1px solid transparent;
+}
+
+.book-curl-face--back {
+  transform: rotateY(180deg) translateZ(0.25px);
+}
+
+.book-curl-face.is-blank {
+  background-image: none !important;
+}
+
+.book-curl-shade {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, var(--curl-shade-start)),
+    rgba(0, 0, 0, var(--curl-shade-end))
+  );
+  opacity: 0;
+  pointer-events: none;
+}
+
+.book-leaf.is-curl-fwd .book-curl-strip:not(.is-root) {
+  animation: book-curl-fwd var(--turn-ms) ease-in-out both;
+}
+
+.book-leaf.is-curl-back .book-curl-strip:not(.is-root) {
+  animation: book-curl-back var(--turn-ms) ease-in-out both;
+}
+
+.book-leaf.is-curl-fwd .book-curl-shade,
+.book-leaf.is-curl-back .book-curl-shade {
+  animation: book-curl-shade var(--turn-ms) ease-in-out both;
+}
+
+@keyframes book-curl-fwd {
+  0%, 100% { transform: rotateY(0deg); }
+  40% { transform: rotateY(calc(var(--curl-k) * -1deg)); }
+}
+
+@keyframes book-curl-back {
+  0%, 100% { transform: rotateY(0deg); }
+  40% { transform: rotateY(calc(var(--curl-k) * 1deg)); }
+}
+
+@keyframes book-curl-shade {
+  0%, 100% { opacity: 0; }
+  40% { opacity: var(--curl-shade-opacity); }
 }
 
 .book-leaf--cover {
@@ -305,5 +407,12 @@
   .book-leaf.is-turning .book-face-shade {
     animation: none;
     opacity: 0;
+  }
+
+  .book-leaf.is-curl-fwd .book-curl-strip,
+  .book-leaf.is-curl-back .book-curl-strip,
+  .book-leaf.is-curl-fwd .book-curl-shade,
+  .book-leaf.is-curl-back .book-curl-shade {
+    animation: none;
   }
 }

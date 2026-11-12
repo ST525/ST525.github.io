@@ -6,6 +6,8 @@ const REPEAT_MS = 160;
 const FAST_MS = 320;
 const PRELOAD = 4;
 const SWIPE = 40;
+const CURL_STRIPS = 8;
+const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 export function initBookFlipper() {
   document.querySelectorAll('[data-book]').forEach(setup);
@@ -56,9 +58,11 @@ function setup(root) {
 
   let spread = false;
   let leaves = [];
+  let curlStates = [];
   let images = [];
   let turned = 0;
   let page = 0;
+  let pageWidth = 0;
   let turnTimers = new WeakMap();
   let fastClassTimer = 0;
   let zoomFocus = null;
@@ -91,7 +95,7 @@ function setup(root) {
 
   function finishTurn(leaf) {
     clearTurnTimer(leaf);
-    leaf.classList.remove('is-moving', 'is-turning');
+    leaf.classList.remove('is-moving', 'is-turning', 'is-curl-fwd', 'is-curl-back');
     if (leaf.isConnected) render();
   }
 
@@ -100,6 +104,7 @@ function setup(root) {
     const per = spread ? 2 : 1;
     leaves.forEach(clearTurnTimer);
     leaves = [];
+    curlStates = [];
     images = [];
     volume.replaceChildren();
     volume.classList.toggle('is-spread', spread);
@@ -125,6 +130,7 @@ function setup(root) {
       if (spread) leaf.appendChild(face(pages[i + 1], 'back'));
       volume.appendChild(leaf);
       leaves.push(leaf);
+      curlStates.push({ root: null, strips: [] });
     }
     turned = spread ? Math.floor((page + 1) / 2) : page;
     instant();
@@ -156,6 +162,78 @@ function setup(root) {
     }
   }
 
+  function pageImage(index) {
+    const img = images[index];
+    if (!img) return '';
+    if (img.dataset.src) {
+      img.src = img.dataset.src;
+      delete img.dataset.src;
+    }
+    return img.currentSrc || img.src;
+  }
+
+  function ensureCurl(index) {
+    const state = curlStates[index];
+    if (!state || state.root) return;
+    const frontIndex = spread ? index * 2 : index;
+    const frontSrc = pageImage(frontIndex);
+    const backSrc = spread ? pageImage(index * 2 + 1) : '';
+    const root = document.createElement('div');
+    root.className = 'book-curl';
+
+    let parent = root;
+    for (let k = 0; k < CURL_STRIPS; k++) {
+      const strip = document.createElement('div');
+      strip.className = 'book-curl-strip' + (k === 0 ? ' is-root' : '');
+
+      const front = document.createElement('div');
+      front.className = 'book-curl-face book-curl-face--front';
+      const back = spread ? document.createElement('div') : null;
+      if (back) back.className = 'book-curl-face book-curl-face--back';
+      const shade = document.createElement('div');
+      shade.className = 'book-curl-shade';
+
+      if (frontSrc) front.style.backgroundImage = 'url("' + frontSrc.replace(/["\\]/g, '\\$&') + '")';
+      else front.classList.add('is-blank');
+      if (back) {
+        if (backSrc) back.style.backgroundImage = 'url("' + backSrc.replace(/["\\]/g, '\\$&') + '")';
+        else back.classList.add('is-blank');
+      }
+
+      strip.style.setProperty('--curl-k', (45 * k / 28).toFixed(4));
+      strip.style.setProperty('--curl-k-fast', (20 * k / 28).toFixed(4));
+      strip.style.setProperty('--curl-shade-opacity', (0.25 * k / (CURL_STRIPS - 1)).toFixed(4));
+      strip.style.setProperty('--curl-shade-start', (k ? (k - 1) / k : 0).toFixed(4));
+      strip.style.setProperty('--curl-shade-end', k ? '1' : '0');
+      strip.appendChild(front);
+      if (back) strip.appendChild(back);
+      strip.appendChild(shade);
+      parent.appendChild(strip);
+      state.strips.push({ element: strip, front: front, back: back });
+      parent = strip;
+    }
+
+    state.root = root;
+    leaves[index].appendChild(root);
+    sizeCurl(index);
+  }
+
+  function sizeCurl(index) {
+    const state = curlStates[index];
+    if (!state || !state.root || !pageWidth) return;
+    const stripWidth = pageWidth / CURL_STRIPS;
+    state.strips.forEach(function (strip, k) {
+      strip.element.style.left = (k === 0 ? 0 : stripWidth) + 'px';
+      strip.element.style.width = stripWidth + 1 + 'px';
+      strip.front.style.backgroundSize = pageWidth + 'px 100%';
+      strip.front.style.backgroundPositionX = (-k * stripWidth) + 'px';
+      if (strip.back) {
+        strip.back.style.backgroundSize = pageWidth + 'px 100%';
+        strip.back.style.backgroundPositionX = (-(CURL_STRIPS - 1 - k) * stripWidth) + 'px';
+      }
+    });
+  }
+
   function render() {
     const n = leaves.length;
     leaves.forEach(function (leaf, i) {
@@ -179,7 +257,7 @@ function setup(root) {
     volume.classList.add('no-anim');
     leaves.forEach(function (leaf) {
       clearTurnTimer(leaf);
-      leaf.classList.remove('is-moving', 'is-turning');
+      leaf.classList.remove('is-moving', 'is-turning', 'is-curl-fwd', 'is-curl-back');
     });
     render();
     void volume.offsetWidth;
@@ -193,11 +271,20 @@ function setup(root) {
     const forward = target > turned;
     const lo = Math.min(target, turned);
     const hi = Math.max(target, turned);
+    const jump = hi - lo;
     // Leaves in motion ride above both stacks until they land.
     for (let i = lo; i < hi; i++) {
-      leaves[i].classList.add('is-moving');
-      leaves[i].classList.add('is-turning');
-      leaves[i].style.zIndex = String(n + 1 + (forward ? i : n - i));
+      const leaf = leaves[i];
+      const retargeted = leaf.classList.contains('is-moving') || leaf.classList.contains('is-turning');
+      const shouldCurl = !leaf.classList.contains('book-leaf--cover') &&
+        !retargeted && !REDUCED_MOTION.matches && jump <= 3;
+      leaf.classList.add('is-moving', 'is-turning');
+      leaf.classList.remove('is-curl-fwd', 'is-curl-back');
+      if (shouldCurl) {
+        ensureCurl(i);
+        leaf.classList.add(forward ? 'is-curl-fwd' : 'is-curl-back');
+      }
+      leaf.style.zIndex = String(n + 1 + (forward ? i : n - i));
     }
     turned = target;
     page = visible()[0];
@@ -334,8 +421,10 @@ function setup(root) {
     const maxH = Math.max(220, window.innerHeight - chrome);
     const per = spread ? 2 : 1;
     const pageW = Math.floor(Math.min(stage.clientWidth / per, maxH * ratio));
+    pageWidth = pageW;
     volume.style.width = pageW * per + 'px';
     volume.style.height = Math.round(pageW / ratio) + 'px';
+    curlStates.forEach(function (_, index) { sizeCurl(index); });
   }
 
   bindArrow(prevBtn, prev);
