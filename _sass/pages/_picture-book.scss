@@ -8,13 +8,42 @@
 }
 
 // Title, credits, blurb and facts sit under the book.
+// The book is set in Georgia; Gelasio is its metric-compatible web twin.
+$book-serif: Georgia, 'Gelasio', 'Times New Roman', serif;
+
 .book-info {
   text-align: left;
 }
 
-.book-info .hero-title {
+// Match the cover: bold serif title, serif for everything else on the page.
+.gd-detail--book .hero-title {
+  font-family: $book-serif;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1.1;
   font-size: clamp(2.2rem, 5vw, 4rem);
   margin-bottom: 1rem;
+}
+
+.gd-detail--book .hero-subtitle,
+.gd-detail--book .book-credits,
+.gd-detail--book .book-blurb,
+.gd-detail--book .book-facts,
+.gd-detail--book .gd-block-title,
+.gd-detail--book .gd-note,
+.gd-detail--book .gd-piece figcaption {
+  font-family: $book-serif;
+}
+
+.gd-detail--book .hero-subtitle {
+  font-weight: 400;
+}
+
+.gd-detail--book .book-facts,
+.gd-detail--book .gd-block-title,
+.gd-detail--book .gd-note-label,
+.gd-detail--book .gd-piece figcaption {
+  letter-spacing: 0.08em;
 }
 
 .book-credits {

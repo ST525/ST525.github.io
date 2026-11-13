@@ -16,12 +16,12 @@ layout: default
 </div>
 {% endif %}
 
-<section class="container gd-detail">
+<section class="container gd-detail{% if project.book %} gd-detail--book{% endif %}">
   {% if project.book %}
     {% include book-flipper.html book=project.book %}
     <div class="book-info reveal">
       <span class="eyebrow">Graphic Design</span>
-      <h1 class="hero-title">{{ project.title | upcase }}</h1>
+      <h1 class="hero-title">{{ project.title }}</h1>
       <p class="hero-subtitle">{{ project.tags }}{% if project.year %} · {{ project.year }}{% endif %}</p>
       <p class="book-credits">{{ project.book.credits }}</p>
       {% if project.book.blurb_zh %}
