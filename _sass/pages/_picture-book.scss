@@ -39,7 +39,7 @@ $book-serif: Georgia, 'Gelasio', 'Times New Roman', serif;
     height: auto;
     transform: translateY(4px) rotate(2.2deg);
     transform-origin: 66.8% 96.4%;
-    clip-path: inset(0 0 3.3% 0); // drop the faded fill below the outline
+    clip-path: inset(0 0 3.7% 0); // cut the faded fill off at the ground line
   }
 
   // Under the ground line a flat pool of his fill (half an ellipse, about one
@@ -55,10 +55,11 @@ $book-serif: Georgia, 'Gelasio', 'Times New Roman', serif;
     width: 220px;
     height: 48px;
     background: radial-gradient(ellipse 110px 48px at 50% 0, rgba($flow, 0.55), rgba($flow, 0.32) 55%, transparent 100%);
-    // Soft blur; the clip starts it just under the line's stroke so neither
-    // the line nor his feet are overlapped.
+    // Soft blur; the clip keeps it from bleeding up past the line, which is
+    // drawn over it.
     filter: blur(6px);
-    clip-path: inset(2px -30px -30px -30px);
+    clip-path: inset(0 -30px -30px -30px);
+    z-index: 0;
     pointer-events: none;
   }
 }
@@ -74,6 +75,7 @@ $book-serif: Georgia, 'Gelasio', 'Times New Roman', serif;
   width: 100vw;
   height: 40px;
   overflow: hidden;
+  z-index: 1;
   color: #fff;
   pointer-events: none;
 }
