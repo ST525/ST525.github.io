@@ -42,23 +42,22 @@ $book-serif: Georgia, 'Gelasio', 'Times New Roman', serif;
     clip-path: inset(0 0 3.3% 0); // drop the faded fill below the outline
   }
 
-  // Under the ground line his fill spreads out and fades away, as if he flows
-  // out of it: a soft 35° cone (conic mask, apex 90px above the line so it is
-  // about his feet's width where it crosses), clipped at the line and fading
-  // downward. Cream like his fill; the light theme's invert greys it too.
+  // Under the ground line a small half circle of his fill hangs from his feet
+  // (their centre is 51.5% of the image) and fades toward its rim, as if he
+  // flows out of it. Cream like his fill; the light theme's invert greys it too.
   &::after {
     $flow: #ebe8dc;
-    $cone: conic-gradient(from 0deg at 50% 0, transparent 133deg, #000 146deg, #000 214deg, transparent 227deg);
     content: '';
     position: absolute;
-    left: -30%;
-    right: -30%;
-    top: calc(100% - 105px);
-    height: 200px;
-    background: linear-gradient(to bottom, rgba($flow, 0.6) 90px, rgba($flow, 0.2) 65%, transparent 100%);
-    clip-path: inset(90px 0 0 0);
-    -webkit-mask-image: $cone;
-    mask-image: $cone;
+    left: calc(51.5% - 80px);
+    top: calc(100% - 15px);
+    width: 160px;
+    height: 80px;
+    background: radial-gradient(circle 80px at 50% 0, rgba($flow, 0.65), rgba($flow, 0.25) 45%, transparent 85%);
+    // Heavy blur so it dissolves into the page; the clip keeps the blur from
+    // bleeding up past the line.
+    filter: blur(10px);
+    clip-path: inset(0 -40px -40px -40px);
     pointer-events: none;
   }
 }
