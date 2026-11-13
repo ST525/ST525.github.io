@@ -37,7 +37,7 @@ $book-serif: Georgia, 'Gelasio', 'Times New Roman', serif;
   img {
     width: 100%;
     height: auto;
-    transform: rotate(2.2deg);
+    transform: translateY(4px) rotate(2.2deg);
     transform-origin: 66.8% 96.4%;
     clip-path: inset(0 0 3.3% 0); // drop the faded fill below the outline
   }
@@ -59,11 +59,11 @@ $book-serif: Georgia, 'Gelasio', 'Times New Roman', serif;
 }
 
 .book-ground--left {
-  right: 66%;
+  right: 64.5%;
 }
 
 .book-ground--right {
-  left: 69.5%;
+  left: 71%;
 }
 
 [data-theme='light'] .book-figure {
@@ -196,6 +196,7 @@ $book-serif: Georgia, 'Gelasio', 'Times New Roman', serif;
 
 .book-volume {
   position: relative;
+  max-width: 100%;
   perspective: 4200px;
   --turn-ms: 0.6s;
   --book-cover: #17171e;

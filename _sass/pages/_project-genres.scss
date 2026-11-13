@@ -399,6 +399,23 @@
   transition: transform 0.5s var(--ease);
 }
 
+// Safari ignores a percentage max-height inside an aspect-ratio box, so the
+// image is positioned against the mat instead, which every browser resolves.
+.gd-mat {
+  position: relative;
+}
+
+.gd-mat img {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+}
+
+.gd-piece--banner .gd-mat img,
+.gd-piece--wide .gd-mat img {
+  position: static;
+}
+
 .gd-piece:hover .gd-mat img,
 .gd-piece:focus-visible .gd-mat img,
 .gd-step:hover .gd-mat img,
@@ -425,6 +442,7 @@
 
 .gd-detail {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: clamp(3rem, 6vw, 5rem);
   padding-bottom: 5rem;
 }
