@@ -424,8 +424,9 @@ $book-serif: Georgia, 'Gelasio', 'Times New Roman', serif;
   left: calc(50% - 6px);
 }
 
-// Open spreads need a backing under the left half too; it fades with the
-// cover as the book opens and closes, in step with the volume's slide.
+// Open spreads need a backing under the left half too. The cover carries
+// its own edges, so this one only shows once the cover has landed on the
+// left (its edges then sit on the same pixels) and goes at once on closing.
 .book-back--left {
   display: none;
   top: -6px;
@@ -433,7 +434,7 @@ $book-serif: Georgia, 'Gelasio', 'Times New Roman', serif;
   left: -6px;
   width: calc(50% + 7px);
   border-right: 0;
-  transition: opacity 0.7s var(--ease);
+  transition: opacity 0s 0.7s;
 }
 
 .book-volume.is-spread .book-back--left {
@@ -443,6 +444,7 @@ $book-serif: Georgia, 'Gelasio', 'Times New Roman', serif;
 
 .book-volume.is-spread.is-closed .book-back--left {
   opacity: 0;
+  transition: none;
 }
 
 // WebGL peel canvas: covers the volume plus room for the lifted corner.
@@ -490,7 +492,7 @@ $book-serif: Georgia, 'Gelasio', 'Times New Roman', serif;
   transform-origin: left center;
 }
 
-// The hard cover's own right and bottom edges, turning with the board.
+// The hard cover's own top, right and bottom edges, turning with the board.
 .book-cover-edge-face {
   position: absolute;
   z-index: 2;
@@ -498,8 +500,15 @@ $book-serif: Georgia, 'Gelasio', 'Times New Roman', serif;
   background: var(--book-cover-side);
 }
 
+.book-cover-edge--top {
+  top: -6px;
+  right: -6px;
+  left: 0;
+  height: 6px;
+}
+
 .book-cover-edge--right {
-  top: 0;
+  top: -6px;
   right: -6px;
   bottom: -6px;
   width: 6px;

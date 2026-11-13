@@ -159,11 +159,13 @@ function setup(root) {
         board.className = 'book-cover-board';
         const edge = document.createElement('div');
         edge.className = 'book-cover-edge';
+        const topEdge = document.createElement('div');
+        topEdge.className = 'book-cover-edge-face book-cover-edge--top';
         const rightEdge = document.createElement('div');
         rightEdge.className = 'book-cover-edge-face book-cover-edge--right';
         const bottomEdge = document.createElement('div');
         bottomEdge.className = 'book-cover-edge-face book-cover-edge--bottom';
-        leaf.append(board, edge, rightEdge, bottomEdge);
+        leaf.append(board, edge, topEdge, rightEdge, bottomEdge);
       }
       leaf.appendChild(face(pages[i], 'front'));
       if (spread) leaf.appendChild(face(pages[i + 1], 'back'));
