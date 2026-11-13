@@ -105,8 +105,42 @@ function setup(root) {
   function finishTurn(leaf) {
     clearTurnTimer(leaf);
     leaf.classList.remove('is-moving', 'is-turning', 'is-curl-fwd', 'is-curl-back', 'is-fast-turn', 'is-peeling');
+    leaf.style.transitionDuration = '';
     if (patch && !volume.querySelector('.book-leaf.is-moving')) patch.classList.remove('is-on');
     if (leaf.isConnected) render();
+  }
+
+  // Restart an element's running transform transition from where it is now
+  // so it lands within `ms`. A flat turn (the cover, or a fast flip) can be
+  // hurried this way; a CSS curl animation would jump, so those are left.
+  function hurryTransition(el, ms, target) {
+    const now = getComputedStyle(el).transform;
+    el.style.transition = 'none';
+    el.style.transform = now === 'none' ? 'matrix(1, 0, 0, 1, 0, 0)' : now;
+    void el.offsetWidth;
+    el.style.transition = '';
+    el.style.transitionDuration = ms + 'ms';
+    el.style.transform = target;
+  }
+
+  function hurryFlat(leaf, ms) {
+    if (!leaf.classList.contains('is-moving') || leaf.classList.contains('is-peeling') ||
+      leaf.classList.contains('is-curl-fwd') || leaf.classList.contains('is-curl-back')) return;
+    hurryTransition(leaf, ms, '');
+    if (leaf === leaves[0]) {
+      // The volume's slide and the left backing's reveal follow the cover.
+      volume.style.setProperty('--cover-ms', ms + 'ms');
+      hurryTransition(volume, ms, volume.style.transform);
+      volume.style.transitionDuration = '';
+      const back = volume.querySelector('.book-back--left');
+      if (back && !volume.classList.contains('is-closed')) {
+        back.style.transition = 'none';
+        back.style.opacity = '0';
+        void back.offsetWidth;
+        back.style.transition = '';
+        back.style.opacity = '';
+      }
+    }
   }
 
   // While a leaf turns, Chrome feathers its edge along the spine, and the
@@ -341,9 +375,15 @@ function setup(root) {
     if (inFlight) {
       setFastMode();
       if (peel.hurry) peel.hurry(FAST_MS);
+      leaves.forEach(function (leaf, i) {
+        if (i < lo || i >= hi) hurryFlat(leaf, FAST_MS);
+      });
     }
     const fast = volume.classList.contains('is-fast');
     const turnMs = fast ? FAST_MS : (lo === 0 && hi === 1 ? COVER_MS : TURN_MS);
+    // The volume's slide and the left backing's reveal keep step with the
+    // cover, whichever speed it turns at.
+    if (lo === 0) volume.style.setProperty('--cover-ms', fast ? FAST_MS + 'ms' : '');
     // Leaves in motion ride above both stacks until they land. Each keeps
     // the speed it starts with, so a mode change can't jump a running curl.
     for (let i = lo; i < hi; i++) {
