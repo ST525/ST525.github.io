@@ -146,7 +146,6 @@ function setup(root) {
     backBottom.className = 'book-cover-edge-face book-cover-edge--bottom';
     back.append(backRight, backBottom);
     volume.appendChild(back);
-    // The page block's top and left edges show only while a page turns.
     const edgeTop = document.createElement('div');
     edgeTop.className = 'book-cover-edge-face book-cover-edge--top';
     const edgeLeft = document.createElement('div');
