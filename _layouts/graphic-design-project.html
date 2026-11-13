@@ -38,17 +38,27 @@ layout: default
       {% if project.book.figure %}
         <span class="book-figure">
           <img src="{{ project.book.figure.src }}" alt="{{ project.book.figure.alt }}" width="{{ project.book.figure.width }}" height="{{ project.book.figure.height }}" loading="lazy" decoding="async">
+          <svg class="book-ground book-ground--left" viewBox="0 0 1440 24" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+            <filter id="book-ground-chalk" x="-2%" y="-250%" width="104%" height="600%">
+              <feTurbulence type="fractalNoise" baseFrequency="0.04 0.7" numOctaves="3" seed="7" result="noise"/>
+              <feDisplacementMap in="SourceGraphic" in2="noise" scale="11" xChannelSelector="R" yChannelSelector="G"/>
+            </filter>
+            <path d="M-40 12 C 300 8, 700 17, 1100 11 S 1380 10, 1428 13" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="4.5"/>
+            <g filter="url(#book-ground-chalk)" fill="none" stroke="currentColor" stroke-linecap="round">
+              <path d="M-40 12 C 300 8, 700 17, 1100 11 S 1380 10, 1432 13" stroke-width="8"/>
+              <path d="M-40 15 C 400 12, 800 19, 1200 14 S 1400 13, 1424 15" stroke-width="3.5"/>
+              <path d="M-40 9 C 350 7, 750 14, 1150 9 S 1390 8, 1416 11" stroke-width="2.5"/>
+            </g>
+          </svg>
+          <svg class="book-ground book-ground--right" viewBox="0 0 1440 24" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+            <path d="M12 13 C 300 9, 700 17, 1100 11 S 1380 10, 1480 13" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="4.5"/>
+            <g filter="url(#book-ground-chalk)" fill="none" stroke="currentColor" stroke-linecap="round">
+              <path d="M8 13 C 300 9, 700 17, 1100 11 S 1380 10, 1480 13" stroke-width="8"/>
+              <path d="M16 16 C 400 12, 800 19, 1200 14 S 1400 13, 1480 15" stroke-width="3.5"/>
+              <path d="M24 10 C 350 7, 750 14, 1150 9 S 1390 8, 1480 11" stroke-width="2.5"/>
+            </g>
+          </svg>
         </span>
-        <svg class="book-ground" viewBox="0 0 1440 24" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-          <filter id="book-ground-chalk" x="-2%" y="-200%" width="104%" height="500%">
-            <feTurbulence type="fractalNoise" baseFrequency="0.02 0.6" numOctaves="2" seed="7" result="noise"/>
-            <feDisplacementMap in="SourceGraphic" in2="noise" scale="9" xChannelSelector="R" yChannelSelector="G"/>
-          </filter>
-          <g filter="url(#book-ground-chalk)" fill="none" stroke="currentColor" stroke-linecap="round">
-            <path d="M-20 12 C 240 8, 520 17, 800 11 S 1200 9, 1460 13" stroke-width="7" opacity="0.95"/>
-            <path d="M-20 15 C 300 12, 600 19, 900 14 S 1250 12, 1460 16" stroke-width="3" opacity="0.6"/>
-          </g>
-        </svg>
       {% endif %}
     </div>
   {% else %}
