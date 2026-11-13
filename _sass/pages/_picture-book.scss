@@ -62,7 +62,7 @@ $book-serif: Georgia, 'Gelasio', 'Times New Roman', serif;
     // Soft blur; the clip keeps it from bleeding up past the line, which is
     // drawn over it.
     filter: blur(6px);
-    clip-path: inset(15px -30px -30px -30px); // cut 1px below his fill's edge
+    clip-path: inset(14px -30px -30px -30px); // cut at his fill's edge
     z-index: 0;
     pointer-events: none;
   }
