@@ -352,14 +352,15 @@ function setup(root) {
         // The DOM leaf jumps to its destination, hidden, while WebGL draws
         // the page peeling over from the bottom outer corner.
         leaf.classList.add('is-peeling');
+        // near: the page facing the reader now; far: the one showing once
+        // turned. Single-page leaves have a blank back.
         const front = spread ? i * 2 : i;
-        const nearIndex = forward ? front : front + 1;
-        const farIndex = forward ? front + 1 : front;
+        const back = spread ? front + 1 : -1;
         peel.start({
           leaf: leaf,
           forward: forward,
-          nearImg: images[spread || forward ? nearIndex : front],
-          farImg: spread ? images[farIndex] : null,
+          nearImg: images[forward ? front : back] || null,
+          farImg: images[forward ? back : front] || null,
           duration: turnMs,
           onDone: function () { finishTurn(leaf); }
         });
