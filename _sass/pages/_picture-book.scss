@@ -55,9 +55,10 @@ $book-serif: Georgia, 'Gelasio', 'Times New Roman', serif;
     width: 220px;
     height: 48px;
     background: radial-gradient(ellipse 110px 48px at 50% 0, rgba($flow, 0.55), rgba($flow, 0.32) 55%, transparent 100%);
-    // Soft blur; the clip keeps it from bleeding up past the line.
+    // Soft blur; the clip starts it just under the line's stroke so neither
+    // the line nor his feet are overlapped.
     filter: blur(6px);
-    clip-path: inset(0 -30px -30px -30px);
+    clip-path: inset(5px -30px -30px -30px);
     pointer-events: none;
   }
 }
