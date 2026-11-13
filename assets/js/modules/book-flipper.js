@@ -474,7 +474,7 @@ function setup(root) {
 
   function size() {
     const header = document.querySelector('.header');
-    const full = document.fullscreenElement === root;
+    const full = fullElement() === root;
     const chrome = (full ? 0 : (header ? header.offsetHeight : 0)) + controls.offsetHeight + (full ? 64 : 140);
     const maxH = Math.max(220, window.innerHeight - chrome);
     const per = spread ? 2 : 1;
@@ -530,21 +530,31 @@ function setup(root) {
     if (e.repeat && (e.key === 'ArrowRight' || e.key === 'ArrowLeft')) scheduleFastModeRemoval();
   });
 
-  if (fullBtn && root.requestFullscreen) {
+  // Safari before 16.4 only has the webkit-prefixed full-screen API.
+  const requestFull = root.requestFullscreen || root.webkitRequestFullscreen;
+  function fullElement() {
+    return document.fullscreenElement || document.webkitFullscreenElement || null;
+  }
+  function exitFull() {
+    if (document.exitFullscreen) document.exitFullscreen();
+    else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+  }
+
+  if (fullBtn && requestFull) {
     fullBtn.hidden = false;
-    // Chrome scrolls the page to the top on entering and leaving full
+    // Browsers scroll the page to the top on entering and leaving full
     // screen, so remember where the reader was and put them back after.
     let scrollBefore = 0;
     fullBtn.addEventListener('click', function () {
-      if (document.fullscreenElement) {
-        document.exitFullscreen();
+      if (fullElement()) {
+        exitFull();
       } else {
         scrollBefore = window.scrollY;
-        root.requestFullscreen();
+        requestFull.call(root);
       }
     });
-    document.addEventListener('fullscreenchange', function () {
-      const full = document.fullscreenElement === root;
+    function onFullChange() {
+      const full = fullElement() === root;
       root.classList.toggle('is-fullscreen', full);
       fullBtn.setAttribute('aria-label', full ? 'Exit full screen' : 'Full screen');
       size();
@@ -552,7 +562,9 @@ function setup(root) {
         size();
         if (!full) window.scrollTo(0, scrollBefore);
       });
-    });
+    }
+    document.addEventListener('fullscreenchange', onFullChange);
+    document.addEventListener('webkitfullscreenchange', onFullChange);
   }
 
   SINGLE.addEventListener('change', build);
