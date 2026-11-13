@@ -6,6 +6,8 @@ const REPEAT_MS = 160;
 const FAST_MS = 320;
 const PRELOAD = 4;
 const SWIPE = 40;
+const CURL_STRIPS = 8;
+const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 export function initBookFlipper() {
   document.querySelectorAll('[data-book]').forEach(setup);
@@ -56,10 +58,14 @@ function setup(root) {
 
   let spread = false;
   let leaves = [];
+  let curlStates = [];
   let images = [];
   let turned = 0;
   let page = 0;
-  let timer = 0;
+  let pageWidth = 0;
+  let patch = null;
+  let patchTimer = 0;
+  let turnTimers = new WeakMap();
   let fastClassTimer = 0;
   let zoomFocus = null;
   let zoomOpenedAt = 0;
@@ -67,8 +73,11 @@ function setup(root) {
   function face(data, side) {
     const el = document.createElement('div');
     el.className = 'book-face book-face--' + side;
+    const shade = document.createElement('div');
+    shade.className = 'book-face-shade';
     if (!data) {
       el.classList.add('is-blank');
+      el.appendChild(shade);
       return el;
     }
     const img = document.createElement('img');
@@ -76,25 +85,87 @@ function setup(root) {
     img.decoding = 'async';
     img.draggable = false;
     img.dataset.src = data.src;
-    el.appendChild(img);
+    el.append(img, shade);
     images.push(img);
     return el;
+  }
+
+  function clearTurnTimer(leaf) {
+    clearTimeout(turnTimers.get(leaf));
+    turnTimers.delete(leaf);
+  }
+
+  function finishTurn(leaf) {
+    clearTurnTimer(leaf);
+    leaf.classList.remove('is-moving', 'is-turning', 'is-curl-fwd', 'is-curl-back');
+    if (patch && !volume.querySelector('.book-leaf.is-moving')) patch.classList.remove('is-on');
+    if (leaf.isConnected) render();
+  }
+
+  // While a leaf turns, Chrome feathers its edge along the spine, and the
+  // resting right leaf's 0.5px face overhang shows through as a hairline on
+  // the left page. A 2.5px sliver of the page beside the moving leaf's root
+  // sits above the resting leaves (and under the moving one) so the blend is
+  // invisible. It reaches half a pixel past the spine so the pixel the spine
+  // splits isn't half the resting right page either.
+  function showPatch(leftPage) {
+    if (!patch || !spread) return;
+    const src = pageImage(leftPage);
+    if (!src) {
+      patch.classList.remove('is-on');
+      return;
+    }
+    patch.style.backgroundImage = 'url("' + src.replace(/["\\]/g, '\\$&') + '")';
+    patch.style.width = '2.5px';
+    patch.style.backgroundSize = (pageWidth + 1) + 'px 100%';
+    patch.style.backgroundPositionX = (2 - pageWidth) + 'px';
+    patch.style.zIndex = String(leaves.length + 1);
+    patch.classList.add('is-on');
   }
 
   function build() {
     spread = !SINGLE.matches;
     const per = spread ? 2 : 1;
+    leaves.forEach(clearTurnTimer);
     leaves = [];
+    curlStates = [];
     images = [];
     volume.replaceChildren();
     volume.classList.toggle('is-spread', spread);
+    const back = document.createElement('div');
+    back.className = 'book-back';
+    const backRight = document.createElement('div');
+    backRight.className = 'book-cover-edge-face book-cover-edge--right';
+    const backBottom = document.createElement('div');
+    backBottom.className = 'book-cover-edge-face book-cover-edge--bottom';
+    back.append(backRight, backBottom);
+    volume.appendChild(back);
+    patch = document.createElement('div');
+    patch.className = 'book-spine-patch';
+    volume.appendChild(patch);
     for (let i = 0; i < pages.length; i += per) {
       const leaf = document.createElement('div');
       leaf.className = 'book-leaf';
+      leaf.addEventListener('transitionend', function (event) {
+        if (event.target === leaf && event.propertyName === 'transform') finishTurn(leaf);
+      });
+      if (i === 0) {
+        leaf.classList.add('book-leaf--cover');
+        const board = document.createElement('div');
+        board.className = 'book-cover-board';
+        const edge = document.createElement('div');
+        edge.className = 'book-cover-edge';
+        const rightEdge = document.createElement('div');
+        rightEdge.className = 'book-cover-edge-face book-cover-edge--right';
+        const bottomEdge = document.createElement('div');
+        bottomEdge.className = 'book-cover-edge-face book-cover-edge--bottom';
+        leaf.append(board, edge, rightEdge, bottomEdge);
+      }
       leaf.appendChild(face(pages[i], 'front'));
       if (spread) leaf.appendChild(face(pages[i + 1], 'back'));
       volume.appendChild(leaf);
       leaves.push(leaf);
+      curlStates.push({ root: null, strips: [] });
     }
     turned = spread ? Math.floor((page + 1) / 2) : page;
     instant();
@@ -126,6 +197,89 @@ function setup(root) {
     }
   }
 
+  function pageImage(index) {
+    const img = images[index];
+    if (!img) return '';
+    if (img.dataset.src) {
+      img.src = img.dataset.src;
+      delete img.dataset.src;
+    }
+    return img.currentSrc || img.src;
+  }
+
+  function ensureCurl(index) {
+    const state = curlStates[index];
+    if (!state || state.root) return;
+    const frontIndex = spread ? index * 2 : index;
+    const frontSrc = pageImage(frontIndex);
+    const backSrc = spread ? pageImage(index * 2 + 1) : '';
+    const root = document.createElement('div');
+    root.className = 'book-curl';
+
+    let parent = root;
+    for (let k = 0; k < CURL_STRIPS; k++) {
+      const strip = document.createElement('div');
+      strip.className = 'book-curl-strip' + (k === 0 ? ' is-root' : '');
+
+      const front = document.createElement('div');
+      front.className = 'book-curl-face book-curl-face--front';
+      const back = spread ? document.createElement('div') : null;
+      if (back) back.className = 'book-curl-face book-curl-face--back';
+      const shade = document.createElement('div');
+      shade.className = 'book-curl-shade';
+
+      if (frontSrc) front.style.backgroundImage = 'url("' + frontSrc.replace(/["\\]/g, '\\$&') + '")';
+      else front.classList.add('is-blank');
+      front.appendChild(shade);
+      if (back) {
+        if (backSrc) back.style.backgroundImage = 'url("' + backSrc.replace(/["\\]/g, '\\$&') + '")';
+        else back.classList.add('is-blank');
+        back.appendChild(shade.cloneNode());
+      }
+
+      strip.style.setProperty('--curl-k', (45 * k / 28).toFixed(4));
+      strip.style.setProperty('--curl-k-fast', (20 * k / 28).toFixed(4));
+      strip.style.setProperty('--curl-shade-opacity', (0.25 * k / (CURL_STRIPS - 1)).toFixed(4));
+      strip.style.setProperty('--curl-shade-start', (k ? (k - 1) / k : 0).toFixed(4));
+      strip.style.setProperty('--curl-shade-end', k ? '1' : '0');
+      strip.appendChild(front);
+      if (back) strip.appendChild(back);
+      parent.appendChild(strip);
+      state.strips.push({ element: strip, front: front, back: back });
+      parent = strip;
+    }
+
+    state.root = root;
+    leaves[index].appendChild(root);
+    sizeCurl(index);
+  }
+
+  function sizeCurl(index) {
+    const state = curlStates[index];
+    if (!state || !state.root || !pageWidth) return;
+    const deviceScale = window.devicePixelRatio || 1;
+    const rawStripWidth = pageWidth / CURL_STRIPS;
+    const stripWidth = deviceScale > 1
+      ? Math.round(rawStripWidth * deviceScale) / deviceScale
+      : rawStripWidth;
+    // Each strip runs on under the next one. Three px keeps the hinge pixel
+    // covered when the strips are foreshortened, so the two anti-aliased
+    // edges there can't leak the page below as a dark seam.
+    const overlap = 3;
+    const last = CURL_STRIPS - 1;
+    state.strips.forEach(function (strip, k) {
+      const width = k === last ? pageWidth - last * stripWidth : stripWidth + overlap;
+      strip.element.style.left = (k === 0 ? 0 : stripWidth) + 'px';
+      strip.element.style.width = width + 'px';
+      strip.front.style.backgroundSize = pageWidth + 'px 100%';
+      strip.front.style.backgroundPositionX = (-k * stripWidth) + 'px';
+      if (strip.back) {
+        strip.back.style.backgroundSize = (k ? pageWidth : pageWidth + 1) + 'px 100%';
+        strip.back.style.backgroundPositionX = (-(pageWidth - k * stripWidth - width)) + 'px';
+      }
+    });
+  }
+
   function render() {
     const n = leaves.length;
     leaves.forEach(function (leaf, i) {
@@ -136,7 +290,6 @@ function setup(root) {
 
     let shift = 0;
     if (spread && turned === 0) shift = -25;
-    else if (spread && 2 * turned >= pages.length) shift = 25;
     volume.style.transform = shift ? 'translateX(' + shift + '%)' : '';
 
     const shown = visible().map(function (i) { return i + 1; });
@@ -148,7 +301,12 @@ function setup(root) {
 
   function instant() {
     volume.classList.add('no-anim');
-    leaves.forEach(function (leaf) { leaf.classList.remove('is-moving'); });
+    leaves.forEach(function (leaf) {
+      clearTurnTimer(leaf);
+      leaf.classList.remove('is-moving', 'is-turning', 'is-curl-fwd', 'is-curl-back');
+    });
+    clearTimeout(patchTimer);
+    if (patch) patch.classList.remove('is-on');
     render();
     void volume.offsetWidth;
     volume.classList.remove('no-anim');
@@ -161,20 +319,40 @@ function setup(root) {
     const forward = target > turned;
     const lo = Math.min(target, turned);
     const hi = Math.max(target, turned);
+    const jump = hi - lo;
+    let curling = false;
     // Leaves in motion ride above both stacks until they land.
     for (let i = lo; i < hi; i++) {
-      leaves[i].classList.add('is-moving');
-      leaves[i].style.zIndex = String(n + 1 + (forward ? i : n - i));
+      const leaf = leaves[i];
+      const retargeted = leaf.classList.contains('is-moving') || leaf.classList.contains('is-turning');
+      const shouldCurl = !leaf.classList.contains('book-leaf--cover') &&
+        !retargeted && !REDUCED_MOTION.matches && jump <= 3;
+      leaf.classList.add('is-moving', 'is-turning');
+      leaf.classList.remove('is-curl-fwd', 'is-curl-back');
+      if (shouldCurl) {
+        ensureCurl(i);
+        leaf.classList.add(forward ? 'is-curl-fwd' : 'is-curl-back');
+      }
+      leaf.style.zIndex = String(n + 2 + (forward ? i : n - i));
+      if (shouldCurl) curling = true;
     }
+    const turnMs = volume.classList.contains('is-fast') ? FAST_MS : TURN_MS;
+    // Until the moving leaf crosses the spine, the page beside its root is
+    // still the current left page (either direction); after that it is the
+    // left page of the destination spread. Curling turns ease in-out and
+    // cross at half time; flat turns use the site ease and cross early.
+    const crossMs = turnMs * (curling ? 0.5 : 0.13);
+    clearTimeout(patchTimer);
+    showPatch(2 * turned - 1);
+    patchTimer = setTimeout(function () { showPatch(2 * target - 1); }, crossMs);
     turned = target;
     page = visible()[0];
     render();
-    clearTimeout(timer);
-    const turnMs = volume.classList.contains('is-fast') ? FAST_MS : TURN_MS;
-    timer = setTimeout(function () {
-      leaves.forEach(function (leaf) { leaf.classList.remove('is-moving'); });
-      render();
-    }, turnMs);
+    for (let i = lo; i < hi; i++) {
+      const leaf = leaves[i];
+      clearTurnTimer(leaf);
+      turnTimers.set(leaf, setTimeout(function () { finishTurn(leaf); }, turnMs + 100));
+    }
     if (volume.classList.contains('is-fast')) scheduleFastModeRemoval();
   }
 
@@ -296,13 +474,18 @@ function setup(root) {
 
   function size() {
     const header = document.querySelector('.header');
-    const full = document.fullscreenElement === root;
+    const full = fullElement() === root;
     const chrome = (full ? 0 : (header ? header.offsetHeight : 0)) + controls.offsetHeight + (full ? 64 : 140);
     const maxH = Math.max(220, window.innerHeight - chrome);
     const per = spread ? 2 : 1;
+    // Let the stage take its natural width first; otherwise a volume sized
+    // for full screen keeps the stage wide after leaving it.
+    volume.style.width = '';
     const pageW = Math.floor(Math.min(stage.clientWidth / per, maxH * ratio));
+    pageWidth = pageW;
     volume.style.width = pageW * per + 'px';
     volume.style.height = Math.round(pageW / ratio) + 'px';
+    curlStates.forEach(function (_, index) { sizeCurl(index); });
   }
 
   bindArrow(prevBtn, prev);
@@ -347,18 +530,41 @@ function setup(root) {
     if (e.repeat && (e.key === 'ArrowRight' || e.key === 'ArrowLeft')) scheduleFastModeRemoval();
   });
 
-  if (fullBtn && root.requestFullscreen) {
+  // Safari before 16.4 only has the webkit-prefixed full-screen API.
+  const requestFull = root.requestFullscreen || root.webkitRequestFullscreen;
+  function fullElement() {
+    return document.fullscreenElement || document.webkitFullscreenElement || null;
+  }
+  function exitFull() {
+    if (document.exitFullscreen) document.exitFullscreen();
+    else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+  }
+
+  if (fullBtn && requestFull) {
     fullBtn.hidden = false;
+    // Browsers scroll the page to the top on entering and leaving full
+    // screen, so remember where the reader was and put them back after.
+    let scrollBefore = 0;
     fullBtn.addEventListener('click', function () {
-      if (document.fullscreenElement) document.exitFullscreen();
-      else root.requestFullscreen();
+      if (fullElement()) {
+        exitFull();
+      } else {
+        scrollBefore = window.scrollY;
+        requestFull.call(root);
+      }
     });
-    document.addEventListener('fullscreenchange', function () {
-      const full = document.fullscreenElement === root;
+    function onFullChange() {
+      const full = fullElement() === root;
       root.classList.toggle('is-fullscreen', full);
       fullBtn.setAttribute('aria-label', full ? 'Exit full screen' : 'Full screen');
       size();
-    });
+      requestAnimationFrame(function () {
+        size();
+        if (!full) window.scrollTo(0, scrollBefore);
+      });
+    }
+    document.addEventListener('fullscreenchange', onFullChange);
+    document.addEventListener('webkitfullscreenchange', onFullChange);
   }
 
   SINGLE.addEventListener('change', build);
