@@ -414,8 +414,7 @@ sections:
       width: 1400
       height: 1250
     details:
-      - heading: Process notes
-        kind: notes
+      - kind: notes
         items:
           - label: About the story
             text_zh: >-

@@ -50,7 +50,7 @@ layout: default
   {% for block in project.details %}
     {% assign group = 'gd-block-' | append: forloop.index %}
     <div class="gd-block reveal">
-      <h2 class="gd-block-title">{{ block.heading }}</h2>
+      {% if block.heading %}<h2 class="gd-block-title">{{ block.heading }}</h2>{% endif %}
       {% if block.kind == 'notes' %}
         <div class="gd-notes">
           {% for note in block.items %}
