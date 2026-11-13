@@ -2,6 +2,9 @@
 // One page at a time on phones held upright; sideways they get spreads.
 const SINGLE = window.matchMedia('(max-width: 760px) and (orientation: portrait), (max-width: 480px)');
 const TURN_MS = 600;
+// The hard cover swings a little slower than a page; the volume's slide
+// and the left backing's reveal (--cover-ms in CSS) keep step with it.
+const COVER_MS = 850;
 const HOLD_MS = 300;
 const REPEAT_MS = 110;
 const FAST_MS = 220;
@@ -340,7 +343,7 @@ function setup(root) {
       if (peel.hurry) peel.hurry(FAST_MS);
     }
     const fast = volume.classList.contains('is-fast');
-    const turnMs = fast ? FAST_MS : TURN_MS;
+    const turnMs = fast ? FAST_MS : (lo === 0 && hi === 1 ? COVER_MS : TURN_MS);
     // Leaves in motion ride above both stacks until they land. Each keeps
     // the speed it starts with, so a mode change can't jump a running curl.
     for (let i = lo; i < hi; i++) {
@@ -407,7 +410,8 @@ function setup(root) {
       clearTurnTimer(leaf);
       // A peeling leaf finishes when its WebGL turn ends, however slow the
       // device; the timer is only a backstop.
-      const wait = leaf.classList.contains('is-peeling') ? turnMs * 4 : turnMs + 100;
+      const ms = i === 0 && !fast ? COVER_MS : turnMs;
+      const wait = leaf.classList.contains('is-peeling') ? ms * 4 : ms + 100;
       turnTimers.set(leaf, setTimeout(function () { finishTurn(leaf); }, wait));
     }
     if (fast) scheduleFastModeRemoval();
