@@ -242,7 +242,7 @@
 .book-cover-board,
 .book-back {
   position: absolute;
-  inset: -1.5% -1.5% -1.5% 0;
+  inset: 0 -1.5% 0 0;
   background: var(--book-cover);
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.35);
 }
@@ -277,10 +277,10 @@
 
 .book-cover-edge {
   position: absolute;
-  top: -1.5%;
+  top: 0;
   left: 101.5%;
   width: 6px;
-  height: 103%;
+  height: 100%;
   background: var(--book-cover-side);
   backface-visibility: visible;
   transform: rotateY(90deg);

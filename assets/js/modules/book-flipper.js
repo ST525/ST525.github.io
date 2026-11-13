@@ -478,6 +478,9 @@ function setup(root) {
     const chrome = (full ? 0 : (header ? header.offsetHeight : 0)) + controls.offsetHeight + (full ? 64 : 140);
     const maxH = Math.max(220, window.innerHeight - chrome);
     const per = spread ? 2 : 1;
+    // Let the stage take its natural width first; otherwise a volume sized
+    // for full screen keeps the stage wide after leaving it.
+    volume.style.width = '';
     const pageW = Math.floor(Math.min(stage.clientWidth / per, maxH * ratio));
     pageWidth = pageW;
     volume.style.width = pageW * per + 'px';
@@ -538,6 +541,7 @@ function setup(root) {
       root.classList.toggle('is-fullscreen', full);
       fullBtn.setAttribute('aria-label', full ? 'Exit full screen' : 'Full screen');
       size();
+      requestAnimationFrame(size);
     });
   }
 
