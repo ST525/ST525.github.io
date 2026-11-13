@@ -518,7 +518,11 @@ function setup(root) {
   function size() {
     const header = document.querySelector('.header');
     const full = fullElement() === root;
-    const chrome = (full ? 0 : (header ? header.offsetHeight : 0)) + controls.offsetHeight + (full ? 64 : 140);
+    // Phones held sideways have little height: let the spread use nearly
+    // all of it (the header scrolls away) rather than leaving room for it.
+    const short = window.innerHeight < 500;
+    const slack = full ? 64 : (short ? 24 : 140);
+    const chrome = (full || short ? 0 : (header ? header.offsetHeight : 0)) + controls.offsetHeight + slack;
     const maxH = Math.max(220, window.innerHeight - chrome);
     const per = spread ? 2 : 1;
     // Let the stage take its natural width first; otherwise a volume sized
