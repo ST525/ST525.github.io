@@ -32,20 +32,25 @@ $book-serif: Georgia, 'Gelasio', 'Times New Roman', serif;
   width: min(100%, 320px);
   line-height: 0;
 
+  // His left leg's outline ends 8px (of 803) lower than the right one's;
+  // tilting him about the right foot puts both outline ends on the line.
   img {
     width: 100%;
     height: auto;
+    transform: rotate(2.2deg);
+    transform-origin: 66.8% 96.4%;
+    clip-path: inset(0 0 3.3% 0); // drop the faded fill below the outline
   }
 }
 
 // Pencil horizon at his feet, bowing gently up to where he stands and running
 // to both edges of the viewport, with a gap that just touches his feet (they
-// span about 32%–71% of the image width, ending 2% above its bottom edge). Each half is anchored to the figure so the gap stays
+// span about 32%–71% of the image width; their outlines end 3.6% above its bottom edge). Each half is anchored to the figure so the gap stays
 // under him at any size; the body clips what runs past the viewport. White
 // like his outline: the light theme's invert on .book-figure darkens both.
 .book-ground {
   position: absolute;
-  bottom: -20px;
+  bottom: -18px;
   width: 100vw;
   height: 40px;
   overflow: hidden;
