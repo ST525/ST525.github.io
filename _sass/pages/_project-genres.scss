@@ -413,14 +413,15 @@
 
 .gd-piece--banner .gd-mat img,
 .gd-piece--wide .gd-mat img {
-  position: static;
+  position: relative;
+  inset: auto;
+  margin: 0;
 }
 
 .gd-piece:hover .gd-mat img,
 .gd-piece:focus-visible .gd-mat img,
 .gd-step:hover .gd-mat img,
 .gd-step:focus-visible .gd-mat img {
-  position: relative;
   z-index: 1;
   transform: scale(1.03);
 }
