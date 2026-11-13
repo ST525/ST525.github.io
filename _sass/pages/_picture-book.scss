@@ -39,7 +39,10 @@ $book-serif: Georgia, 'Gelasio', 'Times New Roman', serif;
     height: auto;
     transform: translateY(4px) rotate(2.2deg);
     transform-origin: 66.8% 96.4%;
-    clip-path: inset(0 0 3.3% 0); // drop the faded fill below the outline
+    // Fade his legs out through the ground line so he seems to flow out of it.
+    $fade: linear-gradient(to bottom, #000 0, #000 70%, rgba(#000, 0.3) 96%, transparent 100%);
+    -webkit-mask-image: $fade;
+    mask-image: $fade;
   }
 }
 
