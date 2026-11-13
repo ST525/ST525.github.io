@@ -373,6 +373,9 @@
 .gd-main--5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
 .gd-main--5 .gd-piece { grid-column: span 1; }
 .gd-piece--land .gd-mat { aspect-ratio: 3 / 2; }
+// Full-width strip that keeps its own aspect ratio (character lineups).
+.gd-main .gd-piece--banner, .gd-detail > .gd-main--1 .gd-piece--banner { grid-column: 1 / -1; }
+.gd-main--1 .gd-piece--banner .gd-mat, .gd-piece--banner .gd-mat { aspect-ratio: auto; }
 .gd-main .gd-piece:not(.gd-piece--wide) + .gd-piece--wide { grid-column: span 7; }
 .gd-main .gd-piece:has(+ .gd-piece--wide) { grid-column: span 5; }
 .gd-piece--wide .gd-mat { aspect-ratio: auto; flex: 1; }
@@ -396,11 +399,29 @@
   transition: transform 0.5s var(--ease);
 }
 
+// Safari ignores a percentage max-height inside an aspect-ratio box, so the
+// image is positioned against the mat instead, which every browser resolves.
+.gd-mat {
+  position: relative;
+}
+
+.gd-mat img {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+}
+
+.gd-piece--banner .gd-mat img,
+.gd-piece--wide .gd-mat img {
+  position: relative;
+  inset: auto;
+  margin: 0;
+}
+
 .gd-piece:hover .gd-mat img,
 .gd-piece:focus-visible .gd-mat img,
 .gd-step:hover .gd-mat img,
 .gd-step:focus-visible .gd-mat img {
-  position: relative;
   z-index: 1;
   transform: scale(1.03);
 }
@@ -422,6 +443,7 @@
 
 .gd-detail {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: clamp(3rem, 6vw, 5rem);
   padding-bottom: 5rem;
 }

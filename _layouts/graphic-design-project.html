@@ -3,16 +3,64 @@ layout: default
 ---
 {% assign section = site.data.projects.sections | where: "slug", "graphic-design" | first %}
 {% assign project = section.projects | where: "slug", page.project | first %}
+{% if project.book %}
+<div class="container hero project-section-hero project-section-hero--book">
+  <a class="project-section-back" href="{{ section.url }}">← Graphic Design</a>
+</div>
+{% else %}
 <div class="container hero project-section-hero project-section-hero--graphic-design">
   <a class="project-section-back" href="{{ section.url }}">← Graphic Design</a>
   <span class="eyebrow">Graphic Design</span>
   <h1 class="hero-title">{{ project.title | upcase }}</h1>
   <p class="hero-subtitle">{{ project.tags }}{% if project.year %} · {{ project.year }}{% endif %}</p>
 </div>
+{% endif %}
 
-<section class="container gd-detail">
+<section class="container gd-detail{% if project.book %} gd-detail--book{% endif %}">
   {% if project.book %}
     {% include book-flipper.html book=project.book %}
+    <div class="book-info reveal{% if project.book.figure %} book-info--figure{% endif %}">
+      <div class="book-info-text">
+      <h1 class="hero-title">{{ project.title }}</h1>
+      <p class="book-credits">{% assign credit_lines = project.book.credits | split: ' · ' %}{% for line in credit_lines %}{{ line }}{% unless forloop.last %}<br>{% endunless %}{% endfor %}</p>
+      {% if project.book.blurb_zh %}
+        <p class="book-blurb book-blurb--zh" lang="zh-Hant">{{ project.book.blurb_zh }}</p>
+      {% endif %}
+      {% if project.book.blurb %}
+        <p class="book-blurb"{% if project.book.blurb_zh %} lang="en"{% endif %}>{{ project.book.blurb }}</p>
+      {% endif %}
+      {% if project.book.facts %}
+        <ul class="book-facts">
+          {% for fact in project.book.facts %}<li>{{ fact }}</li>{% endfor %}
+        </ul>
+      {% endif %}
+      </div>
+      {% if project.book.figure %}
+        <span class="book-figure">
+          <img src="{{ project.book.figure.src }}" alt="{{ project.book.figure.alt }}" width="{{ project.book.figure.width }}" height="{{ project.book.figure.height }}" loading="lazy" decoding="async">
+          <svg class="book-ground book-ground--left" viewBox="0 0 2600 40" preserveAspectRatio="xMaxYMid slice" aria-hidden="true" focusable="false">
+            <filter id="book-ground-pencil" x="-2%" y="-100%" width="104%" height="300%">
+              <feTurbulence type="fractalNoise" baseFrequency="0.01 0.06" numOctaves="2" seed="7" result="wave"/>
+              <feDisplacementMap in="SourceGraphic" in2="wave" scale="5" xChannelSelector="R" yChannelSelector="G" result="waved"/>
+              <feTurbulence type="turbulence" baseFrequency="0.45 0.5" numOctaves="2" seed="3" result="fuzz"/>
+              <feDisplacementMap in="waved" in2="fuzz" scale="3.2" xChannelSelector="R" yChannelSelector="B"/>
+            </filter>
+            <g filter="url(#book-ground-pencil)" fill="none" stroke="currentColor" stroke-linecap="round">
+              <path d="M-60 36 C 1200 32, 2000 8, 2587 8" stroke-width="4.6"/>
+              <path d="M2500 8.4 C 2540 8.4, 2570 8.5, 2596 8.6" stroke-width="3.2"/>
+              <path d="M2560 8.8 C 2580 9, 2590 9.2, 2599 9.6" stroke-width="1.8"/>
+            </g>
+          </svg>
+          <svg class="book-ground book-ground--right" viewBox="0 0 2600 40" preserveAspectRatio="xMinYMid slice" aria-hidden="true" focusable="false">
+            <g filter="url(#book-ground-pencil)" fill="none" stroke="currentColor" stroke-linecap="round">
+              <path d="M13 8 C 600 8, 1400 32, 2660 36" stroke-width="4.6"/>
+              <path d="M4 8.6 C 30 8.5, 60 8.4, 100 8.4" stroke-width="3.2"/>
+              <path d="M1 9.6 C 10 9.2, 20 9, 40 8.8" stroke-width="1.8"/>
+            </g>
+          </svg>
+        </span>
+      {% endif %}
+    </div>
   {% else %}
     <div class="gd-main gd-main--{{ project.pieces.size }}">
       {% for piece in project.pieces %}
@@ -24,8 +72,18 @@ layout: default
   {% for block in project.details %}
     {% assign group = 'gd-block-' | append: forloop.index %}
     <div class="gd-block reveal">
-      <h2 class="gd-block-title">{{ block.heading }}</h2>
-      {% if block.kind == 'process' %}
+      {% if block.heading %}<h2 class="gd-block-title">{{ block.heading }}</h2>{% endif %}
+      {% if block.kind == 'notes' %}
+        <div class="gd-notes">
+          {% for note in block.items %}
+            <div class="gd-note">
+              {% if note.label %}<h3 class="gd-note-label">{{ note.label }}</h3>{% endif %}
+              {% if note.text_zh %}<p lang="zh-Hant">{{ note.text_zh }}</p>{% endif %}
+              <p{% if note.text_zh %} lang="en"{% endif %}>{{ note.text }}</p>
+            </div>
+          {% endfor %}
+        </div>
+      {% elsif block.kind == 'process' %}
         <ol class="gd-process">
           {% for step in block.items %}
             <li class="gd-step" data-lightbox="{{ group }}" data-src="{{ step.src }}" data-type="image"

@@ -395,10 +395,62 @@ sections:
     book:
       title: Finding Colors
       credits: Picture by Anya Lo, Andrew Yen, Kyle Shao · Story by Tiffany Wang
+      blurb_zh: 一個生活在無色星球上的小角色，踏上了尋找屬於自己顏色的不凡旅程。
+      blurb: >-
+        A colorless protagonist goes on a galaxy-wide road trip to find
+        new colors from people on different planets.
+      facts:
+        - Picture book
+        - 2022
+        - 53 pages
+        - Illustration
+      figure:
+        src: /assets/images/picture-book/finding-colors/process/character-z.png
+        alt: The colorless main character, hands on hips
+        width: 629
+        height: 803
       dir: /assets/images/picture-book/finding-colors
       pages: 53
       width: 1400
       height: 1250
+    details:
+      - kind: notes
+        items:
+          - label: About the story
+            text_zh: >-
+              沒有顏色的主角也會是特別的！主角為了改變對自身沒有顏色的自卑，而踏上了尋找新的顏色的旅程。透過主角與不同星球顏色的角色邂逅，主角和觀眾漸漸瞭解到盲目的自卑和追尋，會逐漸侵蝕失去自己最好的樣子，而「接受自己」就會成為最好的模樣。
+            text: >-
+              A colorless protagonist is special as well! The protagonist
+              sets out on a journey to find new colors for himself, to fix
+              his sense of inferiority for being without color. Through
+              encounters with characters from different planets, the
+              protagonist and the audience gradually learn that blind
+              inferiority and pursuit slowly erode one's best self, and that
+              accepting yourself is what creates it.
+      - heading: Concept art
+        kind: spread
+        items:
+          - label: "Asteroid field – Kyle Shao"
+            src: /assets/images/picture-book/finding-colors/process/concept-1.jpg
+            thumb: /assets/images/picture-book/finding-colors/process/thumbs/concept-1.jpg
+            width: 900
+            height: 506
+            size: land
+          - label: "Golden planet – Kyle Shao"
+            src: /assets/images/picture-book/finding-colors/process/concept-2.jpg
+            thumb: /assets/images/picture-book/finding-colors/process/thumbs/concept-2.jpg
+            width: 900
+            height: 506
+            size: land
+      - heading: Character lineup
+        kind: spread
+        items:
+          - label: "Character lineup – Kyle Shao"
+            src: /assets/images/picture-book/finding-colors/process/character-lineup.jpg
+            thumb: /assets/images/picture-book/finding-colors/process/thumbs/character-lineup.jpg
+            width: 1400
+            height: 298
+            size: banner
   - slug: elements
     title: Elements
     tags: Poster series

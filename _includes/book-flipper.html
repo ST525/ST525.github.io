@@ -1,8 +1,5 @@
 {% assign book = include.book %}
 <div class="book" data-book role="region" aria-label="{{ book.title }}, picture book">
-  <div class="book-head">
-    <p class="book-credits">{{ book.credits }}</p>
-  </div>
   <div class="book-stage">
     <ol class="book-pages">
       {% for i in (1..book.pages) %}

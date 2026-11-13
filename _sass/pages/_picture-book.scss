@@ -1,16 +1,179 @@
 // Picture book flipper.
+// Clip sideways overflow, but keep the 6px page-block edges inside the clip.
 .book {
   overflow-x: clip;
+  padding-inline: calc(1.5% + 8px);
+  margin-inline: calc(-1.5% - 8px);
 }
 
-.book-head {
-  margin-bottom: 2rem;
-  text-align: center;
+.project-section-hero--book {
+  padding-bottom: 0;
+}
+
+// Title, credits, blurb and facts sit under the book.
+// The book is set in Georgia; Gelasio is its metric-compatible web twin.
+$book-serif: Georgia, 'Gelasio', 'Times New Roman', serif;
+
+.book-info {
+  text-align: left;
+}
+
+// Text stays in the left two fifths; the character stands on the right.
+.book-info--figure {
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  gap: clamp(1.5rem, 4vw, 3rem);
+  align-items: center;
+}
+
+// The character is chalk-white at half opacity, drawn for the book's dark
+// pages; on the light theme he is inverted into a soft pencil grey.
+.book-figure {
+  position: relative;
+  display: block;
+  justify-self: end;
+  width: min(100%, 320px);
+  line-height: 0;
+
+  // The PNG is his outline over a faint fill that flows out past his feet
+  // and fades away, so nothing else is drawn under him.
+  img {
+    width: 100%;
+    height: auto;
+  }
+}
+
+// Pencil horizon at his feet, bowing gently up to where he stands and running
+// to both edges of the viewport, with a gap whose ends run a little into his
+// feet (their outlines span about 28.6%–71.7% of the image width and end 10.8%
+// above its bottom edge; the stroke sits 27.7px above this box's bottom edge).
+// Each half is anchored to the figure so the gap stays
+// under him at any size; the body clips what runs past the viewport. White
+// like his outline: the light theme's invert on .book-figure darkens both.
+.book-ground {
+  position: absolute;
+  bottom: calc(10.8% - 27.7px);
+  width: 100vw;
+  height: 40px;
+  overflow: hidden;
+  z-index: 1;
+  color: #fff;
+  pointer-events: none;
+}
+
+.book-ground--left {
+  right: 69.4%;
+}
+
+.book-ground--right {
+  left: 69.7%;
+}
+
+[data-theme='light'] .book-figure {
+  filter: invert(1) opacity(0.7);
+}
+
+@media (max-width: 768px) {
+  .book-info--figure {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .book-figure {
+    justify-self: center;
+    width: min(60%, 260px);
+  }
+}
+
+// Match the cover: bold serif title, serif for everything else on the page.
+.gd-detail--book .hero-title {
+  font-family: 'Merriweather', $book-serif;
+  font-weight: 900;
+  letter-spacing: 0;
+  line-height: 1.1;
+  font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+  margin-bottom: 0.75rem;
+}
+
+.gd-detail--book .book-credits,
+.gd-detail--book .book-blurb,
+.gd-detail--book .book-facts,
+.gd-detail--book .gd-block-title,
+.gd-detail--book .gd-note,
+.gd-detail--book .gd-piece figcaption {
+  font-family: $book-serif;
+}
+
+.gd-detail--book .book-facts,
+.gd-detail--book .gd-block-title,
+.gd-detail--book .gd-note-label,
+.gd-detail--book .gd-piece figcaption {
+  letter-spacing: 0.08em;
 }
 
 .book-credits {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
   color: var(--muted);
-  font-size: 0.9rem;
+}
+
+.book-blurb {
+  max-width: 720px;
+  margin-top: 1.75rem;
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.book-blurb--zh + .book-blurb {
+  margin-top: 0.5rem;
+  color: var(--muted);
+}
+
+.book-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.75rem;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.book-facts li + li::before {
+  content: '·';
+  margin-right: 0.75rem;
+}
+
+// Notes run the full container width, the same as the concept art below.
+.gd-notes {
+  display: grid;
+  gap: 1.75rem;
+  line-height: 1.7;
+}
+
+.gd-note {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.gd-note p {
+  margin: 0;
+}
+
+.gd-note p[lang='en']:not(:only-of-type) {
+  color: var(--muted);
+}
+
+.gd-note-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
 }
 
 // Without JavaScript the pages simply stack.
@@ -36,8 +199,10 @@
 
 .book-volume {
   position: relative;
+  max-width: 100%;
   perspective: 4200px;
-  --turn-ms: 0.9s;
+  --turn-ms: 0.6s;
+  --cover-ms: 0.85s;
   --book-cover: #17171e;
   --book-cover-side: #101016;
   --book-cover-bottom: #0c0c11;
@@ -45,7 +210,7 @@
   touch-action: pan-y;
   user-select: none;
   -webkit-user-select: none;
-  transition: transform 0.7s var(--ease);
+  transition: transform var(--cover-ms) var(--ease);
 }
 
 .book-leaf {
@@ -53,7 +218,7 @@
   inset: 0;
   transform-origin: left center;
   transform-style: preserve-3d;
-  transition: transform 0.9s var(--ease);
+  transition: transform 0.6s var(--ease);
 }
 
 .book-leaf.is-curl-fwd,
@@ -61,12 +226,11 @@
   transition-timing-function: ease-in-out;
 }
 
-.book-volume.is-fast .book-leaf {
-  transition-duration: 0.32s;
-}
-
-.book-volume.is-fast {
-  --turn-ms: 0.32s;
+// A leaf keeps the speed it started with: changing the volume's mode
+// mid-turn would jump its running curl animation.
+.book-leaf.is-fast-turn {
+  --turn-ms: 0.22s;
+  transition-duration: 0.22s;
 }
 
 .book-volume.is-spread .book-leaf {
@@ -165,10 +329,6 @@
   left: 0;
 }
 
-.book-volume.is-fast .book-curl-strip:not(.is-root) {
-  --curl-k: var(--curl-k-fast);
-}
-
 .book-curl-face {
   position: absolute;
   inset: 0;
@@ -237,6 +397,7 @@
 
 .book-leaf--cover {
   transform-style: preserve-3d;
+  transition-duration: var(--cover-ms);
 }
 
 .book-cover-board,
@@ -251,13 +412,59 @@
   transform: translateZ(-5px);
 }
 
+// The backing carries the page block's dark 6px edges as its border, so they
+// are one layer under the leaves and move with the volume, never on their own.
 .book-back {
   z-index: 0;
+  inset: -6px calc(-1.5% - 6px) -6px -6px;
+  border: 6px solid var(--book-cover-side);
+  border-bottom-color: var(--book-cover-bottom);
   pointer-events: none;
 }
 
 .book-volume.is-spread .book-back {
-  left: 50%;
+  left: calc(50% - 6px);
+}
+
+// Open spreads need a backing under the left half too. The cover carries
+// its own edges, so this one only shows once the cover has landed on the
+// left (its edges then sit on the same pixels) and goes at once on closing.
+.book-back--left {
+  display: none;
+  top: -6px;
+  bottom: -6px;
+  left: -6px;
+  width: calc(50% + 7px);
+  border-right: 0;
+  transition: opacity 0s var(--cover-ms);
+}
+
+.book-volume.is-spread .book-back--left {
+  display: block;
+  left: -6px;
+}
+
+.book-volume.is-spread.is-closed .book-back--left {
+  opacity: 0;
+  transition: none;
+}
+
+// WebGL peel canvas: covers the volume plus room for the lifted corner.
+.book-peel {
+  position: absolute;
+  z-index: 500;
+  display: none;
+  pointer-events: none;
+}
+
+.book-peel.is-on {
+  display: block;
+}
+
+// While WebGL draws the page, the DOM leaf waits hidden at its destination.
+.book-leaf.is-peeling {
+  visibility: hidden;
+  transition: none;
 }
 
 .book-spine-patch {
@@ -287,18 +494,26 @@
   transform-origin: left center;
 }
 
+// The hard cover's own top, right and bottom edges, turning with the board.
 .book-cover-edge-face {
   position: absolute;
   z-index: 2;
   pointer-events: none;
+  background: var(--book-cover-side);
+}
+
+.book-cover-edge--top {
+  top: -6px;
+  right: -6px;
+  left: 0;
+  height: 6px;
 }
 
 .book-cover-edge--right {
-  top: 0;
+  top: -6px;
   right: -6px;
   bottom: -6px;
   width: 6px;
-  background: var(--book-cover-side);
 }
 
 .book-cover-edge--bottom {
@@ -385,10 +600,6 @@
   max-width: none;
   padding: 2rem;
   background: var(--bg);
-}
-
-.book.is-fullscreen .book-head {
-  display: none;
 }
 
 .book-zoom {
