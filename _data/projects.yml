@@ -395,10 +395,37 @@ sections:
     book:
       title: Finding Colors
       credits: Picture by Anya Lo, Andrew Yen, Kyle Shao · Story by Tiffany Wang
+      blurb_zh: 一個生活在無色星球上的小角色，踏上了尋找屬於自己顏色的不凡旅程。
+      blurb: >-
+        A colorless protagonist goes on a galaxy-wide road trip to find
+        new colors from people on different planets.
+      facts:
+        - Picture book
+        - 53 pages
+        - Illustration
+        - Digital painting
       dir: /assets/images/picture-book/finding-colors
       pages: 53
       width: 1400
       height: 1250
+    details:
+      - heading: Process notes
+        kind: notes
+        items:
+          - label: Story
+            text: >-
+              Tiffany Wang wrote the story first; the pictures grew out of
+              her manuscript, spread by spread, so each pair of pages works
+              as one image.
+          - label: Pictures
+            text: >-
+              The illustrations were painted digitally by Anya Lo, Andrew
+              Yen and Kyle Shao, keeping Z as a simple cut-paper shape so
+              the colours of each planet carry the mood.
+          - label: Reading it here
+            text: >-
+              Drag a page corner, use the arrows or the ← → keys to turn
+              pages; tap the page on a phone to see it full screen.
   - slug: elements
     title: Elements
     tags: Poster series

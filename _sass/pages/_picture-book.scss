@@ -3,14 +3,79 @@
   overflow-x: clip;
 }
 
-.book-head {
-  margin-top: 1.5rem;
+.project-section-hero--book {
+  padding-bottom: 0;
+}
+
+// Title, credits, blurb and facts sit under the book.
+.book-info {
+  max-width: 720px;
+  margin: 0 auto;
   text-align: center;
 }
 
+.book-info .hero-title {
+  font-size: clamp(2.2rem, 5vw, 4rem);
+  margin-bottom: 1rem;
+}
+
+.book-info .hero-subtitle {
+  margin: 0 auto;
+}
+
 .book-credits {
+  margin-top: 0.75rem;
   color: var(--muted);
   font-size: 0.9rem;
+}
+
+.book-blurb {
+  margin-top: 1.75rem;
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.book-blurb--zh + .book-blurb {
+  margin-top: 0.5rem;
+  color: var(--muted);
+}
+
+.book-facts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem 0.75rem;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.book-facts li + li::before {
+  content: '·';
+  margin-right: 0.75rem;
+}
+
+.gd-notes {
+  max-width: 720px;
+  margin: 0 auto;
+  display: grid;
+  gap: 1.1rem;
+  line-height: 1.7;
+}
+
+.gd-notes p {
+  margin: 0;
+}
+
+.gd-notes b {
+  font-weight: 600;
+  color: var(--accent);
+  margin-right: 0.35rem;
 }
 
 // Without JavaScript the pages simply stack.
@@ -398,10 +463,6 @@
   max-width: none;
   padding: 2rem;
   background: var(--bg);
-}
-
-.book.is-fullscreen .book-head {
-  display: none;
 }
 
 .book-zoom {

@@ -3,16 +3,39 @@ layout: default
 ---
 {% assign section = site.data.projects.sections | where: "slug", "graphic-design" | first %}
 {% assign project = section.projects | where: "slug", page.project | first %}
+{% if project.book %}
+<div class="container hero project-section-hero project-section-hero--book">
+  <a class="project-section-back" href="{{ section.url }}">← Graphic Design</a>
+</div>
+{% else %}
 <div class="container hero project-section-hero project-section-hero--graphic-design">
   <a class="project-section-back" href="{{ section.url }}">← Graphic Design</a>
   <span class="eyebrow">Graphic Design</span>
   <h1 class="hero-title">{{ project.title | upcase }}</h1>
   <p class="hero-subtitle">{{ project.tags }}{% if project.year %} · {{ project.year }}{% endif %}</p>
 </div>
+{% endif %}
 
 <section class="container gd-detail">
   {% if project.book %}
     {% include book-flipper.html book=project.book %}
+    <div class="book-info reveal">
+      <span class="eyebrow">Graphic Design</span>
+      <h1 class="hero-title">{{ project.title | upcase }}</h1>
+      <p class="hero-subtitle">{{ project.tags }}{% if project.year %} · {{ project.year }}{% endif %}</p>
+      <p class="book-credits">{{ project.book.credits }}</p>
+      {% if project.book.blurb_zh %}
+        <p class="book-blurb book-blurb--zh" lang="zh-Hant">{{ project.book.blurb_zh }}</p>
+      {% endif %}
+      {% if project.book.blurb %}
+        <p class="book-blurb"{% if project.book.blurb_zh %} lang="en"{% endif %}>{{ project.book.blurb }}</p>
+      {% endif %}
+      {% if project.book.facts %}
+        <ul class="book-facts">
+          {% for fact in project.book.facts %}<li>{{ fact }}</li>{% endfor %}
+        </ul>
+      {% endif %}
+    </div>
   {% else %}
     <div class="gd-main gd-main--{{ project.pieces.size }}">
       {% for piece in project.pieces %}
@@ -25,7 +48,13 @@ layout: default
     {% assign group = 'gd-block-' | append: forloop.index %}
     <div class="gd-block reveal">
       <h2 class="gd-block-title">{{ block.heading }}</h2>
-      {% if block.kind == 'process' %}
+      {% if block.kind == 'notes' %}
+        <div class="gd-notes">
+          {% for note in block.items %}
+            <p>{% if note.label %}<b>{{ note.label }}</b> {% endif %}{{ note.text }}</p>
+          {% endfor %}
+        </div>
+      {% elsif block.kind == 'process' %}
         <ol class="gd-process">
           {% for step in block.items %}
             <li class="gd-step" data-lightbox="{{ group }}" data-src="{{ step.src }}" data-type="image"
