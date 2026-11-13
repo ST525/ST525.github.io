@@ -412,16 +412,17 @@ sections:
       - heading: Process notes
         kind: notes
         items:
-          - label: Story
+          - label: About the story
+            text_zh: >-
+              沒有顏色的主角也會是特別的！主角為了改變對自身沒有顏色的自卑，而踏上了尋找新的顏色的旅程。透過主角與不同星球顏色的角色邂逅，主角和觀眾漸漸瞭解到盲目的自卑和追尋，會逐漸侵蝕失去自己最好的樣子，而「接受自己」就會成為最好的模樣。
             text: >-
-              Tiffany Wang wrote the story first; the pictures grew out of
-              her manuscript, spread by spread, so each pair of pages works
-              as one image.
-          - label: Pictures
-            text: >-
-              The illustrations were painted digitally by Anya Lo, Andrew
-              Yen and Kyle Shao, keeping Z as a simple cut-paper shape so
-              the colours of each planet carry the mood.
+              A colorless protagonist is special as well! The protagonist
+              sets out on a journey to find new colors for himself, to fix
+              his sense of inferiority for being without color. Through
+              encounters with characters from different planets, the
+              protagonist and the audience gradually learn that blind
+              inferiority and pursuit slowly erode one's best self, and that
+              accepting yourself is what creates it.
           - label: Reading it here
             text: >-
               Drag a page corner, use the arrows or the ← → keys to turn

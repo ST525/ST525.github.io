@@ -68,14 +68,29 @@
   line-height: 1.7;
 }
 
-.gd-notes p {
+.gd-notes {
+  gap: 1.75rem;
+}
+
+.gd-note {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.gd-note p {
   margin: 0;
 }
 
-.gd-notes b {
+.gd-note p[lang='en']:not(:only-of-type) {
+  color: var(--muted);
+}
+
+.gd-note-label {
+  font-size: 0.8rem;
   font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
   color: var(--accent);
-  margin-right: 0.35rem;
 }
 
 // Without JavaScript the pages simply stack.

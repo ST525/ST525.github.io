@@ -51,7 +51,11 @@ layout: default
       {% if block.kind == 'notes' %}
         <div class="gd-notes">
           {% for note in block.items %}
-            <p>{% if note.label %}<b>{{ note.label }}</b> {% endif %}{{ note.text }}</p>
+            <div class="gd-note">
+              {% if note.label %}<h3 class="gd-note-label">{{ note.label }}</h3>{% endif %}
+              {% if note.text_zh %}<p lang="zh-Hant">{{ note.text_zh }}</p>{% endif %}
+              <p{% if note.text_zh %} lang="en"{% endif %}>{{ note.text }}</p>
+            </div>
           {% endfor %}
         </div>
       {% elsif block.kind == 'process' %}
