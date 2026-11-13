@@ -37,7 +37,7 @@
 .book-volume {
   position: relative;
   perspective: 4200px;
-  --turn-ms: 0.9s;
+  --turn-ms: 0.6s;
   --book-cover: #17171e;
   --book-cover-side: #101016;
   --book-cover-bottom: #0c0c11;
@@ -53,7 +53,7 @@
   inset: 0;
   transform-origin: left center;
   transform-style: preserve-3d;
-  transition: transform 0.9s var(--ease);
+  transition: transform 0.6s var(--ease);
 }
 
 .book-leaf.is-curl-fwd,
@@ -64,8 +64,8 @@
 // A leaf keeps the speed it started with: changing the volume's mode
 // mid-turn would jump its running curl animation.
 .book-leaf.is-fast-turn {
-  --turn-ms: 0.32s;
-  transition-duration: 0.32s;
+  --turn-ms: 0.22s;
+  transition-duration: 0.22s;
 }
 
 .book-volume.is-spread .book-leaf {

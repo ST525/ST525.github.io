@@ -1,9 +1,10 @@
 // Picture book: pages turn like leaves of a real book (two-page spreads, one page on phones).
-const SINGLE = window.matchMedia('(max-width: 760px)');
-const TURN_MS = 900;
-const HOLD_MS = 350;
-const REPEAT_MS = 160;
-const FAST_MS = 320;
+// One page at a time on phones held upright; sideways they get spreads.
+const SINGLE = window.matchMedia('(max-width: 760px) and (orientation: portrait), (max-width: 480px)');
+const TURN_MS = 600;
+const HOLD_MS = 300;
+const REPEAT_MS = 110;
+const FAST_MS = 220;
 const PRELOAD = 4;
 const SWIPE = 40;
 const CURL_STRIPS = 8;
