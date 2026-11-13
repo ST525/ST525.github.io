@@ -141,11 +141,9 @@ function setup(root) {
     const back = document.createElement('div');
     back.className = 'book-back';
     volume.appendChild(back);
-    ['top', 'right', 'bottom', 'left'].forEach(function (side) {
-      const face = document.createElement('div');
-      face.className = 'book-cover-edge-face book-cover-edge--' + side;
-      volume.appendChild(face);
-    });
+    const backLeft = document.createElement('div');
+    backLeft.className = 'book-back book-back--left';
+    volume.appendChild(backLeft);
     patch = document.createElement('div');
     patch.className = 'book-spine-patch';
     volume.appendChild(patch);
@@ -287,9 +285,6 @@ function setup(root) {
 
   function render() {
     const n = leaves.length;
-    volume.classList.toggle('is-turning', leaves.some(function (leaf) {
-      return leaf.classList.contains('is-moving');
-    }));
     leaves.forEach(function (leaf, i) {
       const isTurned = i < turned;
       leaf.classList.toggle('is-turned', isTurned);

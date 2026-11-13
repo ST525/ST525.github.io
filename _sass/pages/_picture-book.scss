@@ -410,13 +410,38 @@ $book-serif: Georgia, 'Gelasio', 'Times New Roman', serif;
   transform: translateZ(-5px);
 }
 
+// The backing carries the page block's dark 6px edges as its border, so they
+// are one layer under the leaves and move with the volume, never on their own.
 .book-back {
   z-index: 0;
+  inset: -6px calc(-1.5% - 6px) -6px -6px;
+  border: 6px solid var(--book-cover-side);
+  border-bottom-color: var(--book-cover-bottom);
   pointer-events: none;
 }
 
 .book-volume.is-spread .book-back {
-  left: 50%;
+  left: calc(50% - 6px);
+}
+
+// Open spreads need a backing under the left half too; it fades with the
+// cover as the book opens and closes, in step with the volume's slide.
+.book-back--left {
+  display: none;
+  top: -6px;
+  bottom: -6px;
+  left: -6px;
+  width: calc(50% + 7px);
+  border-right: 0;
+  transition: opacity 0.7s var(--ease);
+}
+
+.book-volume.is-spread .book-back--left {
+  display: block;
+}
+
+.book-volume.is-spread.is-closed .book-back--left {
+  opacity: 0;
 }
 
 // WebGL peel canvas: covers the volume plus room for the lifted corner.
@@ -464,54 +489,27 @@ $book-serif: Georgia, 'Gelasio', 'Times New Roman', serif;
   transform-origin: left center;
 }
 
-// The page block's four dark edges, 6px proud of the leaves. The right one
-// sits past the backing's 1.5% overhang; the others run out to meet it.
+// The hard cover's own right and bottom edges, turning with the board.
 .book-cover-edge-face {
   position: absolute;
   z-index: 2;
   pointer-events: none;
   background: var(--book-cover-side);
-  transition: left 0.7s var(--ease);
-}
-
-.book-cover-edge--top {
-  top: -6px;
-  right: calc(-1.5% - 6px);
-  left: -6px;
-  height: 6px;
 }
 
 .book-cover-edge--right {
-  top: -6px;
-  right: calc(-1.5% - 6px);
+  top: 0;
+  right: -6px;
   bottom: -6px;
   width: 6px;
 }
 
 .book-cover-edge--bottom {
-  right: calc(-1.5% - 6px);
+  right: -6px;
   bottom: -6px;
-  left: -6px;
+  left: 0;
   height: 6px;
   background: var(--book-cover-bottom);
-}
-
-.book-cover-edge--left {
-  top: -6px;
-  bottom: -6px;
-  left: -6px;
-  width: 6px;
-}
-
-// With the book closed only the right half holds the cover, so the top,
-// bottom and left edges start at the spine and slide out as the cover opens.
-.book-volume.is-spread.is-closed .book-cover-edge--top,
-.book-volume.is-spread.is-closed .book-cover-edge--bottom {
-  left: 50%;
-}
-
-.book-volume.is-spread.is-closed .book-cover-edge--left {
-  left: calc(50% - 6px);
 }
 
 .book-leaf--cover .book-face--front {
