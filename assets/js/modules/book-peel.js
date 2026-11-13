@@ -87,7 +87,10 @@ export function createPeel(volume) {
   canvas.setAttribute('aria-hidden', 'true');
   const gl = canvas.getContext('webgl2', { antialias: true, alpha: true, premultipliedAlpha: true }) ||
     canvas.getContext('webgl', { antialias: true, alpha: true, premultipliedAlpha: true });
-  const api = { available: false, canvas: null, start: start, cancel: cancel, cancelAll: cancelAll, resize: resize };
+  const api = {
+    available: false, canvas: null, start: start, drag: drag, setProgress: setProgress,
+    release: release, cancel: cancel, cancelAll: cancelAll, resize: resize
+  };
   const peels = [];
   const textures = new Map();
   let frame = 0;
@@ -219,10 +222,41 @@ export function createPeel(volume) {
       farImg: opts.farImg,
       duration: opts.duration,
       begin: performance.now(),
-      onDone: opts.onDone
+      from: 0,
+      to: 1,
+      manual: false,
+      progress: 0,
+      onDone: opts.onDone,
+      onCancel: opts.onCancel || null
     });
     canvas.classList.add('is-on');
     if (!frame) frame = requestAnimationFrame(tick);
+  }
+
+  // A peel driven by the pointer: progress is set directly until release()
+  // lets it finish (to 1) or fall back (to 0).
+  function drag(opts) {
+    start(opts);
+    const peel = peels[peels.length - 1];
+    peel.manual = true;
+    peel.duration = 0;
+  }
+
+  function setProgress(leaf, value) {
+    peels.forEach(function (peel) {
+      if (peel.leaf === leaf && peel.manual) peel.progress = Math.max(0, Math.min(1, value));
+    });
+  }
+
+  function release(leaf, commit) {
+    peels.forEach(function (peel) {
+      if (peel.leaf !== leaf || !peel.manual) return;
+      peel.manual = false;
+      peel.from = peel.progress;
+      peel.to = commit ? 1 : 0;
+      peel.begin = performance.now();
+      peel.duration = 90 + 420 * Math.max(0.25, Math.abs(peel.to - peel.from));
+    });
   }
 
   function cancel(leaf) {
@@ -307,9 +341,14 @@ export function createPeel(volume) {
     });
     const done = [];
     order.forEach(function (peel) {
-      const t = Math.min(1, (now - peel.begin) / peel.duration);
+      let t = peel.progress;
+      if (!peel.manual) {
+        const k = Math.min(1, (now - peel.begin) / peel.duration);
+        t = peel.from + (peel.to - peel.from) * k;
+        peel.progress = t;
+        if (k >= 1) done.push(peel);
+      }
       drawPeel(peel, t);
-      if (t >= 1) done.push(peel);
     });
     done.forEach(function (peel) {
       const i = peels.indexOf(peel);
@@ -320,7 +359,10 @@ export function createPeel(volume) {
     } else {
       stop();
     }
-    done.forEach(function (peel) { peel.onDone(); });
+    done.forEach(function (peel) {
+      if (peel.to === 0 && peel.onCancel) peel.onCancel();
+      else peel.onDone();
+    });
   }
 
   canvas.addEventListener('webglcontextlost', function (event) {

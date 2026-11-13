@@ -542,11 +542,81 @@ function setup(root) {
   bindArrow(prevBtn, prev);
   bindArrow(nextBtn, next);
 
+  // Drag to turn: once the pointer moves sideways, the page under it peels
+  // with the pointer; release past a third of the way (or with a flick) to
+  // finish the turn, earlier to let it fall back.
+  let drag = null;
+  function dragProgress(e) {
+    const dx = (e.clientX - drag.x0) * (drag.forward ? -1 : 1);
+    return Math.max(0, Math.min(1, dx / (2 * pageWidth)));
+  }
+  function startDrag(e, forward) {
+    const target = turned + (forward ? 1 : -1);
+    if (target < 0 || target > maxTurned()) return false;
+    const i = forward ? turned : turned - 1;
+    const leaf = leaves[i];
+    if (!peel.available || REDUCED_MOTION.matches || leaf.classList.contains('book-leaf--cover') ||
+      leaf.classList.contains('is-moving') || volume.querySelector('.book-leaf.is-moving')) return false;
+    const from = turned;
+    const front = spread ? i * 2 : i;
+    const back = spread ? front + 1 : -1;
+    leaf.classList.add('is-moving', 'is-turning', 'is-peeling');
+    leaf.style.zIndex = String(leaves.length + 2 + (forward ? i : leaves.length - i));
+    clearTimeout(patchTimer);
+    showPatch(2 * turned - 1);
+    peel.drag({
+      leaf: leaf,
+      forward: forward,
+      nearImg: images[forward ? front : back] || null,
+      farImg: images[forward ? back : front] || null,
+      onDone: function () { finishTurn(leaf); },
+      onCancel: function () {
+        turned = from;
+        page = visible()[0];
+        finishTurn(leaf);
+      }
+    });
+    turned = target;
+    page = visible()[0];
+    render();
+    drag = { x0: e.clientX, forward: forward, leaf: leaf, last: e.clientX, lastT: e.timeStamp, speed: 0 };
+    try { volume.setPointerCapture(e.pointerId); } catch (err) { /* not capturable */ }
+    return true;
+  }
+
   let startX = null;
+  let startY = null;
   volume.addEventListener('pointerdown', function (e) {
-    if (e.button === 0) startX = e.clientX;
+    if (e.button !== 0) return;
+    startX = e.clientX;
+    startY = e.clientY;
+  });
+  volume.addEventListener('pointermove', function (e) {
+    if (drag) {
+      const dt = e.timeStamp - drag.lastT;
+      if (dt > 0) drag.speed = (e.clientX - drag.last) / dt;
+      drag.last = e.clientX;
+      drag.lastT = e.timeStamp;
+      peel.setProgress(drag.leaf, dragProgress(e));
+      return;
+    }
+    if (startX === null) return;
+    const dx = e.clientX - startX;
+    const dy = e.clientY - startY;
+    if (Math.abs(dx) < 10 || Math.abs(dx) < Math.abs(dy) * 1.2) return;
+    if (startDrag(e, dx < 0)) {
+      drag.x0 = startX;
+      peel.setProgress(drag.leaf, dragProgress(e));
+    }
   });
   volume.addEventListener('pointerup', function (e) {
+    if (drag) {
+      const flick = drag.speed * (drag.forward ? -1 : 1) > 0.5;
+      peel.release(drag.leaf, dragProgress(e) > 0.33 || flick);
+      drag = null;
+      startX = null;
+      return;
+    }
     if (startX === null) return;
     const dx = e.clientX - startX;
     startX = null;
@@ -561,7 +631,11 @@ function setup(root) {
     const box = stage.getBoundingClientRect();
     if (e.clientX - box.left > box.width / 2) next(); else prev();
   });
-  volume.addEventListener('pointercancel', function () { startX = null; });
+  volume.addEventListener('pointercancel', function () {
+    if (drag) peel.release(drag.leaf, false);
+    drag = null;
+    startX = null;
+  });
 
   document.addEventListener('keydown', function (e) {
     if (!zoomOverlay.hidden) {
