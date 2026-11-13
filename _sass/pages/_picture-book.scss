@@ -39,7 +39,9 @@ $book-serif: Georgia, 'Gelasio', 'Times New Roman', serif;
     height: auto;
     transform: translateY(4px) rotate(2.2deg);
     transform-origin: 66.8% 96.4%;
-    clip-path: inset(0 0 3.7% 0); // cut the faded fill off at the ground line
+    // Cut the faded fill off at the ground line: the edge is tilted -2.2deg so
+    // it comes out level once he is rotated (line 15px above the box at 320px).
+    clip-path: polygon(0 0, 100% 0, 100% 94.35%, 0 97.36%);
   }
 
   // Under the ground line a flat pool of his fill (half an ellipse, about one
