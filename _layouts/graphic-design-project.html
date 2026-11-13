@@ -36,7 +36,19 @@ layout: default
       {% endif %}
       </div>
       {% if project.book.figure %}
-        <img class="book-figure" src="{{ project.book.figure.src }}" alt="{{ project.book.figure.alt }}" width="{{ project.book.figure.width }}" height="{{ project.book.figure.height }}" loading="lazy" decoding="async">
+        <span class="book-figure">
+          <img src="{{ project.book.figure.src }}" alt="{{ project.book.figure.alt }}" width="{{ project.book.figure.width }}" height="{{ project.book.figure.height }}" loading="lazy" decoding="async">
+          <svg class="book-ground" viewBox="0 0 629 48" aria-hidden="true" focusable="false">
+            <filter id="book-ground-chalk" x="-5%" y="-150%" width="110%" height="400%">
+              <feTurbulence type="fractalNoise" baseFrequency="0.09 0.5" numOctaves="2" seed="7" result="noise"/>
+              <feDisplacementMap in="SourceGraphic" in2="noise" scale="9" xChannelSelector="R" yChannelSelector="G"/>
+            </filter>
+            <g filter="url(#book-ground-chalk)" fill="none" stroke="currentColor" stroke-linecap="round">
+              <path d="M40 24 C 160 19, 300 30, 440 23 S 580 20, 600 25" stroke-width="7" opacity="0.95"/>
+              <path d="M70 28 C 200 24, 330 33, 470 27 S 560 25, 585 29" stroke-width="3" opacity="0.6"/>
+            </g>
+          </svg>
+        </span>
       {% endif %}
     </div>
   {% else %}

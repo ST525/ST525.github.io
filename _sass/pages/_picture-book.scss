@@ -26,9 +26,28 @@ $book-serif: Georgia, 'Gelasio', 'Times New Roman', serif;
 // The character is chalk-white at half opacity, drawn for the book's dark
 // pages; on the light theme he is inverted into a soft pencil grey.
 .book-figure {
+  position: relative;
   justify-self: end;
   width: min(100%, 320px);
+  line-height: 0;
+  color: rgba(255, 255, 255, 0.8);
+
+  img {
+    width: 100%;
+    height: auto;
+  }
+}
+
+// Chalk ground line under his feet; the feet end about 2% above the image's
+// bottom edge, so the line hangs just below that.
+.book-ground {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -3%;
+  width: 100%;
   height: auto;
+  overflow: visible;
 }
 
 [data-theme='light'] .book-figure {
