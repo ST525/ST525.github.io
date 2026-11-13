@@ -97,7 +97,7 @@ function setup(root) {
 
   function finishTurn(leaf) {
     clearTurnTimer(leaf);
-    leaf.classList.remove('is-moving', 'is-turning', 'is-curl-fwd', 'is-curl-back');
+    leaf.classList.remove('is-moving', 'is-turning', 'is-curl-fwd', 'is-curl-back', 'is-fast-turn');
     if (patch && !volume.querySelector('.book-leaf.is-moving')) patch.classList.remove('is-on');
     if (leaf.isConnected) render();
   }
@@ -238,7 +238,6 @@ function setup(root) {
       }
 
       strip.style.setProperty('--curl-k', (45 * k / 28).toFixed(4));
-      strip.style.setProperty('--curl-k-fast', (20 * k / 28).toFixed(4));
       strip.style.setProperty('--curl-shade-opacity', (0.25 * k / (CURL_STRIPS - 1)).toFixed(4));
       strip.style.setProperty('--curl-shade-start', (k ? (k - 1) / k : 0).toFixed(4));
       strip.style.setProperty('--curl-shade-end', k ? '1' : '0');
@@ -303,7 +302,7 @@ function setup(root) {
     volume.classList.add('no-anim');
     leaves.forEach(function (leaf) {
       clearTurnTimer(leaf);
-      leaf.classList.remove('is-moving', 'is-turning', 'is-curl-fwd', 'is-curl-back');
+      leaf.classList.remove('is-moving', 'is-turning', 'is-curl-fwd', 'is-curl-back', 'is-fast-turn');
     });
     clearTimeout(patchTimer);
     if (patch) patch.classList.remove('is-on');
@@ -321,14 +320,19 @@ function setup(root) {
     const hi = Math.max(target, turned);
     const jump = hi - lo;
     let curling = false;
-    // Leaves in motion ride above both stacks until they land.
+    const fast = volume.classList.contains('is-fast');
+    // Leaves in motion ride above both stacks until they land. Each keeps
+    // the speed it starts with, so a mode change can't jump a running curl.
     for (let i = lo; i < hi; i++) {
       const leaf = leaves[i];
       const retargeted = leaf.classList.contains('is-moving') || leaf.classList.contains('is-turning');
+      // Fast flips turn flat: at 0.32s the bend isn't readable, and its 16
+      // extra 3D layers per leaf made the first frames of each turn drop.
       const shouldCurl = !leaf.classList.contains('book-leaf--cover') &&
-        !retargeted && !REDUCED_MOTION.matches && jump <= 3;
+        !retargeted && !fast && !REDUCED_MOTION.matches && jump <= 3;
       leaf.classList.add('is-moving', 'is-turning');
       leaf.classList.remove('is-curl-fwd', 'is-curl-back');
+      if (!retargeted) leaf.classList.toggle('is-fast-turn', fast);
       if (shouldCurl) {
         ensureCurl(i);
         leaf.classList.add(forward ? 'is-curl-fwd' : 'is-curl-back');
@@ -336,7 +340,7 @@ function setup(root) {
       leaf.style.zIndex = String(n + 2 + (forward ? i : n - i));
       if (shouldCurl) curling = true;
     }
-    const turnMs = volume.classList.contains('is-fast') ? FAST_MS : TURN_MS;
+    const turnMs = fast ? FAST_MS : TURN_MS;
     // Until the moving leaf crosses the spine, the page beside its root is
     // still the current left page (either direction); after that it is the
     // left page of the destination spread. Curling turns ease in-out and
@@ -353,7 +357,7 @@ function setup(root) {
       clearTurnTimer(leaf);
       turnTimers.set(leaf, setTimeout(function () { finishTurn(leaf); }, turnMs + 100));
     }
-    if (volume.classList.contains('is-fast')) scheduleFastModeRemoval();
+    if (fast) scheduleFastModeRemoval();
   }
 
   function next() { go(turned + 1); }

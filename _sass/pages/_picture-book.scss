@@ -61,12 +61,11 @@
   transition-timing-function: ease-in-out;
 }
 
-.book-volume.is-fast .book-leaf {
-  transition-duration: 0.32s;
-}
-
-.book-volume.is-fast {
+// A leaf keeps the speed it started with: changing the volume's mode
+// mid-turn would jump its running curl animation.
+.book-leaf.is-fast-turn {
   --turn-ms: 0.32s;
+  transition-duration: 0.32s;
 }
 
 .book-volume.is-spread .book-leaf {
@@ -163,10 +162,6 @@
 
 .book-curl-strip.is-root {
   left: 0;
-}
-
-.book-volume.is-fast .book-curl-strip:not(.is-root) {
-  --curl-k: var(--curl-k-fast);
 }
 
 .book-curl-face {
