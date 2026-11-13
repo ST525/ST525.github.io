@@ -38,17 +38,17 @@ layout: default
       {% if project.book.figure %}
         <span class="book-figure">
           <img src="{{ project.book.figure.src }}" alt="{{ project.book.figure.alt }}" width="{{ project.book.figure.width }}" height="{{ project.book.figure.height }}" loading="lazy" decoding="async">
-          <svg class="book-ground" viewBox="0 0 629 48" aria-hidden="true" focusable="false">
-            <filter id="book-ground-chalk" x="-5%" y="-150%" width="110%" height="400%">
-              <feTurbulence type="fractalNoise" baseFrequency="0.09 0.5" numOctaves="2" seed="7" result="noise"/>
-              <feDisplacementMap in="SourceGraphic" in2="noise" scale="9" xChannelSelector="R" yChannelSelector="G"/>
-            </filter>
-            <g filter="url(#book-ground-chalk)" fill="none" stroke="currentColor" stroke-linecap="round">
-              <path d="M40 24 C 160 19, 300 30, 440 23 S 580 20, 600 25" stroke-width="7" opacity="0.95"/>
-              <path d="M70 28 C 200 24, 330 33, 470 27 S 560 25, 585 29" stroke-width="3" opacity="0.6"/>
-            </g>
-          </svg>
         </span>
+        <svg class="book-ground" viewBox="0 0 1440 24" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+          <filter id="book-ground-chalk" x="-2%" y="-200%" width="104%" height="500%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.02 0.6" numOctaves="2" seed="7" result="noise"/>
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="9" xChannelSelector="R" yChannelSelector="G"/>
+          </filter>
+          <g filter="url(#book-ground-chalk)" fill="none" stroke="currentColor" stroke-linecap="round">
+            <path d="M-20 12 C 240 8, 520 17, 800 11 S 1200 9, 1460 13" stroke-width="7" opacity="0.95"/>
+            <path d="M-20 15 C 300 12, 600 19, 900 14 S 1250 12, 1460 16" stroke-width="3" opacity="0.6"/>
+          </g>
+        </svg>
       {% endif %}
     </div>
   {% else %}

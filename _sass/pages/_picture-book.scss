@@ -17,6 +17,7 @@ $book-serif: Georgia, 'Gelasio', 'Times New Roman', serif;
 
 // Text stays in the left two fifths; the character stands on the right.
 .book-info--figure {
+  position: relative;
   display: grid;
   grid-template-columns: 2fr 3fr;
   gap: clamp(1.5rem, 4vw, 3rem);
@@ -26,11 +27,9 @@ $book-serif: Georgia, 'Gelasio', 'Times New Roman', serif;
 // The character is chalk-white at half opacity, drawn for the book's dark
 // pages; on the light theme he is inverted into a soft pencil grey.
 .book-figure {
-  position: relative;
   justify-self: end;
   width: min(100%, 320px);
   line-height: 0;
-  color: rgba(255, 255, 255, 0.8);
 
   img {
     width: 100%;
@@ -38,16 +37,22 @@ $book-serif: Georgia, 'Gelasio', 'Times New Roman', serif;
   }
 }
 
-// Chalk ground line under his feet; the feet end about 2% above the image's
-// bottom edge, so the line hangs just below that.
+// Chalk horizon under his feet, running edge to edge of the viewport. The
+// feet end about 2% above the image's bottom edge, so the stroke sits there.
 .book-ground {
   position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -3%;
-  width: 100%;
-  height: auto;
-  overflow: visible;
+  left: 50%;
+  bottom: -2px;
+  width: 100vw;
+  height: 24px;
+  transform: translateX(-50%);
+  overflow: hidden;
+  color: rgba(255, 255, 255, 0.8);
+  pointer-events: none;
+}
+
+[data-theme='light'] .book-ground {
+  color: rgba(30, 30, 30, 0.6);
 }
 
 [data-theme='light'] .book-figure {
@@ -129,15 +134,11 @@ $book-serif: Georgia, 'Gelasio', 'Times New Roman', serif;
   margin-right: 0.75rem;
 }
 
+// Notes run the full container width, the same as the concept art below.
 .gd-notes {
-  max-width: 720px;
   display: grid;
-  gap: 1.1rem;
-  line-height: 1.7;
-}
-
-.gd-notes {
   gap: 1.75rem;
+  line-height: 1.7;
 }
 
 .gd-note {
