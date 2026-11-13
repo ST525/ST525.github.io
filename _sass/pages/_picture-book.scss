@@ -53,14 +53,16 @@ $book-serif: Georgia, 'Gelasio', 'Times New Roman', serif;
     content: '';
     position: absolute;
     left: calc(51.5% - 110px);
-    top: calc(100% - 15px);
+    // The ellipse is centred on the line (14px down); the half above the clip
+    // keeps the blur at full strength where it meets his feet.
+    top: calc(100% - 29px);
     width: 220px;
-    height: 48px;
-    background: radial-gradient(ellipse 110px 48px at 50% 0, rgba($flow, 0.55), rgba($flow, 0.32) 55%, transparent 100%);
+    height: 62px;
+    background: radial-gradient(ellipse 110px 48px at 50% 14px, rgba($flow, 0.55), rgba($flow, 0.32) 55%, transparent 100%);
     // Soft blur; the clip keeps it from bleeding up past the line, which is
     // drawn over it.
     filter: blur(6px);
-    clip-path: inset(0 -30px -30px -30px);
+    clip-path: inset(12px -30px -30px -30px); // cut 2px above the line's centre
     z-index: 0;
     pointer-events: none;
   }
