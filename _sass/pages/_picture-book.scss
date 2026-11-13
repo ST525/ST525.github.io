@@ -38,27 +38,27 @@ $book-serif: Georgia, 'Gelasio', 'Times New Roman', serif;
   }
 }
 
-// Chalk horizon at his feet, running to both edges of the viewport with a gap
-// where he stands (his feet span about 32%–71% of the image width, ending 2%
-// above its bottom edge). Each half is anchored to the figure so the gap stays
+// Pencil horizon at his feet, bowing gently up to where he stands and running
+// to both edges of the viewport, with a gap that just touches his feet (they
+// span about 32%–71% of the image width, ending 2% above its bottom edge). Each half is anchored to the figure so the gap stays
 // under him at any size; the body clips what runs past the viewport. White
 // like his outline: the light theme's invert on .book-figure darkens both.
 .book-ground {
   position: absolute;
-  bottom: 4px;
+  bottom: -20px;
   width: 100vw;
-  height: 24px;
+  height: 40px;
   overflow: hidden;
   color: #fff;
   pointer-events: none;
 }
 
 .book-ground--left {
-  right: 72%;
+  right: 66%;
 }
 
 .book-ground--right {
-  left: 73%;
+  left: 69.5%;
 }
 
 [data-theme='light'] .book-figure {

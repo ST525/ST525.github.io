@@ -38,24 +38,27 @@ layout: default
       {% if project.book.figure %}
         <span class="book-figure">
           <img src="{{ project.book.figure.src }}" alt="{{ project.book.figure.alt }}" width="{{ project.book.figure.width }}" height="{{ project.book.figure.height }}" loading="lazy" decoding="async">
-          <svg class="book-ground book-ground--left" viewBox="0 0 1440 24" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-            <filter id="book-ground-chalk" x="-2%" y="-250%" width="104%" height="600%">
-              <feTurbulence type="fractalNoise" baseFrequency="0.04 0.7" numOctaves="3" seed="7" result="noise"/>
-              <feDisplacementMap in="SourceGraphic" in2="noise" scale="11" xChannelSelector="R" yChannelSelector="G"/>
+          <svg class="book-ground book-ground--left" viewBox="0 0 1440 40" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+            <filter id="book-ground-pencil" x="-2%" y="-100%" width="104%" height="300%">
+              <feTurbulence type="fractalNoise" baseFrequency="0.04 0.5" numOctaves="3" seed="7" result="warp"/>
+              <feDisplacementMap in="SourceGraphic" in2="warp" scale="9" xChannelSelector="R" yChannelSelector="G" result="rough"/>
+              <feTurbulence type="fractalNoise" baseFrequency="0.6 0.9" numOctaves="3" seed="3" result="grain"/>
+              <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 2.4 -0.7" result="grain-a"/>
+              <feComposite in="rough" in2="grain-a" operator="in"/>
             </filter>
-            <path d="M-40 12 C 300 8, 700 17, 1100 11 S 1380 10, 1428 13" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="4.5"/>
-            <g filter="url(#book-ground-chalk)" fill="none" stroke="currentColor" stroke-linecap="round">
-              <path d="M-40 12 C 300 8, 700 17, 1100 11 S 1380 10, 1432 13" stroke-width="8"/>
-              <path d="M-40 15 C 400 12, 800 19, 1200 14 S 1400 13, 1424 15" stroke-width="3.5"/>
-              <path d="M-40 9 C 350 7, 750 14, 1150 9 S 1390 8, 1416 11" stroke-width="2.5"/>
+            <path class="book-ground-core" d="M-40 36 C 500 20, 1000 8, 1436 8" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2.6"/>
+            <g filter="url(#book-ground-pencil)" fill="none" stroke="currentColor" stroke-linecap="round">
+              <path d="M-40 36 C 500 20, 1000 8, 1436 8" stroke-width="6"/>
+              <path d="M-40 39 C 500 23, 1000 11, 1430 11" stroke-width="3"/>
+              <path d="M-40 33 C 500 17, 1000 5, 1424 6" stroke-width="2.5"/>
             </g>
           </svg>
-          <svg class="book-ground book-ground--right" viewBox="0 0 1440 24" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-            <path d="M12 13 C 300 9, 700 17, 1100 11 S 1380 10, 1480 13" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="4.5"/>
-            <g filter="url(#book-ground-chalk)" fill="none" stroke="currentColor" stroke-linecap="round">
-              <path d="M8 13 C 300 9, 700 17, 1100 11 S 1380 10, 1480 13" stroke-width="8"/>
-              <path d="M16 16 C 400 12, 800 19, 1200 14 S 1400 13, 1480 15" stroke-width="3.5"/>
-              <path d="M24 10 C 350 7, 750 14, 1150 9 S 1390 8, 1480 11" stroke-width="2.5"/>
+          <svg class="book-ground book-ground--right" viewBox="0 0 1440 40" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+            <path class="book-ground-core" d="M4 8 C 440 8, 940 20, 1480 36" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2.6"/>
+            <g filter="url(#book-ground-pencil)" fill="none" stroke="currentColor" stroke-linecap="round">
+              <path d="M4 8 C 440 8, 940 20, 1480 36" stroke-width="6"/>
+              <path d="M10 11 C 440 11, 940 23, 1480 39" stroke-width="3"/>
+              <path d="M16 6 C 440 5, 940 17, 1480 33" stroke-width="2.5"/>
             </g>
           </svg>
         </span>
