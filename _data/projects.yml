@@ -430,13 +430,13 @@ sections:
       - heading: Concept art
         kind: spread
         items:
-          - label: "Concept 1 · Asteroid field"
+          - label: "Asteroid field – Kyle Shao"
             src: /assets/images/picture-book/finding-colors/process/concept-1.jpg
             thumb: /assets/images/picture-book/finding-colors/process/thumbs/concept-1.jpg
             width: 900
             height: 506
             size: land
-          - label: "Concept 2 · Golden planet"
+          - label: "Golden planet – Kyle Shao"
             src: /assets/images/picture-book/finding-colors/process/concept-2.jpg
             thumb: /assets/images/picture-book/finding-colors/process/thumbs/concept-2.jpg
             width: 900
@@ -445,7 +445,7 @@ sections:
       - heading: Character lineup
         kind: spread
         items:
-          - label: "Character lineup"
+          - label: "Character lineup – Kyle Shao"
             src: /assets/images/picture-book/finding-colors/process/character-lineup.jpg
             thumb: /assets/images/picture-book/finding-colors/process/thumbs/character-lineup.jpg
             width: 1400

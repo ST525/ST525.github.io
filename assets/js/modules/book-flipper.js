@@ -140,17 +140,12 @@ function setup(root) {
     volume.classList.toggle('is-spread', spread);
     const back = document.createElement('div');
     back.className = 'book-back';
-    const backRight = document.createElement('div');
-    backRight.className = 'book-cover-edge-face book-cover-edge--right';
-    const backBottom = document.createElement('div');
-    backBottom.className = 'book-cover-edge-face book-cover-edge--bottom';
-    back.append(backRight, backBottom);
     volume.appendChild(back);
-    const edgeTop = document.createElement('div');
-    edgeTop.className = 'book-cover-edge-face book-cover-edge--top';
-    const edgeLeft = document.createElement('div');
-    edgeLeft.className = 'book-cover-edge-face book-cover-edge--left';
-    volume.append(edgeTop, edgeLeft);
+    ['top', 'right', 'bottom', 'left'].forEach(function (side) {
+      const face = document.createElement('div');
+      face.className = 'book-cover-edge-face book-cover-edge--' + side;
+      volume.appendChild(face);
+    });
     patch = document.createElement('div');
     patch.className = 'book-spine-patch';
     volume.appendChild(patch);

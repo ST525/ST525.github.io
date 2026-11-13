@@ -2,8 +2,8 @@
 // Clip sideways overflow, but keep the 6px page-block edges inside the clip.
 .book {
   overflow-x: clip;
-  padding-inline: 8px;
-  margin-inline: -8px;
+  padding-inline: calc(1.5% + 8px);
+  margin-inline: calc(-1.5% - 8px);
 }
 
 .project-section-hero--book {
@@ -464,37 +464,36 @@ $book-serif: Georgia, 'Gelasio', 'Times New Roman', serif;
   transform-origin: left center;
 }
 
+// The page block's four dark edges, 6px proud of the leaves. The right one
+// sits past the backing's 1.5% overhang; the others run out to meet it.
 .book-cover-edge-face {
   position: absolute;
   z-index: 2;
   pointer-events: none;
+  background: var(--book-cover-side);
+  transition: left 0.7s var(--ease);
+}
+
+.book-cover-edge--top {
+  top: -6px;
+  right: calc(-1.5% - 6px);
+  left: -6px;
+  height: 6px;
 }
 
 .book-cover-edge--right {
-  top: 0;
-  right: -6px;
+  top: -6px;
+  right: calc(-1.5% - 6px);
   bottom: -6px;
   width: 6px;
-  background: var(--book-cover-side);
 }
 
 .book-cover-edge--bottom {
-  right: -6px;
+  right: calc(-1.5% - 6px);
   bottom: -6px;
-  left: 0;
-  height: 6px;
-  background: var(--book-cover-bottom);
-}
-
-// The block's top and left edges, so the dark edge frames the book on all
-// four sides.
-.book-cover-edge--top {
-  top: -6px;
-  right: -6px;
   left: -6px;
   height: 6px;
-  background: var(--book-cover-side);
-  transition: left 0.7s var(--ease);
+  background: var(--book-cover-bottom);
 }
 
 .book-cover-edge--left {
@@ -502,13 +501,12 @@ $book-serif: Georgia, 'Gelasio', 'Times New Roman', serif;
   bottom: -6px;
   left: -6px;
   width: 6px;
-  background: var(--book-cover-side);
-  transition: left 0.7s var(--ease);
 }
 
-// With the book closed only the right half holds the cover, so the top and
-// left edges start at the spine and slide out as the cover opens.
-.book-volume.is-spread.is-closed .book-cover-edge--top {
+// With the book closed only the right half holds the cover, so the top,
+// bottom and left edges start at the spine and slide out as the cover opens.
+.book-volume.is-spread.is-closed .book-cover-edge--top,
+.book-volume.is-spread.is-closed .book-cover-edge--bottom {
   left: 50%;
 }
 
