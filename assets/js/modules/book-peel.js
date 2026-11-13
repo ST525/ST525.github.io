@@ -126,6 +126,7 @@ export function createPeel(volume) {
     return api;
   }
   api.available = true;
+  api.hurry = hurry;
   api.canvas = canvas;
   volume.appendChild(canvas);
 
@@ -268,6 +269,20 @@ export function createPeel(volume) {
     });
   }
 
+  // Another turn has started on top of these: land them within ms so no
+  // more than a moment of two pages overlap in the air.
+  function hurry(ms) {
+    const now = performance.now();
+    peels.forEach(function (peel) {
+      if (peel.manual) return;
+      const left = peel.duration - (now - peel.begin);
+      if (left <= ms) return;
+      peel.from = peel.progress;
+      peel.begin = now;
+      peel.duration = ms;
+    });
+  }
+
   function cancel(leaf) {
     for (let i = peels.length - 1; i >= 0; i--) {
       if (peels[i].leaf === leaf) peels.splice(i, 1);
@@ -344,10 +359,10 @@ export function createPeel(volume) {
     gl.uniform1i(uniforms.uNear, 0);
     gl.uniform1i(uniforms.uFar, 1);
 
-    // Pages higher in the stack draw last: going forward that is the lower
-    // leaf index, going back the higher one.
+    // The page that lifted first was on top of its stack, so it draws last
+    // and covers the ones following it, in either direction.
     const order = peels.slice().sort(function (a, b) {
-      return a.forward ? b.begin - a.begin : a.begin - b.begin;
+      return b.begin - a.begin;
     });
     const done = [];
     order.forEach(function (peel) {

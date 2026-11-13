@@ -328,6 +328,16 @@ function setup(root) {
     const jump = hi - lo;
     let curling = false;
     let peeling = 0;
+    // A turn started while another leaf is still in the air flips flat and
+    // fast, and hurries the leaves already turning, as a held arrow does;
+    // several pages curling at once draw over each other in a tangle.
+    const inFlight = leaves.some(function (leaf, i) {
+      return (i < lo || i >= hi) && leaf.classList.contains('is-moving');
+    });
+    if (inFlight) {
+      setFastMode();
+      if (peel.hurry) peel.hurry(FAST_MS);
+    }
     const fast = volume.classList.contains('is-fast');
     const turnMs = fast ? FAST_MS : TURN_MS;
     // Leaves in motion ride above both stacks until they land. Each keeps
