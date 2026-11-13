@@ -574,6 +574,10 @@ function setup(root) {
       onCancel: function () {
         turned = from;
         page = visible()[0];
+        // Put the leaf back while it's still hidden and transition-free, or
+        // it would visibly flip back flat after the peel has already landed.
+        leaf.classList.toggle('is-turned', !forward);
+        void leaf.offsetWidth;
         finishTurn(leaf);
       }
     });
