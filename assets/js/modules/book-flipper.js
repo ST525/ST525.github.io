@@ -382,8 +382,11 @@ function setup(root) {
     if (peeling < hi - lo) {
       showPatch(2 * turned - 1);
       patchTimer = setTimeout(function () { showPatch(2 * target - 1); }, crossMs);
-    } else if (patch) {
-      patch.classList.remove('is-on');
+    } else {
+      // The peeled page's flat part keeps the current left page beside the
+      // spine until the fold reaches it at the very end, so the half pixel
+      // under its anti-aliased edge must show that page, not the next one.
+      showPatch(2 * turned - 1);
     }
     turned = target;
     page = visible()[0];
