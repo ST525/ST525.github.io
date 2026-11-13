@@ -303,6 +303,7 @@ function setup(root) {
 
     let shift = 0;
     if (spread && turned === 0) shift = -25;
+    volume.classList.toggle('is-closed', spread && turned === 0);
     volume.style.transform = shift ? 'translateX(' + shift + '%)' : '';
 
     const shown = visible().map(function (i) { return i + 1; });

@@ -494,6 +494,7 @@ $book-serif: Georgia, 'Gelasio', 'Times New Roman', serif;
   left: -6px;
   height: 6px;
   background: var(--book-cover-side);
+  transition: left 0.7s var(--ease);
 }
 
 .book-cover-edge--left {
@@ -502,6 +503,17 @@ $book-serif: Georgia, 'Gelasio', 'Times New Roman', serif;
   left: -6px;
   width: 6px;
   background: var(--book-cover-side);
+  transition: left 0.7s var(--ease);
+}
+
+// With the book closed only the right half holds the cover, so the top and
+// left edges start at the spine and slide out as the cover opens.
+.book-volume.is-spread.is-closed .book-cover-edge--top {
+  left: 50%;
+}
+
+.book-volume.is-spread.is-closed .book-cover-edge--left {
+  left: calc(50% - 6px);
 }
 
 .book-leaf--cover .book-face--front {
