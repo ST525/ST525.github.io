@@ -1,6 +1,9 @@
 // Content containers and page layout.
 /* ---------- LAYOUT ---------- */
 .content {
+  // Full-bleed pieces (the picture book's ground line) run past the viewport;
+  // clip them here so iOS Safari does not widen the page to fit them.
+  overflow-x: clip;
   flex: 1;
   padding-top: var(--header-h);
 }
