@@ -52,13 +52,15 @@ $book-serif: Georgia, 'Gelasio', 'Times New Roman', serif;
     $flow: #ebe8dc;
     content: '';
     position: absolute;
-    left: calc(51.5% - 110px);
+    left: calc(51.5% - 80px);
     // The ellipse is centred on the line (14px down); the half above the clip
     // keeps the blur at full strength where it meets his feet.
     top: calc(100% - 29px);
-    width: 220px;
+    width: 160px;
     height: 62px;
-    background: radial-gradient(ellipse 110px 48px at 50% 14px, rgba($flow, 0.55), rgba($flow, 0.32) 55%, transparent 100%);
+    // 0.72 renders the same grey as his fill on the dark page, so the pool
+    // continues his legs with no step in tone.
+    background: radial-gradient(ellipse 60px 40px at 50% 14px, rgba($flow, 0.72), rgba($flow, 0.4) 55%, transparent 100%);
     // Soft blur; the clip keeps it from bleeding up past the line, which is
     // drawn over it.
     filter: blur(6px);
@@ -89,7 +91,7 @@ $book-serif: Georgia, 'Gelasio', 'Times New Roman', serif;
 }
 
 .book-ground--right {
-  left: 68%;
+  left: 65.5%;
 }
 
 [data-theme='light'] .book-figure {
