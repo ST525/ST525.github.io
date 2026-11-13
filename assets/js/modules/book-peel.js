@@ -225,7 +225,8 @@ export function createPeel(volume) {
     peels.push({
       leaf: opts.leaf,
       forward: opts.forward,
-      top: !!opts.top,
+      // 'bottom' | 'top' corner lifts first; 'none' folds straight across.
+      corner: opts.corner || 'bottom',
       nearImg: opts.nearImg,
       farImg: opts.farImg,
       duration: opts.duration,
@@ -292,7 +293,7 @@ export function createPeel(volume) {
     const H = layout.height;
     // Fold tilt (0 = parallel to the spine), bend radius and how far the
     // turned part lifts off the page. All return to 0 so the page lands flat.
-    const alpha = 0.55 * Math.pow(1 - e, 1.2);
+    const alpha = peel.corner === 'none' ? 0 : 0.55 * Math.pow(1 - e, 1.2);
     const radius = 2 + 0.18 * Math.min(W, H) * Math.pow(Math.sin(Math.PI * e), 0.6);
     const phi = 0.8 * Math.sin(Math.PI * e);
     // The fold starts at the bottom outer corner and ends on the spine. Near
@@ -308,7 +309,7 @@ export function createPeel(volume) {
     gl.uniform1f(uniforms.uA, alpha);
     gl.uniform1f(uniforms.uR, radius);
     gl.uniform1f(uniforms.uPhi, phi);
-    gl.uniform1f(uniforms.uTop, peel.top ? 1 : 0);
+    gl.uniform1f(uniforms.uTop, peel.corner === 'top' ? 1 : 0);
     gl.uniform2f(uniforms.uOrigin, layout.originX, layout.originY);
     gl.uniform2f(uniforms.uSize, layout.cssW, layout.cssH);
     gl.uniform2f(uniforms.uCenter, layout.width / 2, H / 2);

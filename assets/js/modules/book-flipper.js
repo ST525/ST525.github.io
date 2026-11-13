@@ -550,7 +550,7 @@ function setup(root) {
     const dx = (e.clientX - drag.x0) * (drag.forward ? -1 : 1);
     return Math.max(0, Math.min(1, dx / (2 * pageWidth)));
   }
-  function startDrag(e, forward, top) {
+  function startDrag(e, forward, corner) {
     const target = turned + (forward ? 1 : -1);
     if (target < 0 || target > maxTurned()) return false;
     const i = forward ? turned : turned - 1;
@@ -567,7 +567,7 @@ function setup(root) {
     peel.drag({
       leaf: leaf,
       forward: forward,
-      top: top,
+      corner: corner,
       nearImg: images[forward ? front : back] || null,
       farImg: images[forward ? back : front] || null,
       onDone: function () { finishTurn(leaf); },
@@ -605,8 +605,12 @@ function setup(root) {
     const dx = e.clientX - startX;
     const dy = e.clientY - startY;
     if (Math.abs(dx) < 10 || Math.abs(dx) < Math.abs(dy) * 1.2) return;
+    // Grab the top or bottom third to lift that corner; the middle third
+    // folds the page straight across.
     const box = volume.getBoundingClientRect();
-    if (startDrag(e, dx < 0, startY - box.top < box.height / 2)) {
+    const third = (startY - box.top) / box.height * 3;
+    const corner = third < 1 ? 'top' : (third > 2 ? 'bottom' : 'none');
+    if (startDrag(e, dx < 0, corner)) {
       drag.x0 = startX;
       peel.setProgress(drag.leaf, dragProgress(e));
     }
