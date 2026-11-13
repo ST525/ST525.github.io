@@ -9,6 +9,8 @@ const SWIPE = 40;
 const CURL_STRIPS = 8;
 const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)');
 
+import { createPeel } from './book-peel.js';
+
 export function initBookFlipper() {
   document.querySelectorAll('[data-book]').forEach(setup);
 }
@@ -34,6 +36,7 @@ function setup(root) {
   volume.className = 'book-volume';
   volume.tabIndex = -1;
   stage.appendChild(volume);
+  const peel = createPeel(volume);
   controls.hidden = false;
   root.classList.add('is-ready');
 
@@ -97,7 +100,7 @@ function setup(root) {
 
   function finishTurn(leaf) {
     clearTurnTimer(leaf);
-    leaf.classList.remove('is-moving', 'is-turning', 'is-curl-fwd', 'is-curl-back', 'is-fast-turn');
+    leaf.classList.remove('is-moving', 'is-turning', 'is-curl-fwd', 'is-curl-back', 'is-fast-turn', 'is-peeling');
     if (patch && !volume.querySelector('.book-leaf.is-moving')) patch.classList.remove('is-on');
     if (leaf.isConnected) render();
   }
@@ -130,7 +133,9 @@ function setup(root) {
     leaves = [];
     curlStates = [];
     images = [];
+    peel.cancelAll();
     volume.replaceChildren();
+    if (peel.canvas) volume.appendChild(peel.canvas);
     volume.classList.toggle('is-spread', spread);
     const back = document.createElement('div');
     back.className = 'book-back';
@@ -300,9 +305,10 @@ function setup(root) {
 
   function instant() {
     volume.classList.add('no-anim');
+    peel.cancelAll();
     leaves.forEach(function (leaf) {
       clearTurnTimer(leaf);
-      leaf.classList.remove('is-moving', 'is-turning', 'is-curl-fwd', 'is-curl-back', 'is-fast-turn');
+      leaf.classList.remove('is-moving', 'is-turning', 'is-curl-fwd', 'is-curl-back', 'is-fast-turn', 'is-peeling');
     });
     clearTimeout(patchTimer);
     if (patch) patch.classList.remove('is-on');
@@ -320,7 +326,9 @@ function setup(root) {
     const hi = Math.max(target, turned);
     const jump = hi - lo;
     let curling = false;
+    let peeling = 0;
     const fast = volume.classList.contains('is-fast');
+    const turnMs = fast ? FAST_MS : TURN_MS;
     // Leaves in motion ride above both stacks until they land. Each keeps
     // the speed it starts with, so a mode change can't jump a running curl.
     for (let i = lo; i < hi; i++) {
@@ -333,29 +341,58 @@ function setup(root) {
       leaf.classList.add('is-moving', 'is-turning');
       leaf.classList.remove('is-curl-fwd', 'is-curl-back');
       if (!retargeted) leaf.classList.toggle('is-fast-turn', fast);
-      if (shouldCurl) {
+      if (retargeted && leaf.classList.contains('is-peeling')) {
+        // A peeling leaf is hidden at its destination; show it and let the
+        // flat transition carry it back from there.
+        peel.cancel(leaf);
+        leaf.classList.remove('is-peeling');
+        void leaf.offsetWidth;
+      }
+      if (shouldCurl && peel.available) {
+        // The DOM leaf jumps to its destination, hidden, while WebGL draws
+        // the page peeling over from the bottom outer corner.
+        leaf.classList.add('is-peeling');
+        const front = spread ? i * 2 : i;
+        const nearIndex = forward ? front : front + 1;
+        const farIndex = forward ? front + 1 : front;
+        peel.start({
+          leaf: leaf,
+          forward: forward,
+          nearImg: images[spread || forward ? nearIndex : front],
+          farImg: spread ? images[farIndex] : null,
+          duration: turnMs,
+          onDone: function () { finishTurn(leaf); }
+        });
+        peeling++;
+      } else if (shouldCurl) {
         ensureCurl(i);
         leaf.classList.add(forward ? 'is-curl-fwd' : 'is-curl-back');
+        curling = true;
       }
       leaf.style.zIndex = String(n + 2 + (forward ? i : n - i));
-      if (shouldCurl) curling = true;
     }
-    const turnMs = fast ? FAST_MS : TURN_MS;
     // Until the moving leaf crosses the spine, the page beside its root is
     // still the current left page (either direction); after that it is the
     // left page of the destination spread. Curling turns ease in-out and
     // cross at half time; flat turns use the site ease and cross early.
     const crossMs = turnMs * (curling ? 0.5 : 0.13);
     clearTimeout(patchTimer);
-    showPatch(2 * turned - 1);
-    patchTimer = setTimeout(function () { showPatch(2 * target - 1); }, crossMs);
+    if (peeling < hi - lo) {
+      showPatch(2 * turned - 1);
+      patchTimer = setTimeout(function () { showPatch(2 * target - 1); }, crossMs);
+    } else if (patch) {
+      patch.classList.remove('is-on');
+    }
     turned = target;
     page = visible()[0];
     render();
     for (let i = lo; i < hi; i++) {
       const leaf = leaves[i];
       clearTurnTimer(leaf);
-      turnTimers.set(leaf, setTimeout(function () { finishTurn(leaf); }, turnMs + 100));
+      // A peeling leaf finishes when its WebGL turn ends, however slow the
+      // device; the timer is only a backstop.
+      const wait = leaf.classList.contains('is-peeling') ? turnMs * 4 : turnMs + 100;
+      turnTimers.set(leaf, setTimeout(function () { finishTurn(leaf); }, wait));
     }
     if (fast) scheduleFastModeRemoval();
   }
@@ -489,6 +526,7 @@ function setup(root) {
     pageWidth = pageW;
     volume.style.width = pageW * per + 'px';
     volume.style.height = Math.round(pageW / ratio) + 'px';
+    peel.resize(pageW, Math.round(pageW / ratio), spread);
     curlStates.forEach(function (_, index) { sizeCurl(index); });
   }
 

@@ -255,6 +255,24 @@
   left: 50%;
 }
 
+// WebGL peel canvas: covers the volume plus room for the lifted corner.
+.book-peel {
+  position: absolute;
+  z-index: 500;
+  display: none;
+  pointer-events: none;
+}
+
+.book-peel.is-on {
+  display: block;
+}
+
+// While WebGL draws the page, the DOM leaf waits hidden at its destination.
+.book-leaf.is-peeling {
+  visibility: hidden;
+  transition: none;
+}
+
 .book-spine-patch {
   position: absolute;
   top: 0;
