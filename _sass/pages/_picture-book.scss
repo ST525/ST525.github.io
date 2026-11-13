@@ -39,10 +39,27 @@ $book-serif: Georgia, 'Gelasio', 'Times New Roman', serif;
     height: auto;
     transform: translateY(4px) rotate(2.2deg);
     transform-origin: 66.8% 96.4%;
-    // Fade his legs out through the ground line so he seems to flow out of it.
-    $fade: linear-gradient(to bottom, #000 0, #000 70%, rgba(#000, 0.3) 96%, transparent 100%);
-    -webkit-mask-image: $fade;
-    mask-image: $fade;
+    clip-path: inset(0 0 3.3% 0); // drop the faded fill below the outline
+  }
+
+  // Under the ground line his fill spreads out and fades away, as if he flows
+  // out of it: a soft 35° cone (conic mask, apex 90px above the line so it is
+  // about his feet's width where it crosses), clipped at the line and fading
+  // downward. Cream like his fill; the light theme's invert greys it too.
+  &::after {
+    $flow: #ebe8dc;
+    $cone: conic-gradient(from 0deg at 50% 0, transparent 133deg, #000 146deg, #000 214deg, transparent 227deg);
+    content: '';
+    position: absolute;
+    left: -30%;
+    right: -30%;
+    top: calc(100% - 105px);
+    height: 200px;
+    background: linear-gradient(to bottom, rgba($flow, 0.6) 90px, rgba($flow, 0.2) 65%, transparent 100%);
+    clip-path: inset(90px 0 0 0);
+    -webkit-mask-image: $cone;
+    mask-image: $cone;
+    pointer-events: none;
   }
 }
 
