@@ -532,16 +532,26 @@ function setup(root) {
 
   if (fullBtn && root.requestFullscreen) {
     fullBtn.hidden = false;
+    // Chrome scrolls the page to the top on entering and leaving full
+    // screen, so remember where the reader was and put them back after.
+    let scrollBefore = 0;
     fullBtn.addEventListener('click', function () {
-      if (document.fullscreenElement) document.exitFullscreen();
-      else root.requestFullscreen();
+      if (document.fullscreenElement) {
+        document.exitFullscreen();
+      } else {
+        scrollBefore = window.scrollY;
+        root.requestFullscreen();
+      }
     });
     document.addEventListener('fullscreenchange', function () {
       const full = document.fullscreenElement === root;
       root.classList.toggle('is-fullscreen', full);
       fullBtn.setAttribute('aria-label', full ? 'Exit full screen' : 'Full screen');
       size();
-      requestAnimationFrame(size);
+      requestAnimationFrame(function () {
+        size();
+        if (!full) window.scrollTo(0, scrollBefore);
+      });
     });
   }
 
