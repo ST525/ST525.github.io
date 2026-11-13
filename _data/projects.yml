@@ -402,8 +402,13 @@ sections:
       facts:
         - Picture book
         - 53 pages
-        - Illustration
-        - Digital painting
+        - WEGO High School
+        - 2022
+      figure:
+        src: /assets/images/picture-book/finding-colors/process/character-z.png
+        alt: The colorless main character, hands on hips
+        width: 629
+        height: 803
       dir: /assets/images/picture-book/finding-colors
       pages: 53
       width: 1400

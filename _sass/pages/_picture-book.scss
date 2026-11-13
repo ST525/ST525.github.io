@@ -15,17 +15,49 @@ $book-serif: Georgia, 'Gelasio', 'Times New Roman', serif;
   text-align: left;
 }
 
+// Text stays in the left two fifths; the character stands on the right.
+.book-info--figure {
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  gap: clamp(1.5rem, 4vw, 3rem);
+  align-items: end;
+}
+
+.book-figure {
+  justify-self: end;
+  width: min(100%, 320px);
+  height: auto;
+}
+
+.gd-detail--book .gd-notes {
+  max-width: 40%;
+}
+
+@media (max-width: 768px) {
+  .book-info--figure {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .book-figure {
+    justify-self: center;
+    width: min(60%, 260px);
+  }
+
+  .gd-detail--book .gd-notes {
+    max-width: none;
+  }
+}
+
 // Match the cover: bold serif title, serif for everything else on the page.
 .gd-detail--book .hero-title {
   font-family: $book-serif;
   font-weight: 700;
   letter-spacing: 0;
   line-height: 1.1;
-  font-size: clamp(2.2rem, 5vw, 4rem);
-  margin-bottom: 1rem;
+  font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+  margin-bottom: 0.75rem;
 }
 
-.gd-detail--book .hero-subtitle,
 .gd-detail--book .book-credits,
 .gd-detail--book .book-blurb,
 .gd-detail--book .book-facts,
@@ -33,10 +65,6 @@ $book-serif: Georgia, 'Gelasio', 'Times New Roman', serif;
 .gd-detail--book .gd-note,
 .gd-detail--book .gd-piece figcaption {
   font-family: $book-serif;
-}
-
-.gd-detail--book .hero-subtitle {
-  font-weight: 400;
 }
 
 .gd-detail--book .book-facts,
@@ -47,10 +75,10 @@ $book-serif: Georgia, 'Gelasio', 'Times New Roman', serif;
 }
 
 .book-credits {
-  margin-top: 1rem;
-  font-size: clamp(1.05rem, 1.6vw, 1.3rem);
-  font-weight: 400;
-  line-height: 1.5;
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--muted);
 }
 
 .book-blurb {

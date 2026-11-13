@@ -19,11 +19,10 @@ layout: default
 <section class="container gd-detail{% if project.book %} gd-detail--book{% endif %}">
   {% if project.book %}
     {% include book-flipper.html book=project.book %}
-    <div class="book-info reveal">
-      <span class="eyebrow">Graphic Design</span>
+    <div class="book-info reveal{% if project.book.figure %} book-info--figure{% endif %}">
+      <div class="book-info-text">
       <h1 class="hero-title">{{ project.title }}</h1>
-      <p class="hero-subtitle">{{ project.tags }}{% if project.year %} · {{ project.year }}{% endif %}</p>
-      <p class="book-credits">{{ project.book.credits }}</p>
+      <p class="book-credits">{% assign credit_lines = project.book.credits | split: ' · ' %}{% for line in credit_lines %}{{ line }}{% unless forloop.last %}<br>{% endunless %}{% endfor %}</p>
       {% if project.book.blurb_zh %}
         <p class="book-blurb book-blurb--zh" lang="zh-Hant">{{ project.book.blurb_zh }}</p>
       {% endif %}
@@ -34,6 +33,10 @@ layout: default
         <ul class="book-facts">
           {% for fact in project.book.facts %}<li>{{ fact }}</li>{% endfor %}
         </ul>
+      {% endif %}
+      </div>
+      {% if project.book.figure %}
+        <img class="book-figure" src="{{ project.book.figure.src }}" alt="{{ project.book.figure.alt }}" width="{{ project.book.figure.width }}" height="{{ project.book.figure.height }}" loading="lazy" decoding="async">
       {% endif %}
     </div>
   {% else %}
