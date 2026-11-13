@@ -113,8 +113,8 @@ function setup(root) {
   // Restart an element's running transform transition from where it is now
   // so it lands within `ms`. A flat turn (the cover, or a fast flip) can be
   // hurried this way; a CSS curl animation would jump, so those are left.
-  function hurryTransition(el, ms, target) {
-    const now = getComputedStyle(el).transform;
+  function hurryTransition(el, ms, target, from) {
+    const now = from || getComputedStyle(el).transform;
     el.style.transition = 'none';
     el.style.transform = now === 'none' ? 'matrix(1, 0, 0, 1, 0, 0)' : now;
     void el.offsetWidth;
@@ -124,8 +124,22 @@ function setup(root) {
   }
 
   function hurryFlat(leaf, ms) {
-    if (!leaf.classList.contains('is-moving') || leaf.classList.contains('is-peeling') ||
+    if (!leaf.classList.contains('is-moving') ||
       leaf.classList.contains('is-curl-fwd') || leaf.classList.contains('is-curl-back')) return;
+    if (leaf.classList.contains('is-peeling')) {
+      // A rushed corner peel sweeps a big diagonal slab across the spread
+      // while the next page flips flat beside it; drop the peel and let
+      // the leaf finish flat from about where the fold had got to.
+      const t = peel.progress ? peel.progress(leaf) : -1;
+      peel.cancel(leaf);
+      leaf.classList.remove('is-peeling');
+      leaf.classList.add('is-fast-turn');
+      const toTurned = leaf.classList.contains('is-turned');
+      const done = t < 0 ? 0.5 : t;
+      const deg = -180 * (toTurned ? done : 1 - done);
+      hurryTransition(leaf, ms, '', 'rotateY(' + deg + 'deg)');
+      return;
+    }
     hurryTransition(leaf, ms, '');
     if (leaf === leaves[0]) {
       // The volume's slide and the left backing's reveal follow the cover.
@@ -374,7 +388,6 @@ function setup(root) {
     });
     if (inFlight) {
       setFastMode();
-      if (peel.hurry) peel.hurry(FAST_MS);
       leaves.forEach(function (leaf, i) {
         if (i < lo || i >= hi) hurryFlat(leaf, FAST_MS);
       });

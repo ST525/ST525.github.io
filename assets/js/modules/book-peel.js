@@ -127,6 +127,18 @@ export function createPeel(volume) {
   }
   api.available = true;
   api.hurry = hurry;
+  // Where a leaf's peel is now, 0 (flat on its start side) to 1 (landed).
+  api.progress = function (leaf) {
+    const now = performance.now();
+    for (let i = 0; i < peels.length; i++) {
+      const peel = peels[i];
+      if (peel.leaf !== leaf) continue;
+      if (peel.manual) return peel.progress;
+      const k = Math.min(1, (now - peel.begin) / peel.duration);
+      return peel.from + (peel.to - peel.from) * k;
+    }
+    return -1;
+  };
   api.canvas = canvas;
   volume.appendChild(canvas);
 
