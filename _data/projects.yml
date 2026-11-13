@@ -423,10 +423,30 @@ sections:
               protagonist and the audience gradually learn that blind
               inferiority and pursuit slowly erode one's best self, and that
               accepting yourself is what creates it.
-          - label: Reading it here
-            text: >-
-              Drag a page corner, use the arrows or the ← → keys to turn
-              pages; tap the page on a phone to see it full screen.
+      - heading: Concept art
+        kind: spread
+        items:
+          - label: "Concept 1 · Asteroid field"
+            src: /assets/images/picture-book/finding-colors/process/concept-1.jpg
+            thumb: /assets/images/picture-book/finding-colors/process/thumbs/concept-1.jpg
+            width: 900
+            height: 506
+            size: land
+          - label: "Concept 2 · Golden planet"
+            src: /assets/images/picture-book/finding-colors/process/concept-2.jpg
+            thumb: /assets/images/picture-book/finding-colors/process/thumbs/concept-2.jpg
+            width: 900
+            height: 506
+            size: land
+      - heading: Character lineup
+        kind: spread
+        items:
+          - label: "Character lineup"
+            src: /assets/images/picture-book/finding-colors/process/character-lineup.jpg
+            thumb: /assets/images/picture-book/finding-colors/process/thumbs/character-lineup.jpg
+            width: 1400
+            height: 298
+            size: banner
   - slug: elements
     title: Elements
     tags: Poster series
