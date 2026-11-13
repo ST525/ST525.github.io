@@ -483,6 +483,35 @@ $book-serif: Georgia, 'Gelasio', 'Times New Roman', serif;
   background: var(--book-cover-bottom);
 }
 
+// The block's top and left edges appear while a page is in the air, so the
+// dark edge frames the book on all four sides during a turn.
+.book-cover-edge--top,
+.book-cover-edge--left {
+  opacity: 0;
+  transition: opacity 0.25s var(--ease);
+}
+
+.book-volume.is-turning .book-cover-edge--top,
+.book-volume.is-turning .book-cover-edge--left {
+  opacity: 1;
+}
+
+.book-cover-edge--top {
+  top: -6px;
+  right: -6px;
+  left: -6px;
+  height: 6px;
+  background: var(--book-cover-side);
+}
+
+.book-cover-edge--left {
+  top: -6px;
+  bottom: -6px;
+  left: -6px;
+  width: 6px;
+  background: var(--book-cover-side);
+}
+
 .book-leaf--cover .book-face--front {
   transform: translateZ(0.5px);
 }

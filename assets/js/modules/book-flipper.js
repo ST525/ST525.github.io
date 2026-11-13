@@ -146,6 +146,12 @@ function setup(root) {
     backBottom.className = 'book-cover-edge-face book-cover-edge--bottom';
     back.append(backRight, backBottom);
     volume.appendChild(back);
+    // The page block's top and left edges show only while a page turns.
+    const edgeTop = document.createElement('div');
+    edgeTop.className = 'book-cover-edge-face book-cover-edge--top';
+    const edgeLeft = document.createElement('div');
+    edgeLeft.className = 'book-cover-edge-face book-cover-edge--left';
+    volume.append(edgeTop, edgeLeft);
     patch = document.createElement('div');
     patch.className = 'book-spine-patch';
     volume.appendChild(patch);
@@ -287,6 +293,9 @@ function setup(root) {
 
   function render() {
     const n = leaves.length;
+    volume.classList.toggle('is-turning', leaves.some(function (leaf) {
+      return leaf.classList.contains('is-moving');
+    }));
     leaves.forEach(function (leaf, i) {
       const isTurned = i < turned;
       leaf.classList.toggle('is-turned', isTurned);
