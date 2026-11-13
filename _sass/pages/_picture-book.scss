@@ -42,22 +42,22 @@ $book-serif: Georgia, 'Gelasio', 'Times New Roman', serif;
     clip-path: inset(0 0 3.3% 0); // drop the faded fill below the outline
   }
 
-  // Under the ground line a small half circle of his fill hangs from his feet
-  // (their centre is 51.5% of the image) and fades toward its rim, as if he
-  // flows out of it. Cream like his fill; the light theme's invert greys it too.
+  // Under the ground line a flat pool of his fill (half an ellipse, about one
+  // and a half times his feet's width, their centre at 51.5% of the image)
+  // hangs from his feet and dissolves into the page. Cream like his fill; the
+  // light theme's invert greys it too.
   &::after {
     $flow: #ebe8dc;
     content: '';
     position: absolute;
-    left: calc(51.5% - 80px);
+    left: calc(51.5% - 110px);
     top: calc(100% - 15px);
-    width: 160px;
-    height: 80px;
-    background: radial-gradient(circle 80px at 50% 0, rgba($flow, 0.65), rgba($flow, 0.25) 45%, transparent 85%);
-    // Heavy blur so it dissolves into the page; the clip keeps the blur from
-    // bleeding up past the line.
-    filter: blur(10px);
-    clip-path: inset(0 -40px -40px -40px);
+    width: 220px;
+    height: 48px;
+    background: radial-gradient(ellipse 110px 48px at 50% 0, rgba($flow, 0.55), rgba($flow, 0.32) 55%, transparent 100%);
+    // Soft blur; the clip keeps it from bleeding up past the line.
+    filter: blur(6px);
+    clip-path: inset(0 -30px -30px -30px);
     pointer-events: none;
   }
 }
