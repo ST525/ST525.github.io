@@ -58,7 +58,7 @@ $book-serif: Georgia, 'Gelasio', 'Times New Roman', serif;
     // Soft blur; the clip starts it just under the line's stroke so neither
     // the line nor his feet are overlapped.
     filter: blur(6px);
-    clip-path: inset(5px -30px -30px -30px);
+    clip-path: inset(2px -30px -30px -30px);
     pointer-events: none;
   }
 }
