@@ -1,6 +1,9 @@
 // Picture book flipper.
+// Clip sideways overflow, but keep the 6px page-block edges inside the clip.
 .book {
   overflow-x: clip;
+  padding-inline: 8px;
+  margin-inline: -8px;
 }
 
 .project-section-hero--book {
