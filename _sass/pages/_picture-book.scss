@@ -32,52 +32,24 @@ $book-serif: Georgia, 'Gelasio', 'Times New Roman', serif;
   width: min(100%, 320px);
   line-height: 0;
 
-  // His left leg's outline ends 8px (of 803) lower than the right one's;
-  // tilting him about the right foot puts both outline ends on the line.
+  // The PNG is his outline over a faint fill that flows out past his feet
+  // and fades away, so nothing else is drawn under him.
   img {
     width: 100%;
     height: auto;
-    transform: translateY(4px) rotate(2.2deg);
-    transform-origin: 66.8% 96.4%;
-    // Cut the faded fill off at the ground line: the edge is tilted -2.2deg so
-    // it comes out level once he is rotated (line 15px above the box at 320px).
-    clip-path: polygon(0 0, 100% 0, 100% 94.35%, 0 97.36%);
-  }
-
-  // Under the ground line a flat pool of his fill (half an ellipse, about one
-  // and a half times his feet's width, their centre at 51.5% of the image)
-  // hangs from his feet and dissolves into the page. Cream like his fill; the
-  // light theme's invert greys it too.
-  &::after {
-    $flow: #ebe8dc;
-    content: '';
-    position: absolute;
-    left: calc(51.5% - 80px);
-    // The ellipse is centred on the line (14px down); the half above the clip
-    // keeps the blur at full strength where it meets his feet.
-    top: calc(100% - 29px);
-    width: 160px;
-    height: 62px;
-    // 0.72 renders the same grey as his fill on the dark page, so the pool
-    // continues his legs with no step in tone.
-    background: radial-gradient(ellipse 60px 40px at 50% 14px, rgba($flow, 0.72), rgba($flow, 0.4) 55%, transparent 100%);
-    // Soft blur; the clip keeps it from bleeding up past the line, which is
-    // drawn over it.
-    filter: blur(6px);
-    clip-path: inset(14px -30px -30px -30px); // cut at his fill's edge
-    z-index: 0;
-    pointer-events: none;
   }
 }
 
 // Pencil horizon at his feet, bowing gently up to where he stands and running
-// to both edges of the viewport, with a gap that just touches his feet (they
-// span about 32%–71% of the image width; their outlines end 3.6% above its bottom edge). Each half is anchored to the figure so the gap stays
+// to both edges of the viewport, with a gap whose ends run a little into his
+// feet (their outlines span about 28.6%–71.7% of the image width and end 10.8%
+// above its bottom edge; the stroke sits 27.7px above this box's bottom edge).
+// Each half is anchored to the figure so the gap stays
 // under him at any size; the body clips what runs past the viewport. White
 // like his outline: the light theme's invert on .book-figure darkens both.
 .book-ground {
   position: absolute;
-  bottom: -17px;
+  bottom: calc(10.8% - 27.7px);
   width: 100vw;
   height: 40px;
   overflow: hidden;
@@ -87,11 +59,11 @@ $book-serif: Georgia, 'Gelasio', 'Times New Roman', serif;
 }
 
 .book-ground--left {
-  right: 64.5%;
+  right: 69.4%;
 }
 
 .book-ground--right {
-  left: 65.5%;
+  left: 69.7%;
 }
 
 [data-theme='light'] .book-figure {
