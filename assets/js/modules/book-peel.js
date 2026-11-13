@@ -12,13 +12,13 @@ const MAX_TEXTURES = 12;
 
 const VERT = `
 attribute vec2 aGrid;
-uniform float uW, uH, uS, uSpine, uD, uA, uR, uPhi, uShadow;
+uniform float uW, uH, uS, uSpine, uD, uA, uR, uPhi, uShadow, uTop;
 uniform vec2 uOrigin, uSize, uCenter;
 varying vec2 vUv;
 varying vec3 vInfo;
 const float PI = 3.14159265;
 
-vec3 deform(vec2 q) {
+vec3 deformFromBottom(vec2 q) {
   vec2 n = vec2(cos(uA), sin(uA));
   float u = dot(q - vec2(uW, uH), n) + uD;
   if (u <= 0.0) return vec3(q, 0.0);
@@ -29,6 +29,13 @@ vec3 deform(vec2 q) {
   }
   float L = u - PI * max(uR, 0.0);
   return vec3(foot - n * (L * cos(uPhi)), 2.0 * uR + L * sin(uPhi));
+}
+
+// uTop = 1 mirrors the page so the fold starts from the top corner.
+vec3 deform(vec2 q0) {
+  vec2 q = vec2(q0.x, mix(q0.y, uH - q0.y, uTop));
+  vec3 r = deformFromBottom(q);
+  return vec3(r.x, mix(r.y, uH - r.y, uTop), r.z);
 }
 
 vec3 world(vec2 q) {
@@ -123,7 +130,7 @@ export function createPeel(volume) {
   volume.appendChild(canvas);
 
   const uniforms = {};
-  ['uW', 'uH', 'uS', 'uSpine', 'uD', 'uA', 'uR', 'uPhi', 'uShadow', 'uOrigin', 'uSize', 'uCenter', 'uNear', 'uFar']
+  ['uW', 'uH', 'uS', 'uSpine', 'uD', 'uA', 'uR', 'uPhi', 'uShadow', 'uTop', 'uOrigin', 'uSize', 'uCenter', 'uNear', 'uFar']
     .forEach(function (name) { uniforms[name] = gl.getUniformLocation(program, name); });
   const aGrid = gl.getAttribLocation(program, 'aGrid');
 
@@ -218,6 +225,7 @@ export function createPeel(volume) {
     peels.push({
       leaf: opts.leaf,
       forward: opts.forward,
+      top: !!opts.top,
       nearImg: opts.nearImg,
       farImg: opts.farImg,
       duration: opts.duration,
@@ -300,6 +308,7 @@ export function createPeel(volume) {
     gl.uniform1f(uniforms.uA, alpha);
     gl.uniform1f(uniforms.uR, radius);
     gl.uniform1f(uniforms.uPhi, phi);
+    gl.uniform1f(uniforms.uTop, peel.top ? 1 : 0);
     gl.uniform2f(uniforms.uOrigin, layout.originX, layout.originY);
     gl.uniform2f(uniforms.uSize, layout.cssW, layout.cssH);
     gl.uniform2f(uniforms.uCenter, layout.width / 2, H / 2);

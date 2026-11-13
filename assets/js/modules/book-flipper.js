@@ -550,7 +550,7 @@ function setup(root) {
     const dx = (e.clientX - drag.x0) * (drag.forward ? -1 : 1);
     return Math.max(0, Math.min(1, dx / (2 * pageWidth)));
   }
-  function startDrag(e, forward) {
+  function startDrag(e, forward, top) {
     const target = turned + (forward ? 1 : -1);
     if (target < 0 || target > maxTurned()) return false;
     const i = forward ? turned : turned - 1;
@@ -567,6 +567,7 @@ function setup(root) {
     peel.drag({
       leaf: leaf,
       forward: forward,
+      top: top,
       nearImg: images[forward ? front : back] || null,
       farImg: images[forward ? back : front] || null,
       onDone: function () { finishTurn(leaf); },
@@ -604,7 +605,8 @@ function setup(root) {
     const dx = e.clientX - startX;
     const dy = e.clientY - startY;
     if (Math.abs(dx) < 10 || Math.abs(dx) < Math.abs(dy) * 1.2) return;
-    if (startDrag(e, dx < 0)) {
+    const box = volume.getBoundingClientRect();
+    if (startDrag(e, dx < 0, startY - box.top < box.height / 2)) {
       drag.x0 = startX;
       peel.setProgress(drag.leaf, dragProgress(e));
     }
