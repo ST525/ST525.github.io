@@ -438,6 +438,7 @@ $book-serif: Georgia, 'Gelasio', 'Times New Roman', serif;
 
 .book-volume.is-spread .book-back--left {
   display: block;
+  left: -6px;
 }
 
 .book-volume.is-spread.is-closed .book-back--left {
