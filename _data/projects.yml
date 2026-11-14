@@ -632,3 +632,28 @@ sections:
             thumb: /assets/images/graphic-design/thumbs/helmet-final.jpg
             width: 900
             height: 895
+- id: '06'
+  slug: compositing
+  url: /projects/compositing/
+  title: Compositing
+  description: Shot breakdowns — drag the slider to step from storyboard to final composite.
+  hidden: true
+  items: []
+  breakdowns:
+  - title: Burning Skeleton
+    meta: Breakdown · Placeholder clip
+    src: /assets/video/comp/breakdown_tiles.mp4
+    poster: /assets/video/comp/breakdown_poster.jpg
+    cols: 2
+    rows: 3
+    stages:
+    - label: Storyboard
+      thumb: /assets/video/comp/stage_storyboard.jpg
+    - label: Line art
+      thumb: /assets/video/comp/stage_line.jpg
+    - label: Colour art
+      thumb: /assets/video/comp/stage_colour.jpg
+    - label: No effects
+      thumb: /assets/video/comp/stage_nofx.jpg
+    - label: Final
+      thumb: /assets/video/comp/stage_final.jpg

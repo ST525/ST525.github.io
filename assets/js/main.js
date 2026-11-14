@@ -9,6 +9,7 @@ import { initFxReel } from './modules/fx-reel.js';
 import { initGalleryRoom } from './modules/gallery-room.js';
 import { initPinBoard } from './modules/pin-board.js';
 import { initBookFlipper } from './modules/book-flipper.js';
+import { initCompBreakdown } from './modules/comp-breakdown.js';
 
 initThemeToggle();
 initNavigation();
@@ -19,5 +20,6 @@ initLightbox();
 initGalleryRoom();
 initPinBoard();
 initBookFlipper();
+initCompBreakdown();
 initFooterYear();
 initSocialDock();
