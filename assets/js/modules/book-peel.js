@@ -262,6 +262,9 @@ export function createPeel(volume) {
       farImg: opts.farImg,
       duration: opts.duration,
       begin: performance.now(),
+      // When the leaf lifted; fixes its place in the stack even if the
+      // peel is later hurried or reversed (which restart `begin`).
+      lifted: performance.now(),
       from: 0,
       to: 1,
       manual: false,
@@ -392,7 +395,7 @@ export function createPeel(volume) {
     // The page that lifted first was on top of its stack, so it draws last
     // and covers the ones following it, in either direction.
     const order = peels.slice().sort(function (a, b) {
-      return b.begin - a.begin;
+      return b.lifted - a.lifted;
     });
     const done = [];
     order.forEach(function (peel) {
