@@ -3,9 +3,11 @@
 <section class="container comp-stage" data-comp-breakdown data-cols="{{ shot.cols }}" data-rows="{{ shot.rows }}">
   <div class="comp-screen" style="background-image: url('{{ shot.poster }}')" tabindex="0" aria-label="{{ shot.title }} breakdown. Left and right arrows change the stage; space plays and pauses.">
     <video class="comp-source" src="{{ shot.src }}" muted loop playsinline preload="metadata" aria-hidden="true"></video>
-    <canvas class="comp-canvas" width="1280" height="720" aria-hidden="true"></canvas>
-    <div class="comp-wipe" data-comp-wipe hidden>
-      <div class="comp-wipe-line" role="slider" tabindex="0" aria-label="Compare split" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50"></div>
+    <div class="comp-frame" data-comp-frame>
+      <canvas class="comp-canvas" width="1280" height="720" aria-hidden="true"></canvas>
+      <div class="comp-wipe" data-comp-wipe hidden>
+        <div class="comp-wipe-line" role="slider" tabindex="0" aria-label="Compare split" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50"></div>
+      </div>
     </div>
     <div class="comp-badges" aria-hidden="true">
       <span class="comp-badge comp-badge--left" data-comp-label-left></span>

@@ -21,6 +21,7 @@ function setup(root) {
   const timeEl = root.querySelector('[data-comp-time]');
   const compareBtn = root.querySelector('[data-comp-compare]');
   const fullBtn = root.querySelector('[data-comp-full]');
+  const frame = root.querySelector('[data-comp-frame]');
   const wipe = root.querySelector('[data-comp-wipe]');
   const wipeLine = wipe && wipe.querySelector('.comp-wipe-line');
   const labelLeft = root.querySelector('[data-comp-label-left]');
@@ -54,6 +55,7 @@ function setup(root) {
       tileH = video.videoHeight / rows;
       canvas.width = tileW;
       canvas.height = tileH;
+      fitFrame();
     }
     const w = canvas.width;
     const h = canvas.height;
@@ -92,6 +94,7 @@ function setup(root) {
     if (timeEl) timeEl.textContent = fmt(video.currentTime) + ' / ' + fmt(video.duration);
   }
 
+<<<<<<< ours
   // With reduced motion the video never plays, and preload="metadata" alone
   // gives drawImage() nothing: seeking in place makes the browser decode a frame.
   function ensureFrame() {
@@ -100,6 +103,31 @@ function setup(root) {
     else video.addEventListener('loadedmetadata', ensureFrame, { once: true });
   }
 
+||||||| base
+=======
+  // With reduced motion the video never plays, and preload="metadata" alone
+  // gives drawImage() nothing: seeking in place makes the browser decode a frame.
+  function ensureFrame() {
+    if (video.readyState >= 2 || video.seeking) return;
+    if (video.readyState >= 1) video.currentTime = video.currentTime;
+    else video.addEventListener('loadedmetadata', ensureFrame, { once: true });
+  }
+
+  // In fullscreen the screen is the viewport, so size the frame to the
+  // tile's aspect and let CSS centre it; elsewhere it fills the screen.
+  function fitFrame() {
+    if (!frame) return;
+    if (!document.fullscreenElement || !tileW) {
+      frame.style.width = '';
+      frame.style.height = '';
+      return;
+    }
+    const s = Math.min(screen.clientWidth / tileW, screen.clientHeight / tileH);
+    frame.style.width = Math.round(tileW * s) + 'px';
+    frame.style.height = Math.round(tileH * s) + 'px';
+  }
+
+>>>>>>> theirs
   function setStage(i, focusStop) {
     i = Math.min(count - 1, Math.max(0, i));
     stage = i;
@@ -144,7 +172,14 @@ function setup(root) {
   }
 
   video.addEventListener('loadeddata', function () { requestDraw(); syncTime(); });
+<<<<<<< ours
   video.addEventListener('loadedmetadata', ensureFrame);
+||||||| base
+=======
+  video.addEventListener('loadedmetadata', ensureFrame);
+  document.addEventListener('fullscreenchange', fitFrame);
+  window.addEventListener('resize', fitFrame);
+>>>>>>> theirs
   video.addEventListener('seeked', requestDraw);
   video.addEventListener('play', function () {
     setPlaying(true);
