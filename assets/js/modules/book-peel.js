@@ -127,6 +127,24 @@ export function createPeel(volume) {
   }
   api.available = true;
   api.hurry = hurry;
+  // Turn a leaf's peel round from where it is, landing within ms: a peel
+  // heading for 1 falls back to 0 (onCancel) and vice versa.
+  api.reverse = function (leaf, ms) {
+    const now = performance.now();
+    peels.forEach(function (peel) {
+      if (peel.leaf !== leaf) return;
+      let t = peel.progress;
+      if (!peel.manual) {
+        const k = Math.min(1, (now - peel.begin) / peel.duration);
+        t = peel.from + (peel.to - peel.from) * k;
+      }
+      peel.manual = false;
+      peel.from = t;
+      peel.to = peel.to === 0 ? 1 : 0;
+      peel.begin = now;
+      peel.duration = ms;
+    });
+  };
   // Where a leaf's peel is now, 0 (flat on its start side) to 1 (landed).
   api.progress = function (leaf) {
     const now = performance.now();

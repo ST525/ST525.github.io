@@ -8,6 +8,10 @@ const COVER_MS = 850;
 const HOLD_MS = 300;
 const REPEAT_MS = 110;
 const FAST_MS = 220;
+// A leaf this close to landing no longer counts as in the air.
+const LAND_MS = 150;
+// How many pages may curl at once before further clicks flip flat.
+const MAX_PEELS = 3;
 const PRELOAD = 4;
 const SWIPE = 40;
 const CURL_STRIPS = 8;
@@ -73,6 +77,7 @@ function setup(root) {
   let patch = null;
   let patchTimer = 0;
   let turnTimers = new WeakMap();
+  let turnEnds = new WeakMap();
   let fastClassTimer = 0;
   let zoomFocus = null;
   let zoomOpenedAt = 0;
@@ -104,8 +109,10 @@ function setup(root) {
 
   function finishTurn(leaf) {
     clearTurnTimer(leaf);
+    turnEnds.delete(leaf);
     leaf.classList.remove('is-moving', 'is-turning', 'is-curl-fwd', 'is-curl-back', 'is-fast-turn', 'is-peeling');
     leaf.style.transitionDuration = '';
+    if (leaf === leaves[0]) volume.style.setProperty('--cover-ms', '');
     if (patch && !volume.querySelector('.book-leaf.is-moving')) patch.classList.remove('is-on');
     if (leaf.isConnected) render();
   }
@@ -380,12 +387,25 @@ function setup(root) {
     const jump = hi - lo;
     let curling = false;
     let peeling = 0;
-    // A turn started while another leaf is still in the air flips flat and
-    // fast, and hurries the leaves already turning, as a held arrow does;
-    // several pages curling at once draw over each other in a tangle.
-    const inFlight = leaves.some(function (leaf, i) {
-      return (i < lo || i >= hi) && leaf.classList.contains('is-moving');
+    // Leaves still in the air, not counting ones about to land. The cover
+    // counts only through the first half of its swing, while it is still
+    // over the right-hand pages.
+    const now = performance.now();
+    let peelsAloft = 0;
+    let flatAloft = 0;
+    leaves.forEach(function (leaf, i) {
+      if ((i >= lo && i < hi) || !leaf.classList.contains('is-moving')) return;
+      const left = (turnEnds.get(leaf) || 0) - now;
+      if (left <= (i === 0 ? COVER_MS / 2 : LAND_MS)) return;
+      if (leaf.classList.contains('is-peeling')) peelsAloft++;
+      else flatAloft++;
     });
+    // A page clicked while another is mid-curl curls after it at the same
+    // pace, the first drawn over the second; only a flat turn in the air,
+    // or a hammered arrow, makes the next turns flip flat and fast.
+    const stack = peelsAloft > 0 && !flatAloft && peelsAloft < MAX_PEELS && jump === 1 && lo > 0 &&
+      !volume.classList.contains('is-fast') && peel.available && !REDUCED_MOTION.matches;
+    const inFlight = (peelsAloft > 0 || flatAloft > 0) && !stack;
     if (inFlight) {
       setFastMode();
       leaves.forEach(function (leaf, i) {
@@ -410,11 +430,20 @@ function setup(root) {
       leaf.classList.remove('is-curl-fwd', 'is-curl-back');
       if (!retargeted) leaf.classList.toggle('is-fast-turn', fast);
       if (retargeted && leaf.classList.contains('is-peeling')) {
-        // A peeling leaf is hidden at its destination; show it and let the
-        // flat transition carry it back from there.
-        peel.cancel(leaf);
-        leaf.classList.remove('is-peeling');
-        void leaf.offsetWidth;
+        const t = peel.progress ? peel.progress(leaf) : -1;
+        if (peel.reverse && t >= 0 && !fast) {
+          // Send the curl back the way it came from where it is.
+          const ms = Math.max(FAST_MS, turnMs * Math.min(1, Math.max(t, 1 - t)));
+          peel.reverse(leaf, ms);
+          turnEnds.set(leaf, now + ms);
+          peeling++;
+        } else {
+          // A peeling leaf is hidden at its destination; show it and let the
+          // flat transition carry it back from there.
+          peel.cancel(leaf);
+          leaf.classList.remove('is-peeling');
+          void leaf.offsetWidth;
+        }
       }
       if (shouldCurl && peel.available) {
         // The DOM leaf jumps to its destination, hidden, while WebGL draws
@@ -430,7 +459,8 @@ function setup(root) {
           nearImg: images[forward ? front : back] || null,
           farImg: images[forward ? back : front] || null,
           duration: turnMs,
-          onDone: function () { finishTurn(leaf); }
+          onDone: function () { finishTurn(leaf); },
+          onCancel: function () { finishTurn(leaf); }
         });
         peeling++;
       } else if (shouldCurl) {
@@ -465,6 +495,7 @@ function setup(root) {
       // device; the timer is only a backstop.
       const ms = i === 0 && !fast ? COVER_MS : turnMs;
       const wait = leaf.classList.contains('is-peeling') ? ms * 4 : ms + 100;
+      if (!turnEnds.has(leaf) || turnEnds.get(leaf) < now) turnEnds.set(leaf, now + ms);
       turnTimers.set(leaf, setTimeout(function () { finishTurn(leaf); }, wait));
     }
     if (fast) scheduleFastModeRemoval();
