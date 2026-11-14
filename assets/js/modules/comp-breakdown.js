@@ -36,6 +36,7 @@ function setup(root) {
   let raf = 0;
   let scrubbing = false;
   let userPaused = reducedMotion;
+  if (reducedMotion) video.preload = 'auto';
 
   function tile(i) {
     return { x: (i % cols) * tileW, y: Math.floor(i / cols) * tileH };
@@ -91,6 +92,14 @@ function setup(root) {
     if (timeEl) timeEl.textContent = fmt(video.currentTime) + ' / ' + fmt(video.duration);
   }
 
+  // With reduced motion the video never plays, and preload="metadata" alone
+  // gives drawImage() nothing: seeking in place makes the browser decode a frame.
+  function ensureFrame() {
+    if (video.readyState >= 2 || video.seeking) return;
+    if (video.readyState >= 1) video.currentTime = video.currentTime;
+    else video.addEventListener('loadedmetadata', ensureFrame, { once: true });
+  }
+
   function setStage(i, focusStop) {
     i = Math.min(count - 1, Math.max(0, i));
     stage = i;
@@ -105,6 +114,7 @@ function setup(root) {
     if (num) num.textContent = String(i + 1).padStart(2, '0');
     if (labelLeft) labelLeft.textContent = compare ? stops[leftStage()].dataset.label : stops[i].dataset.label;
     if (focusStop) stops[i].focus();
+    ensureFrame();
     requestDraw();
   }
 
@@ -134,6 +144,7 @@ function setup(root) {
   }
 
   video.addEventListener('loadeddata', function () { requestDraw(); syncTime(); });
+  video.addEventListener('loadedmetadata', ensureFrame);
   video.addEventListener('seeked', requestDraw);
   video.addEventListener('play', function () {
     setPlaying(true);
