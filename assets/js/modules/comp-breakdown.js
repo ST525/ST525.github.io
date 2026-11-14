@@ -94,17 +94,6 @@ function setup(root) {
     if (timeEl) timeEl.textContent = fmt(video.currentTime) + ' / ' + fmt(video.duration);
   }
 
-<<<<<<< ours
-  // With reduced motion the video never plays, and preload="metadata" alone
-  // gives drawImage() nothing: seeking in place makes the browser decode a frame.
-  function ensureFrame() {
-    if (video.readyState >= 2 || video.seeking) return;
-    if (video.readyState >= 1) video.currentTime = video.currentTime;
-    else video.addEventListener('loadedmetadata', ensureFrame, { once: true });
-  }
-
-||||||| base
-=======
   // With reduced motion the video never plays, and preload="metadata" alone
   // gives drawImage() nothing: seeking in place makes the browser decode a frame.
   function ensureFrame() {
@@ -127,7 +116,6 @@ function setup(root) {
     frame.style.height = Math.round(tileH * s) + 'px';
   }
 
->>>>>>> theirs
   function setStage(i, focusStop) {
     i = Math.min(count - 1, Math.max(0, i));
     stage = i;
@@ -172,14 +160,9 @@ function setup(root) {
   }
 
   video.addEventListener('loadeddata', function () { requestDraw(); syncTime(); });
-<<<<<<< ours
-  video.addEventListener('loadedmetadata', ensureFrame);
-||||||| base
-=======
   video.addEventListener('loadedmetadata', ensureFrame);
   document.addEventListener('fullscreenchange', fitFrame);
   window.addEventListener('resize', fitFrame);
->>>>>>> theirs
   video.addEventListener('seeked', requestDraw);
   video.addEventListener('play', function () {
     setPlaying(true);
