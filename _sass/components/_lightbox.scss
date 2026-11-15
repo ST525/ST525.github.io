@@ -30,8 +30,12 @@
   cursor: default;
   box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8);
   transform: scale(0.96);
-  transition: transform 0.3s var(--ease);
-  background: #000;
+  transition: transform 0.3s var(--ease), opacity 0.2s ease;
+}
+
+.lightbox-media.is-loading {
+  opacity: 0;
+  transition: none;
 }
 
 .lightbox--square .lightbox-media {

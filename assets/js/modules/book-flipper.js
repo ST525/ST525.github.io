@@ -94,7 +94,7 @@ function setup(root) {
     }
     const img = document.createElement('img');
     img.alt = data.alt;
-    img.decoding = 'async';
+    img.decoding = 'sync';
     img.draggable = false;
     img.dataset.src = data.src;
     el.append(img, shade);

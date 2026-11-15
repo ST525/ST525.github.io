@@ -5,7 +5,7 @@
       {% for i in (1..book.pages) %}
         {% assign n = i | prepend: '0' | slice: -2, 2 %}
         <li class="book-page">
-          <img src="{{ book.dir }}/p-{{ n }}.jpg" alt="{{ book.title }}, page {{ i }}" width="{{ book.width }}" height="{{ book.height }}" loading="lazy" decoding="async">
+          <img src="{{ book.dir }}/p-{{ n }}.jpg" alt="{{ book.title }}, page {{ i }}" width="{{ book.width }}" height="{{ book.height }}" loading="lazy" decoding="sync">
         </li>
       {% endfor %}
     </ol>
