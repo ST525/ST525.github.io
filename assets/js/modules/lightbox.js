@@ -54,8 +54,8 @@ export function initLightbox() {
       lbVideo.hidden = true;
       lbVideo.removeAttribute('src');
       lbImage.hidden = false;
-      lbImage.src = src;
       lbImage.alt = title || 'Enlarged image';
+      showImage(src);
     }
 
     if (lbCaption) {
@@ -68,6 +68,19 @@ export function initLightbox() {
     const multiple = group.length > 1;
     if (lbPrev) lbPrev.hidden = !multiple;
     if (lbNext) lbNext.hidden = !multiple;
+  }
+
+  // Chrome paints a newly shown <img> before it has decoded the new file, so
+  // the frame would flash as a black box: keep it clear until decode() settles.
+  let pendingSrc = null;
+  function showImage(src) {
+    pendingSrc = src;
+    lbImage.classList.add('is-loading');
+    lbImage.src = src;
+    const ready = lbImage.decode ? lbImage.decode() : Promise.resolve();
+    ready.catch(function () {}).then(function () {
+      if (pendingSrc === src) lbImage.classList.remove('is-loading');
+    });
   }
 
   function open(index) {
