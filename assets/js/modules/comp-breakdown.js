@@ -1,5 +1,6 @@
-// Compositing page: one video holds every stage of a shot as tiles; a slider
-// picks which tile is drawn, so the stages stay frame-locked.
+// Compositing page: one video holds every pass of a shot as tiles. Curtain
+// lines across the picture choose which pass shows on either side of them,
+// so the passes stay frame-locked while the shot plays.
 export function initCompBreakdown() {
   document.querySelectorAll('[data-comp-breakdown]').forEach(setup);
 }
@@ -11,27 +12,22 @@ function setup(root) {
   if (!video || !ctx) return;
 
   const screen = root.querySelector('.comp-screen');
+  const frame = root.querySelector('[data-comp-frame]');
   const cols = Number(root.dataset.cols) || 1;
   const rows = Number(root.dataset.rows) || 1;
-  const stageInput = root.querySelector('[data-comp-stage]');
-  const stops = Array.from(root.querySelectorAll('[data-comp-stop]'));
-  const count = stops.length;
+  const lines = Array.from(root.querySelectorAll('[data-comp-line]'));
+  const count = lines.length + 1;
+  const firstTag = root.querySelector('[data-comp-tag-first]');
+  const passes = Array.from(root.querySelectorAll('[data-comp-pass]'));
+  const spreadBtn = root.querySelector('[data-comp-spread]');
   const playBtn = root.querySelector('[data-comp-play]');
   const scrub = root.querySelector('[data-comp-scrub]');
   const timeEl = root.querySelector('[data-comp-time]');
-  const compareBtn = root.querySelector('[data-comp-compare]');
   const fullBtn = root.querySelector('[data-comp-full]');
-  const frame = root.querySelector('[data-comp-frame]');
-  const wipe = root.querySelector('[data-comp-wipe]');
-  const wipeLine = wipe && wipe.querySelector('.comp-wipe-line');
-  const labelLeft = root.querySelector('[data-comp-label-left]');
-  const labelRight = root.querySelector('[data-comp-label-right]');
-  const num = root.querySelector('[data-comp-num]');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  let stage = count - 1;
-  let compare = false;
-  let split = 0.5;
+  // pos[i] is where line i sits (0..1); pass i shows left of it, pass i+1 right.
+  const pos = lines.map(function (_, i) { return (i + 1) / count; });
   let tileW = 0;
   let tileH = 0;
   let raf = 0;
@@ -43,8 +39,8 @@ function setup(root) {
     return { x: (i % cols) * tileW, y: Math.floor(i / cols) * tileH };
   }
 
-  function leftStage() {
-    return stage === count - 1 ? Math.max(0, count - 2) : stage;
+  function edges(k) {
+    return [k === 0 ? 0 : pos[k - 1], k === count - 1 ? 1 : pos[k]];
   }
 
   function draw() {
@@ -59,17 +55,16 @@ function setup(root) {
     }
     const w = canvas.width;
     const h = canvas.height;
-    if (!compare) {
-      const a = tile(stage);
-      ctx.drawImage(video, a.x, a.y, tileW, tileH, 0, 0, w, h);
-      return;
-    }
-    const a = tile(leftStage());
-    const b = tile(count - 1);
-    const cut = Math.round(w * split);
-    ctx.drawImage(video, a.x, a.y, tileW, tileH, 0, 0, w, h);
-    if (cut < w) {
-      ctx.drawImage(video, b.x + (cut / w) * tileW, b.y, tileW - (cut / w) * tileW, tileH, cut, 0, w - cut, h);
+    let left = 0;
+    for (let k = 0; k < count; k++) {
+      const right = k < lines.length ? Math.max(left, pos[k]) : 1;
+      const x0 = Math.round(left * w);
+      const x1 = Math.round(right * w);
+      if (x1 > x0) {
+        const t = tile(k);
+        ctx.drawImage(video, t.x + (x0 / w) * tileW, t.y, ((x1 - x0) / w) * tileW, tileH, x0, 0, x1 - x0, h);
+      }
+      left = right;
     }
   }
 
@@ -116,37 +111,44 @@ function setup(root) {
     frame.style.height = Math.round(tileH * s) + 'px';
   }
 
-  function setStage(i, focusStop) {
-    i = Math.min(count - 1, Math.max(0, i));
-    stage = i;
-    stops.forEach(function (stop, k) {
-      stop.classList.toggle('is-active', k === i);
-      stop.setAttribute('aria-pressed', String(k === i));
+  // A pass's tag only shows when its band is wide enough to hold it.
+  function fitsTag(tag, k) {
+    const e = edges(k);
+    const px = canvas.getBoundingClientRect().width || 0;
+    return (e[1] - e[0]) * px >= (tag ? tag.offsetWidth : 0) + 24;
+  }
+
+  function layout() {
+    lines.forEach(function (line, i) {
+      line.style.left = (pos[i] * 100).toFixed(3) + '%';
+      line.setAttribute('aria-valuenow', String(Math.round(pos[i] * 100)));
+      line.classList.toggle('is-narrow', !fitsTag(line.firstElementChild, i + 1));
     });
-    if (stageInput) {
-      stageInput.value = String(i);
-      stageInput.setAttribute('aria-valuetext', stops[i].dataset.label);
-    }
-    if (num) num.textContent = String(i + 1).padStart(2, '0');
-    if (labelLeft) labelLeft.textContent = compare ? stops[leftStage()].dataset.label : stops[i].dataset.label;
-    if (focusStop) stops[i].focus();
-    ensureFrame();
+    if (firstTag) firstTag.classList.toggle('is-narrow', !fitsTag(firstTag, 0));
+    passes.forEach(function (btn, k) {
+      const e = edges(k);
+      btn.classList.toggle('is-visible', e[1] - e[0] > 0.002);
+    });
     requestDraw();
   }
 
-  function setSplit(v) {
-    split = Math.min(1, Math.max(0, v));
-    if (wipe) wipe.style.setProperty('--split', (split * 100).toFixed(2) + '%');
-    if (wipeLine) wipeLine.setAttribute('aria-valuenow', String(Math.round(split * 100)));
-    requestDraw();
+  // Moving one line pushes the others ahead of it, like rings on a curtain rail.
+  function setLine(i, v) {
+    v = Math.min(1, Math.max(0, v));
+    pos[i] = v;
+    for (let j = 0; j < i; j++) if (pos[j] > v) pos[j] = v;
+    for (let j = i + 1; j < pos.length; j++) if (pos[j] < v) pos[j] = v;
+    layout();
   }
 
-  function setCompare(on) {
-    compare = on;
-    root.classList.toggle('is-compare', on);
-    if (compareBtn) compareBtn.setAttribute('aria-pressed', String(on));
-    if (wipe) wipe.hidden = !on;
-    setStage(stage);
+  function solo(k) {
+    pos.forEach(function (_, j) { pos[j] = j < k ? 0 : 1; });
+    layout();
+  }
+
+  function spread() {
+    pos.forEach(function (_, j) { pos[j] = (j + 1) / count; });
+    layout();
   }
 
   function setPlaying(on) {
@@ -159,10 +161,14 @@ function setup(root) {
     if (p && p.catch) p.catch(function () { setPlaying(false); });
   }
 
+  function togglePlay() {
+    if (video.paused) { userPaused = false; play(); } else { userPaused = true; video.pause(); }
+  }
+
   video.addEventListener('loadeddata', function () { requestDraw(); syncTime(); });
   video.addEventListener('loadedmetadata', ensureFrame);
   document.addEventListener('fullscreenchange', fitFrame);
-  window.addEventListener('resize', fitFrame);
+  window.addEventListener('resize', function () { fitFrame(); layout(); });
   video.addEventListener('seeked', requestDraw);
   video.addEventListener('play', function () {
     setPlaying(true);
@@ -172,11 +178,7 @@ function setup(root) {
   video.addEventListener('pause', function () { setPlaying(false); syncTime(); });
   video.addEventListener('ended', function () { setPlaying(false); });
 
-  if (playBtn) {
-    playBtn.addEventListener('click', function () {
-      if (video.paused) { userPaused = false; play(); } else { userPaused = true; video.pause(); }
-    });
-  }
+  if (playBtn) playBtn.addEventListener('click', togglePlay);
 
   if (scrub) {
     scrub.addEventListener('pointerdown', function () { scrubbing = true; });
@@ -188,16 +190,10 @@ function setup(root) {
     scrub.addEventListener('pointerup', function () { scrubbing = false; });
   }
 
-  if (stageInput) {
-    stageInput.addEventListener('input', function () { setStage(Number(stageInput.value)); });
-  }
-  stops.forEach(function (stop, i) {
-    stop.addEventListener('click', function () { setStage(i); });
+  passes.forEach(function (btn, k) {
+    btn.addEventListener('click', function () { solo(k); });
   });
-
-  if (compareBtn) {
-    compareBtn.addEventListener('click', function () { setCompare(!compare); });
-  }
+  if (spreadBtn) spreadBtn.addEventListener('click', spread);
 
   if (fullBtn) {
     if (screen.requestFullscreen) {
@@ -210,55 +206,72 @@ function setup(root) {
     }
   }
 
-  // Keyboard: arrows step the stage (or move the wipe in compare mode), space plays.
+  // Keyboard: a focused line moves with the arrows; space plays and pauses.
+  lines.forEach(function (line, i) {
+    line.addEventListener('keydown', function (e) {
+      const big = e.shiftKey ? 0.1 : 0.02;
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') setLine(i, pos[i] - big);
+      else if (e.key === 'ArrowRight' || e.key === 'ArrowUp') setLine(i, pos[i] + big);
+      else if (e.key === 'Home') setLine(i, 0);
+      else if (e.key === 'End') setLine(i, 1);
+      else return;
+      e.preventDefault();
+    });
+  });
   screen.addEventListener('keydown', function (e) {
-    const onRange = e.target && e.target.tagName === 'INPUT';
-    if (onRange) return;
-    if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
-      const dir = e.key === 'ArrowLeft' ? -1 : 1;
-      if (e.target === wipeLine) setSplit(split + dir * 0.05);
-      else setStage(stage + dir);
-      e.preventDefault();
-    } else if (e.key === ' ' || e.key === 'k') {
-      if (e.target.tagName === 'BUTTON') return;
-      if (video.paused) { userPaused = false; play(); } else { userPaused = true; video.pause(); }
-      e.preventDefault();
-    }
+    if (e.key !== ' ' && e.key !== 'k') return;
+    const tag = e.target && e.target.tagName;
+    if (tag === 'BUTTON' || tag === 'INPUT') return;
+    togglePlay();
+    e.preventDefault();
   });
 
-  // Pointer: drag the wipe line in compare mode; swipe to change stage otherwise.
-  let down = null;
-  function splitFromEvent(e) {
+  // Pointer: grab the nearest line and drag it. Where several lines sit on the
+  // same spot, the drag direction decides which one comes away: pulling left
+  // takes the lowest (releasing the next pass), pulling right the highest.
+  let drag = null;
+  function fracFromEvent(e) {
     const r = canvas.getBoundingClientRect();
     return (e.clientX - r.left) / r.width;
   }
+  function nearest(x) {
+    let best = 0;
+    pos.forEach(function (p, i) { if (Math.abs(p - x) < Math.abs(pos[best] - x) - 1e-6) best = i; });
+    const tied = [];
+    pos.forEach(function (p, i) { if (Math.abs(p - pos[best]) < 1e-6) tied.push(i); });
+    return tied;
+  }
+  function grab(i) {
+    drag.index = i;
+    lines[i].classList.add('is-grab');
+    if (lines[i].focus) lines[i].focus({ preventScroll: true });
+  }
   screen.addEventListener('pointerdown', function (e) {
     if (e.button !== 0 || e.target.closest('.comp-bar')) return;
-    down = { x: e.clientX, y: e.clientY, id: e.pointerId, moved: false };
-    if (compare) {
-      setSplit(splitFromEvent(e));
-      screen.setPointerCapture(e.pointerId);
+    const tied = nearest(fracFromEvent(e));
+    drag = { x: e.clientX, y: e.clientY, id: e.pointerId, index: -1, tied: tied, moved: false };
+    screen.setPointerCapture(e.pointerId);
+    if (tied.length === 1) {
+      grab(tied[0]);
+      setLine(tied[0], fracFromEvent(e));
     }
+    e.preventDefault();
   });
   screen.addEventListener('pointermove', function (e) {
-    if (!down || e.pointerId !== down.id) return;
-    if (compare) {
-      setSplit(splitFromEvent(e));
-      down.moved = true;
-    } else if (Math.abs(e.clientX - down.x) > 8) {
-      down.moved = true;
+    if (!drag || e.pointerId !== drag.id) return;
+    const dx = e.clientX - drag.x;
+    if (drag.index < 0) {
+      if (Math.abs(dx) < 3) return;
+      grab(dx < 0 ? Math.min.apply(null, drag.tied) : Math.max.apply(null, drag.tied));
     }
+    if (Math.abs(dx) > 3) drag.moved = true;
+    setLine(drag.index, fracFromEvent(e));
   });
   function pointerEnd(e) {
-    if (!down || e.pointerId !== down.id) return;
-    const dx = e.clientX - down.x;
-    const dy = e.clientY - down.y;
-    if (!compare && Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
-      setStage(stage + (dx < 0 ? 1 : -1));
-    } else if (!down.moved && e.pointerType !== 'mouse' && e.type === 'pointerup' && !compare) {
-      if (video.paused) { userPaused = false; play(); } else { userPaused = true; video.pause(); }
-    }
-    down = null;
+    if (!drag || e.pointerId !== drag.id) return;
+    if (drag.index >= 0) lines[drag.index].classList.remove('is-grab');
+    if (!drag.moved && drag.index < 0 && e.pointerType !== 'mouse' && e.type === 'pointerup') togglePlay();
+    drag = null;
   }
   screen.addEventListener('pointerup', pointerEnd);
   screen.addEventListener('pointercancel', pointerEnd);
@@ -279,7 +292,6 @@ function setup(root) {
     play();
   }
 
-  setSplit(0.5);
-  setStage(stage);
+  layout();
   setPlaying(false);
 }
