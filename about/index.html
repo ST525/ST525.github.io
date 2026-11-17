@@ -56,12 +56,14 @@ redirect_from:
           <span>{{ language }}</span>
         {% endfor %}
       </div>
+      {% if site.data.about.coding.size > 0 %}
       <h3 class="subsection-heading">Coding</h3>
       <div class="skills-list-grid">
         {% for language in site.data.about.coding %}
           <span>{{ language }}</span>
         {% endfor %}
       </div>
+      {% endif %}
     </section>
 
     <section class="about-block reveal">
