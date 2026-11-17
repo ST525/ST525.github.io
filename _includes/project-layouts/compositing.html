@@ -1,0 +1,43 @@
+{% for shot in include.section.breakdowns %}
+<section class="container comp-stage" data-comp-breakdown data-cols="{{ shot.cols }}" data-rows="{{ shot.rows }}">
+  <div class="comp-screen" style="background-image: url('{{ shot.poster }}')" tabindex="0" aria-label="{{ shot.title }} breakdown. Drag the lines across the shot to pull each pass over the one before; space plays and pauses.">
+    <video class="comp-source" src="{{ shot.src }}" muted loop playsinline preload="metadata" aria-hidden="true"></video>
+    <div class="comp-frame" data-comp-frame>
+      <canvas class="comp-canvas" width="1280" height="720" aria-hidden="true"></canvas>
+      <span class="comp-tag comp-tag--first" data-comp-tag-first aria-hidden="true">{{ shot.stages[0].label }}</span>
+      {% for stage in shot.stages offset:1 %}
+      <div class="comp-line" data-comp-line role="slider" tabindex="0" aria-label="{{ stage.label }} curtain" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ forloop.index | times: 100 | divided_by: shot.stages.size }}">
+        <span class="comp-tag" aria-hidden="true">{{ stage.label }}</span>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="comp-bar">
+      <button type="button" class="comp-ctl" data-comp-play aria-label="Pause">
+        <svg class="comp-icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+        <svg class="comp-icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
+      </button>
+      <input type="range" class="comp-scrub" data-comp-scrub min="0" max="1000" step="1" value="0" aria-label="Seek">
+      <span class="comp-time" data-comp-time>0:00 / 0:00</span>
+      <button type="button" class="comp-ctl" data-comp-full aria-label="Full screen">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="comp-info">
+    <h2 class="comp-title">{{ shot.title }}</h2>
+    <ul class="comp-tags">
+      {% assign tags = shot.meta | split: ' · ' %}
+      {% for tag in tags %}<li>{{ tag }}</li>{% endfor %}
+    </ul>
+  </div>
+
+  <p class="comp-hint">Drag the lines across the shot like curtains: each one pulls the next pass over the one before. Pick a pass below to see it on its own.</p>
+  <ol class="comp-passes" role="group" aria-label="Passes">
+    {% for stage in shot.stages %}
+    <li><button type="button" class="comp-pass" data-comp-pass><span class="comp-pass-num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>{{ stage.label }}</button></li>
+    {% endfor %}
+    <li><button type="button" class="comp-pass comp-pass--all" data-comp-spread>Show all</button></li>
+  </ol>
+</section>
+{% endfor %}
