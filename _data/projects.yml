@@ -52,6 +52,7 @@ sections:
   items:
   - title: Burning Skeleton
     meta: Breakdown · 5 passes
+    href: /projects/compositing/
     src: /assets/video/fire_effects.mp4
     preview: /assets/video/previews/fire_effects.mp4
     poster: /assets/video/comp/breakdown_poster.jpg
