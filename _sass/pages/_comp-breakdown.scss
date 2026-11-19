@@ -4,11 +4,14 @@
 }
 
 .comp-screen {
+  --comp-head: 26px;
   position: relative;
   aspect-ratio: 16 / 9;
+  /* The playhead grips hang below the picture, so the screen itself does not
+     clip; the canvas and bar carry the rounded corners instead. */
+  margin-bottom: calc(var(--comp-head) + 0.75rem);
   background: #000 center / cover no-repeat;
   border-radius: var(--radius);
-  overflow: hidden;
   box-shadow: 0 40px 80px -40px var(--shadow-media);
   touch-action: pan-y;
   user-select: none;
@@ -20,9 +23,12 @@
 }
 
 .comp-screen:fullscreen {
+  --comp-head: 0px;
+  margin-bottom: 0;
   border-radius: 0;
   aspect-ratio: auto;
   background-size: contain;
+  overflow: hidden;
 }
 
 .comp-source {
@@ -55,6 +61,15 @@
   display: block;
   width: 100%;
   height: 100%;
+  border-radius: inherit;
+}
+
+.comp-frame {
+  border-radius: var(--radius);
+}
+
+.comp-screen:fullscreen .comp-frame {
+  border-radius: 0;
 }
 
 /* Curtain lines: each one pulls the next pass over the one before it. */
@@ -62,7 +77,7 @@
   --playhead: #3d8ef5;
   position: absolute;
   top: 0;
-  bottom: 0;
+  bottom: calc(-1 * var(--comp-head));
   left: 0;
   width: 2px;
   margin-left: -1px;
@@ -82,7 +97,8 @@
   right: -16px;
 }
 
-/* Playhead grip at the foot of the line: a tab with a pointed top, like a timeline marker. */
+/* Playhead grip at the foot of the line, hanging below the picture: a tab
+   with a pointed top, like a timeline marker. */
 .comp-line::after {
   content: '';
   position: absolute;
@@ -156,9 +172,13 @@
   background: linear-gradient(to top, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
   color: #fff;
   opacity: 0;
+  border-radius: 0 0 var(--radius) var(--radius);
   transition: opacity 0.3s ease;
-  /* Let the gradient pass drags through to the playhead grips beneath it. */
   pointer-events: none;
+}
+
+.comp-screen:fullscreen .comp-bar {
+  border-radius: 0;
 }
 
 .comp-bar > * {
@@ -368,6 +388,7 @@
 
 @media (max-width: 640px) {
   .comp-tag { font-size: 0.58rem; padding: 0.22rem 0.5rem; letter-spacing: 0.1em; }
+  .comp-screen { --comp-head: 22px; }
   .comp-line::after { width: 16px; height: 20px; margin-left: -8px; }
   .comp-pass { font-size: 0.65rem; padding: 0.35rem 0.7rem 0.35rem 0.55rem; }
   .comp-time { display: none; }
