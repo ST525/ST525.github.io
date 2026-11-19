@@ -59,14 +59,15 @@
 
 /* Curtain lines: each one pulls the next pass over the one before it. */
 .comp-line {
+  --playhead: #3d8ef5;
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   width: 2px;
   margin-left: -1px;
-  background: #fff;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.35);
+  background: var(--playhead);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3);
   cursor: ew-resize;
   touch-action: none;
 }
@@ -77,27 +78,34 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  left: -14px;
-  right: -14px;
+  left: -16px;
+  right: -16px;
 }
 
+/* Playhead grip at the foot of the line: a tab with a pointed top, like a timeline marker. */
 .comp-line::after {
   content: '';
   position: absolute;
-  top: 50%;
+  bottom: 0;
   left: 50%;
-  width: 34px;
-  height: 34px;
-  margin: -17px 0 0 -17px;
-  border-radius: 50%;
-  background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23141414' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 7l-5 5 5 5M15 7l5 5-5 5'/%3E%3C/svg%3E") center / 18px no-repeat;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
-  transition: transform 0.2s var(--ease), box-shadow 0.2s ease;
+  width: 18px;
+  height: 24px;
+  margin-left: -9px;
+  background: var(--playhead);
+  clip-path: polygon(50% 0, 100% 34%, 100% 100%, 0 100%, 0 34%);
+  filter: drop-shadow(0 -1px 4px rgba(0, 0, 0, 0.45));
+  transition: transform 0.2s var(--ease), filter 0.2s ease;
+  transform-origin: 50% 100%;
+}
+
+.comp-line:hover,
+.comp-line.is-grab {
+  --playhead: #6aaaff;
 }
 
 .comp-line:hover::after,
 .comp-line.is-grab::after {
-  transform: scale(1.12);
+  transform: scaleX(1.15) scaleY(1.1);
 }
 
 .comp-line:focus-visible {
@@ -106,7 +114,7 @@
 
 .comp-line:focus-visible::after,
 .comp-line.is-grab::after {
-  box-shadow: 0 0 0 3px var(--accent), 0 2px 10px rgba(0, 0, 0, 0.4);
+  filter: drop-shadow(0 0 0 #fff) drop-shadow(0 0 2px #fff) drop-shadow(0 -1px 4px rgba(0, 0, 0, 0.45));
 }
 
 .comp-tag {
@@ -149,6 +157,12 @@
   color: #fff;
   opacity: 0;
   transition: opacity 0.3s ease;
+  /* Let the gradient pass drags through to the playhead grips beneath it. */
+  pointer-events: none;
+}
+
+.comp-bar > * {
+  pointer-events: auto;
 }
 
 .comp-screen:hover .comp-bar,
@@ -354,7 +368,7 @@
 
 @media (max-width: 640px) {
   .comp-tag { font-size: 0.58rem; padding: 0.22rem 0.5rem; letter-spacing: 0.1em; }
-  .comp-line::after { width: 28px; height: 28px; margin: -14px 0 0 -14px; background-size: 15px; }
+  .comp-line::after { width: 16px; height: 20px; margin-left: -8px; }
   .comp-pass { font-size: 0.65rem; padding: 0.35rem 0.7rem 0.35rem 0.55rem; }
   .comp-time { display: none; }
 }
