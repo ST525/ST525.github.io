@@ -12,6 +12,7 @@ function setup(root) {
   if (!video || !ctx) return;
 
   const screen = root.querySelector('.comp-screen');
+  const player = root.querySelector('[data-comp-player]') || screen;
   const frame = root.querySelector('[data-comp-frame]');
   const cols = Number(root.dataset.cols) || 1;
   const rows = Number(root.dataset.rows) || 1;
@@ -97,8 +98,9 @@ function setup(root) {
     else video.addEventListener('loadedmetadata', ensureFrame, { once: true });
   }
 
-  // In fullscreen the screen is the viewport, so size the frame to the
-  // tile's aspect and let CSS centre it; elsewhere it fills the screen.
+  // In fullscreen the screen fills the viewport above the timeline bar, so
+  // size the frame to the tile's aspect and let CSS centre it; elsewhere it
+  // fills the screen.
   function fitFrame() {
     if (!frame) return;
     if (!document.fullscreenElement || !tileW) {
@@ -196,10 +198,10 @@ function setup(root) {
   if (spreadBtn) spreadBtn.addEventListener('click', spread);
 
   if (fullBtn) {
-    if (screen.requestFullscreen) {
+    if (player.requestFullscreen) {
       fullBtn.addEventListener('click', function () {
         if (document.fullscreenElement) document.exitFullscreen();
-        else screen.requestFullscreen().catch(function () {});
+        else player.requestFullscreen().catch(function () {});
       });
     } else {
       fullBtn.hidden = true;

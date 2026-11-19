@@ -3,16 +3,19 @@
   padding-bottom: clamp(3rem, 6vw, 5rem);
 }
 
-.comp-screen {
+/* Picture, a dark ruler strip the playhead grips hang into, then the
+   timeline bar; square-cornered like a timeline panel. */
+.comp-player {
   --comp-head: 26px;
+  background: #161616;
+  box-shadow: 0 40px 80px -40px var(--shadow-media);
+}
+
+.comp-screen {
   position: relative;
   aspect-ratio: 16 / 9;
-  /* The playhead grips hang below the picture, so the screen itself does not
-     clip; the canvas and bar carry the rounded corners instead. */
-  margin-bottom: calc(var(--comp-head) + 0.75rem);
+  margin-bottom: var(--comp-head);
   background: #000 center / cover no-repeat;
-  border-radius: var(--radius);
-  box-shadow: 0 40px 80px -40px var(--shadow-media);
   touch-action: pan-y;
   user-select: none;
 }
@@ -22,13 +25,17 @@
   outline-offset: 4px;
 }
 
-.comp-screen:fullscreen {
-  --comp-head: 0px;
-  margin-bottom: 0;
-  border-radius: 0;
+.comp-player:fullscreen {
+  display: flex;
+  flex-direction: column;
+  background: #000;
+}
+
+.comp-player:fullscreen .comp-screen {
+  flex: 1;
+  min-height: 0;
   aspect-ratio: auto;
   background-size: contain;
-  overflow: hidden;
 }
 
 .comp-source {
@@ -50,7 +57,7 @@
 
 /* Fullscreen: the frame is sized to the video's aspect by fitFrame() and
    centred, so the wipe line and the drawn cut share one box. */
-.comp-screen:fullscreen .comp-frame {
+.comp-player:fullscreen .comp-frame {
   inset: auto;
   top: 50%;
   left: 50%;
@@ -61,15 +68,6 @@
   display: block;
   width: 100%;
   height: 100%;
-  border-radius: inherit;
-}
-
-.comp-frame {
-  border-radius: var(--radius);
-}
-
-.comp-screen:fullscreen .comp-frame {
-  border-radius: 0;
 }
 
 /* Curtain lines: each one pulls the next pass over the one before it. */
@@ -161,38 +159,12 @@
 }
 
 .comp-bar {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  padding: 2rem 0.9rem 0.7rem;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+  padding: 0.55rem 0.9rem;
+  background: #161616;
   color: #fff;
-  opacity: 0;
-  border-radius: 0 0 var(--radius) var(--radius);
-  transition: opacity 0.3s ease;
-  pointer-events: none;
-}
-
-.comp-screen:fullscreen .comp-bar {
-  border-radius: 0;
-}
-
-.comp-bar > * {
-  pointer-events: auto;
-}
-
-.comp-screen:hover .comp-bar,
-.comp-screen:focus-within .comp-bar,
-.comp-stage:not(.is-playing) .comp-bar {
-  opacity: 1;
-}
-
-@media (hover: none) {
-  .comp-bar { opacity: 1; }
 }
 
 .comp-ctl {
@@ -388,7 +360,8 @@
 
 @media (max-width: 640px) {
   .comp-tag { font-size: 0.58rem; padding: 0.22rem 0.5rem; letter-spacing: 0.1em; }
-  .comp-screen { --comp-head: 22px; }
+  .comp-player { --comp-head: 22px; }
+  .comp-bar { padding: 0.45rem 0.6rem; }
   .comp-line::after { width: 16px; height: 20px; margin-left: -8px; }
   .comp-pass { font-size: 0.65rem; padding: 0.35rem 0.7rem 0.35rem 0.55rem; }
   .comp-time { display: none; }
