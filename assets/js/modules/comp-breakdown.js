@@ -12,6 +12,7 @@ function setup(root) {
   if (!video || !ctx) return;
 
   const screen = root.querySelector('.comp-screen');
+  const player = root.querySelector('[data-comp-player]') || screen;
   const frame = root.querySelector('[data-comp-frame]');
   const cols = Number(root.dataset.cols) || 1;
   const rows = Number(root.dataset.rows) || 1;
@@ -21,6 +22,7 @@ function setup(root) {
   const passes = Array.from(root.querySelectorAll('[data-comp-pass]'));
   const spreadBtn = root.querySelector('[data-comp-spread]');
   const playBtn = root.querySelector('[data-comp-play]');
+  const fps = Number(root.dataset.fps) || 24;
   const scrub = root.querySelector('[data-comp-scrub]');
   const timeEl = root.querySelector('[data-comp-time]');
   const fullBtn = root.querySelector('[data-comp-full]');
@@ -97,8 +99,9 @@ function setup(root) {
     else video.addEventListener('loadedmetadata', ensureFrame, { once: true });
   }
 
-  // In fullscreen the screen is the viewport, so size the frame to the
-  // tile's aspect and let CSS centre it; elsewhere it fills the screen.
+  // In fullscreen the screen fills the viewport above the timeline bar, so
+  // size the frame to the tile's aspect and let CSS centre it; elsewhere it
+  // fills the screen.
   function fitFrame() {
     if (!frame) return;
     if (!document.fullscreenElement || !tileW) {
@@ -169,7 +172,7 @@ function setup(root) {
   video.addEventListener('loadedmetadata', ensureFrame);
   document.addEventListener('fullscreenchange', fitFrame);
   window.addEventListener('resize', function () { fitFrame(); layout(); });
-  video.addEventListener('seeked', requestDraw);
+  video.addEventListener('seeked', function () { requestDraw(); syncTime(); });
   video.addEventListener('play', function () {
     setPlaying(true);
     cancelAnimationFrame(raf);
@@ -196,39 +199,54 @@ function setup(root) {
   if (spreadBtn) spreadBtn.addEventListener('click', spread);
 
   if (fullBtn) {
-    if (screen.requestFullscreen) {
+    if (player.requestFullscreen) {
       fullBtn.addEventListener('click', function () {
         if (document.fullscreenElement) document.exitFullscreen();
-        else screen.requestFullscreen().catch(function () {});
+        else player.requestFullscreen().catch(function () {});
       });
     } else {
       fullBtn.hidden = true;
     }
   }
 
-  // Keyboard: a focused line moves with the arrows; space plays and pauses.
+  // Keyboard, anywhere on the player: left/right step one frame (pausing),
+  // space or k plays and pauses. A focused line nudges with up/down (or
+  // shift+left/right) and jumps to an edge with Home/End.
+  function stepFrame(dir) {
+    userPaused = true;
+    video.pause();
+    const dur = video.duration || 0;
+    let t = video.currentTime + dir / fps;
+    if (dur) t = Math.min(dur - 0.5 / fps, t);
+    video.currentTime = Math.max(0, t);
+  }
   lines.forEach(function (line, i) {
     line.addEventListener('keydown', function (e) {
-      const big = e.shiftKey ? 0.1 : 0.02;
-      if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') setLine(i, pos[i] - big);
-      else if (e.key === 'ArrowRight' || e.key === 'ArrowUp') setLine(i, pos[i] + big);
+      const left = e.key === 'ArrowDown' || (e.shiftKey && e.key === 'ArrowLeft');
+      const right = e.key === 'ArrowUp' || (e.shiftKey && e.key === 'ArrowRight');
+      if (left) setLine(i, pos[i] - 0.02);
+      else if (right) setLine(i, pos[i] + 0.02);
       else if (e.key === 'Home') setLine(i, 0);
       else if (e.key === 'End') setLine(i, 1);
       else return;
       e.preventDefault();
+      e.stopPropagation();
     });
   });
-  screen.addEventListener('keydown', function (e) {
-    if (e.key !== ' ' && e.key !== 'k') return;
+  player.addEventListener('keydown', function (e) {
     const tag = e.target && e.target.tagName;
     if (tag === 'BUTTON' || tag === 'INPUT') return;
-    togglePlay();
+    if (e.key === ' ' || e.key === 'k') togglePlay();
+    else if (e.key === 'ArrowLeft' && !e.shiftKey) stepFrame(-1);
+    else if (e.key === 'ArrowRight' && !e.shiftKey) stepFrame(1);
+    else return;
     e.preventDefault();
   });
 
-  // Pointer: grab the nearest line and drag it. Where several lines sit on the
-  // same spot, the drag direction decides which one comes away: pulling left
-  // takes the lowest (releasing the next pass), pulling right the highest.
+  // Pointer: a still click or tap on the picture plays and pauses; moving
+  // grabs the nearest line and drags it. Where several lines sit on the same
+  // spot, the drag direction decides which one comes away: pulling left takes
+  // the lowest (releasing the next pass), pulling right the highest.
   let drag = null;
   function fracFromEvent(e) {
     const r = canvas.getBoundingClientRect();
@@ -251,10 +269,9 @@ function setup(root) {
     const tied = nearest(fracFromEvent(e));
     drag = { x: e.clientX, y: e.clientY, id: e.pointerId, index: -1, tied: tied, moved: false };
     screen.setPointerCapture(e.pointerId);
-    if (tied.length === 1) {
-      grab(tied[0]);
-      setLine(tied[0], fracFromEvent(e));
-    }
+    // preventDefault() below stops the click focusing anything; focus the
+    // line under the pointer, or the screen, so the keys work straight away.
+    (e.target.closest('[data-comp-line]') || screen).focus({ preventScroll: true });
     e.preventDefault();
   });
   screen.addEventListener('pointermove', function (e) {
@@ -263,14 +280,14 @@ function setup(root) {
     if (drag.index < 0) {
       if (Math.abs(dx) < 3) return;
       grab(dx < 0 ? Math.min.apply(null, drag.tied) : Math.max.apply(null, drag.tied));
+      drag.moved = true;
     }
-    if (Math.abs(dx) > 3) drag.moved = true;
     setLine(drag.index, fracFromEvent(e));
   });
   function pointerEnd(e) {
     if (!drag || e.pointerId !== drag.id) return;
     if (drag.index >= 0) lines[drag.index].classList.remove('is-grab');
-    if (!drag.moved && drag.index < 0 && e.pointerType !== 'mouse' && e.type === 'pointerup') togglePlay();
+    if (!drag.moved && e.type === 'pointerup') togglePlay();
     drag = null;
   }
   screen.addEventListener('pointerup', pointerEnd);

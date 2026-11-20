@@ -51,7 +51,7 @@ sections:
   description: Shot breakdowns — drag the curtain lines across the shot to pull each pass over the one before.
   items:
   - title: Burning Skeleton
-    meta: Breakdown · 5 passes
+    meta: Breakdown · 3 passes
     href: /projects/compositing/
     src: /assets/video/fire_effects.mp4
     preview: /assets/video/previews/fire_effects.mp4
@@ -60,14 +60,12 @@ sections:
     size: wide
   breakdowns:
   - title: Burning Skeleton
-    meta: Breakdown · Anatomy walk · 5 passes
+    meta: Breakdown · Anatomy walk · 3 passes
     src: /assets/video/comp/breakdown_tiles.mp4
     poster: /assets/video/comp/breakdown_poster.jpg
     cols: 2
-    rows: 3
+    rows: 2
     stages:
-    - label: Colour art
-    - label: Fire FX
     - label: Smoke blocking
     - label: Lighting
     - label: Final comp

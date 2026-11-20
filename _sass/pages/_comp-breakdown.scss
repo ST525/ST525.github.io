@@ -3,13 +3,19 @@
   padding-bottom: clamp(3rem, 6vw, 5rem);
 }
 
+/* A dark ruler strip the playhead grips sit on, the picture, then the
+   timeline bar; square-cornered like a timeline panel. */
+.comp-player {
+  --comp-head: 26px;
+  padding-top: var(--comp-head);
+  background: #161616;
+  box-shadow: 0 40px 80px -40px var(--shadow-media);
+}
+
 .comp-screen {
   position: relative;
   aspect-ratio: 16 / 9;
   background: #000 center / cover no-repeat;
-  border-radius: var(--radius);
-  overflow: hidden;
-  box-shadow: 0 40px 80px -40px var(--shadow-media);
   touch-action: pan-y;
   user-select: none;
 }
@@ -19,8 +25,15 @@
   outline-offset: 4px;
 }
 
-.comp-screen:fullscreen {
-  border-radius: 0;
+.comp-player:fullscreen {
+  display: flex;
+  flex-direction: column;
+  background: #000;
+}
+
+.comp-player:fullscreen .comp-screen {
+  flex: 1;
+  min-height: 0;
   aspect-ratio: auto;
   background-size: contain;
 }
@@ -44,7 +57,7 @@
 
 /* Fullscreen: the frame is sized to the video's aspect by fitFrame() and
    centred, so the wipe line and the drawn cut share one box. */
-.comp-screen:fullscreen .comp-frame {
+.comp-player:fullscreen .comp-frame {
   inset: auto;
   top: 50%;
   left: 50%;
@@ -59,14 +72,15 @@
 
 /* Curtain lines: each one pulls the next pass over the one before it. */
 .comp-line {
+  --playhead: var(--accent);
   position: absolute;
-  top: 0;
+  top: calc(-1 * var(--comp-head));
   bottom: 0;
   left: 0;
   width: 2px;
   margin-left: -1px;
-  background: #fff;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.35);
+  background: var(--playhead);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3);
   cursor: ew-resize;
   touch-action: none;
 }
@@ -77,27 +91,35 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  left: -14px;
-  right: -14px;
+  left: -16px;
+  right: -16px;
 }
 
+/* Playhead grip at the head of the line, on the strip above the picture: a
+   tab with a pointed foot, like a timeline marker. */
 .comp-line::after {
   content: '';
   position: absolute;
-  top: 50%;
+  top: 0;
   left: 50%;
-  width: 34px;
-  height: 34px;
-  margin: -17px 0 0 -17px;
-  border-radius: 50%;
-  background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23141414' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 7l-5 5 5 5M15 7l5 5-5 5'/%3E%3C/svg%3E") center / 18px no-repeat;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
-  transition: transform 0.2s var(--ease), box-shadow 0.2s ease;
+  width: 18px;
+  height: 24px;
+  margin-left: -9px;
+  background: var(--playhead);
+  clip-path: polygon(0 0, 100% 0, 100% 66%, 50% 100%, 0 66%);
+  filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.45));
+  transition: transform 0.2s var(--ease), filter 0.2s ease;
+  transform-origin: 50% 0;
+}
+
+.comp-line:hover,
+.comp-line.is-grab {
+  --playhead: #ef4444;
 }
 
 .comp-line:hover::after,
 .comp-line.is-grab::after {
-  transform: scale(1.12);
+  transform: scaleX(1.15) scaleY(1.1);
 }
 
 .comp-line:focus-visible {
@@ -106,7 +128,7 @@
 
 .comp-line:focus-visible::after,
 .comp-line.is-grab::after {
-  box-shadow: 0 0 0 3px var(--accent), 0 2px 10px rgba(0, 0, 0, 0.4);
+  filter: drop-shadow(0 0 0 #fff) drop-shadow(0 0 2px #fff) drop-shadow(0 1px 4px rgba(0, 0, 0, 0.45));
 }
 
 .comp-tag {
@@ -137,28 +159,12 @@
 }
 
 .comp-bar {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  padding: 2rem 0.9rem 0.7rem;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+  padding: 0.55rem 0.9rem;
+  background: #161616;
   color: #fff;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.comp-screen:hover .comp-bar,
-.comp-screen:focus-within .comp-bar,
-.comp-stage:not(.is-playing) .comp-bar {
-  opacity: 1;
-}
-
-@media (hover: none) {
-  .comp-bar { opacity: 1; }
 }
 
 .comp-ctl {
@@ -354,7 +360,9 @@
 
 @media (max-width: 640px) {
   .comp-tag { font-size: 0.58rem; padding: 0.22rem 0.5rem; letter-spacing: 0.1em; }
-  .comp-line::after { width: 28px; height: 28px; margin: -14px 0 0 -14px; background-size: 15px; }
+  .comp-player { --comp-head: 22px; }
+  .comp-bar { padding: 0.45rem 0.6rem; }
+  .comp-line::after { width: 16px; height: 20px; margin-left: -8px; }
   .comp-pass { font-size: 0.65rem; padding: 0.35rem 0.7rem 0.35rem 0.55rem; }
   .comp-time { display: none; }
 }
