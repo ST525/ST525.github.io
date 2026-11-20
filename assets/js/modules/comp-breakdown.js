@@ -172,7 +172,7 @@ function setup(root) {
   video.addEventListener('loadedmetadata', ensureFrame);
   document.addEventListener('fullscreenchange', fitFrame);
   window.addEventListener('resize', function () { fitFrame(); layout(); });
-  video.addEventListener('seeked', requestDraw);
+  video.addEventListener('seeked', function () { requestDraw(); syncTime(); });
   video.addEventListener('play', function () {
     setPlaying(true);
     cancelAnimationFrame(raf);
