@@ -269,9 +269,9 @@ function setup(root) {
     const tied = nearest(fracFromEvent(e));
     drag = { x: e.clientX, y: e.clientY, id: e.pointerId, index: -1, tied: tied, moved: false };
     screen.setPointerCapture(e.pointerId);
-    // preventDefault() below stops the click focusing the screen; focus it so
-    // the arrow and space keys work straight after a click.
-    if (!e.target.closest('[data-comp-line]')) screen.focus({ preventScroll: true });
+    // preventDefault() below stops the click focusing anything; focus the
+    // line under the pointer, or the screen, so the keys work straight away.
+    (e.target.closest('[data-comp-line]') || screen).focus({ preventScroll: true });
     e.preventDefault();
   });
   screen.addEventListener('pointermove', function (e) {
