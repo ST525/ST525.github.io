@@ -243,9 +243,10 @@ function setup(root) {
     e.preventDefault();
   });
 
-  // Pointer: grab the nearest line and drag it. Where several lines sit on the
-  // same spot, the drag direction decides which one comes away: pulling left
-  // takes the lowest (releasing the next pass), pulling right the highest.
+  // Pointer: a still click or tap on the picture plays and pauses; moving
+  // grabs the nearest line and drags it. Where several lines sit on the same
+  // spot, the drag direction decides which one comes away: pulling left takes
+  // the lowest (releasing the next pass), pulling right the highest.
   let drag = null;
   function fracFromEvent(e) {
     const r = canvas.getBoundingClientRect();
@@ -268,10 +269,6 @@ function setup(root) {
     const tied = nearest(fracFromEvent(e));
     drag = { x: e.clientX, y: e.clientY, id: e.pointerId, index: -1, tied: tied, moved: false };
     screen.setPointerCapture(e.pointerId);
-    if (tied.length === 1) {
-      grab(tied[0]);
-      setLine(tied[0], fracFromEvent(e));
-    }
     e.preventDefault();
   });
   screen.addEventListener('pointermove', function (e) {
@@ -280,14 +277,14 @@ function setup(root) {
     if (drag.index < 0) {
       if (Math.abs(dx) < 3) return;
       grab(dx < 0 ? Math.min.apply(null, drag.tied) : Math.max.apply(null, drag.tied));
+      drag.moved = true;
     }
-    if (Math.abs(dx) > 3) drag.moved = true;
     setLine(drag.index, fracFromEvent(e));
   });
   function pointerEnd(e) {
     if (!drag || e.pointerId !== drag.id) return;
     if (drag.index >= 0) lines[drag.index].classList.remove('is-grab');
-    if (!drag.moved && drag.index < 0 && e.pointerType !== 'mouse' && e.type === 'pointerup') togglePlay();
+    if (!drag.moved && e.type === 'pointerup') togglePlay();
     drag = null;
   }
   screen.addEventListener('pointerup', pointerEnd);
