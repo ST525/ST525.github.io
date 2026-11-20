@@ -1,7 +1,7 @@
 {% for shot in include.section.breakdowns %}
 <section class="container comp-stage" data-comp-breakdown data-cols="{{ shot.cols }}" data-rows="{{ shot.rows }}">
   <div class="comp-player" data-comp-player>
-  <div class="comp-screen" style="background-image: url('{{ shot.poster }}')" tabindex="0" aria-label="{{ shot.title }} breakdown. Drag the lines across the shot to pull each pass over the one before; space plays and pauses.">
+  <div class="comp-screen" style="background-image: url('{{ shot.poster }}')" tabindex="0" aria-label="{{ shot.title }} breakdown. Drag the lines across the shot to pull each pass over the one before; left and right arrows step one frame, space plays and pauses.">
     <video class="comp-source" src="{{ shot.src }}" muted loop playsinline preload="metadata" aria-hidden="true"></video>
     <div class="comp-frame" data-comp-frame>
       <canvas class="comp-canvas" width="1280" height="720" aria-hidden="true"></canvas>
@@ -14,10 +14,6 @@
     </div>
   </div>
   <div class="comp-bar">
-    <button type="button" class="comp-ctl" data-comp-play aria-label="Pause">
-      <svg class="comp-icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
-      <svg class="comp-icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
-    </button>
     <input type="range" class="comp-scrub" data-comp-scrub min="0" max="1000" step="1" value="0" aria-label="Seek">
     <span class="comp-time" data-comp-time>0:00 / 0:00</span>
     <button type="button" class="comp-ctl" data-comp-full aria-label="Full screen">

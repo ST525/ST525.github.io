@@ -22,6 +22,7 @@ function setup(root) {
   const passes = Array.from(root.querySelectorAll('[data-comp-pass]'));
   const spreadBtn = root.querySelector('[data-comp-spread]');
   const playBtn = root.querySelector('[data-comp-play]');
+  const fps = Number(root.dataset.fps) || 24;
   const scrub = root.querySelector('[data-comp-scrub]');
   const timeEl = root.querySelector('[data-comp-time]');
   const fullBtn = root.querySelector('[data-comp-full]');
@@ -208,23 +209,37 @@ function setup(root) {
     }
   }
 
-  // Keyboard: a focused line moves with the arrows; space plays and pauses.
+  // Keyboard, anywhere on the player: left/right step one frame (pausing),
+  // space or k plays and pauses. A focused line nudges with up/down (or
+  // shift+left/right) and jumps to an edge with Home/End.
+  function stepFrame(dir) {
+    userPaused = true;
+    video.pause();
+    const dur = video.duration || 0;
+    let t = video.currentTime + dir / fps;
+    if (dur) t = Math.min(dur - 0.5 / fps, t);
+    video.currentTime = Math.max(0, t);
+  }
   lines.forEach(function (line, i) {
     line.addEventListener('keydown', function (e) {
-      const big = e.shiftKey ? 0.1 : 0.02;
-      if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') setLine(i, pos[i] - big);
-      else if (e.key === 'ArrowRight' || e.key === 'ArrowUp') setLine(i, pos[i] + big);
+      const left = e.key === 'ArrowDown' || (e.shiftKey && e.key === 'ArrowLeft');
+      const right = e.key === 'ArrowUp' || (e.shiftKey && e.key === 'ArrowRight');
+      if (left) setLine(i, pos[i] - 0.02);
+      else if (right) setLine(i, pos[i] + 0.02);
       else if (e.key === 'Home') setLine(i, 0);
       else if (e.key === 'End') setLine(i, 1);
       else return;
       e.preventDefault();
+      e.stopPropagation();
     });
   });
-  screen.addEventListener('keydown', function (e) {
-    if (e.key !== ' ' && e.key !== 'k') return;
+  player.addEventListener('keydown', function (e) {
     const tag = e.target && e.target.tagName;
     if (tag === 'BUTTON' || tag === 'INPUT') return;
-    togglePlay();
+    if (e.key === ' ' || e.key === 'k') togglePlay();
+    else if (e.key === 'ArrowLeft' && !e.shiftKey) stepFrame(-1);
+    else if (e.key === 'ArrowRight' && !e.shiftKey) stepFrame(1);
+    else return;
     e.preventDefault();
   });
 

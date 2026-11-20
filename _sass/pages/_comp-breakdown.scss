@@ -3,10 +3,11 @@
   padding-bottom: clamp(3rem, 6vw, 5rem);
 }
 
-/* Picture, a dark ruler strip the playhead grips hang into, then the
+/* A dark ruler strip the playhead grips sit on, the picture, then the
    timeline bar; square-cornered like a timeline panel. */
 .comp-player {
   --comp-head: 26px;
+  padding-top: var(--comp-head);
   background: #161616;
   box-shadow: 0 40px 80px -40px var(--shadow-media);
 }
@@ -14,7 +15,6 @@
 .comp-screen {
   position: relative;
   aspect-ratio: 16 / 9;
-  margin-bottom: var(--comp-head);
   background: #000 center / cover no-repeat;
   touch-action: pan-y;
   user-select: none;
@@ -72,10 +72,10 @@
 
 /* Curtain lines: each one pulls the next pass over the one before it. */
 .comp-line {
-  --playhead: #3d8ef5;
+  --playhead: var(--accent);
   position: absolute;
-  top: 0;
-  bottom: calc(-1 * var(--comp-head));
+  top: calc(-1 * var(--comp-head));
+  bottom: 0;
   left: 0;
   width: 2px;
   margin-left: -1px;
@@ -95,26 +95,26 @@
   right: -16px;
 }
 
-/* Playhead grip at the foot of the line, hanging below the picture: a tab
-   with a pointed top, like a timeline marker. */
+/* Playhead grip at the head of the line, on the strip above the picture: a
+   tab with a pointed foot, like a timeline marker. */
 .comp-line::after {
   content: '';
   position: absolute;
-  bottom: 0;
+  top: 0;
   left: 50%;
   width: 18px;
   height: 24px;
   margin-left: -9px;
   background: var(--playhead);
-  clip-path: polygon(50% 0, 100% 34%, 100% 100%, 0 100%, 0 34%);
-  filter: drop-shadow(0 -1px 4px rgba(0, 0, 0, 0.45));
+  clip-path: polygon(0 0, 100% 0, 100% 66%, 50% 100%, 0 66%);
+  filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.45));
   transition: transform 0.2s var(--ease), filter 0.2s ease;
-  transform-origin: 50% 100%;
+  transform-origin: 50% 0;
 }
 
 .comp-line:hover,
 .comp-line.is-grab {
-  --playhead: #6aaaff;
+  --playhead: #ef4444;
 }
 
 .comp-line:hover::after,
@@ -128,7 +128,7 @@
 
 .comp-line:focus-visible::after,
 .comp-line.is-grab::after {
-  filter: drop-shadow(0 0 0 #fff) drop-shadow(0 0 2px #fff) drop-shadow(0 -1px 4px rgba(0, 0, 0, 0.45));
+  filter: drop-shadow(0 0 0 #fff) drop-shadow(0 0 2px #fff) drop-shadow(0 1px 4px rgba(0, 0, 0, 0.45));
 }
 
 .comp-tag {
